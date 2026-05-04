@@ -1,0 +1,76 @@
+# ---- Python / backend ----
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+
+# ---- Node / frontend ----
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+.parcel-cache/
+
+# ---- uniapp 多端工程（006）----
+frontend-uniapp/dist/
+frontend-uniapp/unpackage/
+frontend-uniapp/project.config.json
+frontend-uniapp/project.private.config.json
+
+# ---- Env & secrets ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- SQLite data (contains personal positions) ----
+data/*
+!data/.gitkeep
+!data/uploads/
+data/uploads/*
+!data/uploads/.gitkeep
+!data/ths-snapshots/
+data/ths-snapshots/*
+!data/ths-snapshots/.gitkeep
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json.example
+*.swp
+*~
+
+# ---- Claude / spec-kit runtime caches ----
+.claude/settings.local.json
+.specify/cache/
+
+# ---- Local scratch / prompts (pre-existing notes, not part of product) ----
+提示词/
+炒股/
+
+# ---- Build artifacts ----
+*.log
+logs/
+tmp/
+temp/
+_test_uploads/
+.run/
+claude输出混乱.png
