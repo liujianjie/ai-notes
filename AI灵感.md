@@ -7,3 +7,5 @@
 - [ ] 需要将个人博客部署https://liujianjie.github.io/PersonalBlog/到域名
 
   将项目改造成VUE
+  
+- [ ] 让Agent-skills模式来打造商业框架仿写。
