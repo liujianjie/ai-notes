@@ -9,3 +9,5 @@
   将项目改造成VUE
   
 - [ ] 让Agent-skills模式来打造商业框架仿写。
+
+- [ ] 让Agent-skills模式来讲https://github.com/tauricresearch/tradingagents转换为自己的东西+可视化
