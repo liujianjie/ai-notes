@@ -15,3 +15,11 @@
   /agent-skills:build 只有阶段性任务完成、上下文太满、遇到致命错误、不可自动选择、不可抗力才停下
   
 - 让AI自己去用playwright测试，而不是我去
+
+
+
+- agent-skills工作流
+
+  让AI判断bug是走test还是plan
+
+  
