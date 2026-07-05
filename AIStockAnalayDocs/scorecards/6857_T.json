@@ -1,0 +1,43 @@
+{
+  "ticker": "6857.T",
+  "company": "Advantest",
+  "market": "Japan",
+  "chain": "hbm",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 4,
+    "expansion_difficulty": 3,
+    "evidence_quality": 3,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 3
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 0,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 3,
+    "alternative_design_risk": 1
+  },
+  "evidence": [
+    {
+      "claim": "AI/HBM 测试需求强，ATE 领域 Advantest/Teradyne 近双寡头",
+      "source": "trade media",
+      "strength": "media"
+    },
+    {
+      "claim": "HBM/SoC 测试时长随复杂度上升，测试机需求同步扩张",
+      "source": "analysis",
+      "strength": "analysis"
+    }
+  ],
+  "what_could_weaken_view": [
+    "测试相对可扩产、非最硬卡点",
+    "股价已大涨、估值偏高",
+    "半导体设备周期性 + 日元/地缘"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "ticker": "300475",
+  "company": "香农芯创",
+  "market": "A-share",
+  "chain": "hbm",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 2,
+    "chokepoint_severity": 2,
+    "supplier_concentration": 2,
+    "expansion_difficulty": 1,
+    "evidence_quality": 3,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 3
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 1,
+    "geopolitics": 0,
+    "liquidity": 2,
+    "hype_risk": 4,
+    "accounting_quality": 2,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "SK 海力士国内企业级 HBM 官方授权分销商，直供阿里/腾讯/字节；HBM 分销为 2026 核心业绩增长引擎",
+      "source": "eastmoney 财富号",
+      "strength": "media"
+    },
+    {
+      "claim": "分销模式，不控制任何稀缺产能，仅转售受益",
+      "source": "行业梳理",
+      "strength": "analysis"
+    }
+  ],
+  "what_could_weaken_view": [
+    "分销商=纯受益/beta，不控制卡点",
+    "毛利薄、无技术壁垒",
+    "原厂直销或授权变化即冲击业绩"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "ticker": "ETN",
+  "company": "Eaton",
+  "market": "US",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 3,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 3,
+    "evidence_quality": 4,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 3
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 0,
+    "hype_risk": 1,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 1
+  },
+  "evidence": [
+    {
+      "claim": "北美数据中心配电装机霸主；开关柜交期拉长、定价权强",
+      "source": "trade media / medium",
+      "strength": "media"
+    },
+    {
+      "claim": "多年订单 backlog 支撑营收可见性",
+      "source": "analyst",
+      "strength": "analysis"
+    }
+  ],
+  "what_could_weaken_view": [
+    "配电供应商基数大、非稀缺卡点",
+    "估值已反映",
+    "周期性"
+  ]
+}

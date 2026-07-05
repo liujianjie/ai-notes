@@ -1,0 +1,43 @@
+{
+  "ticker": "GEV",
+  "company": "GE Vernova",
+  "market": "US",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 5,
+    "supplier_concentration": 5,
+    "expansion_difficulty": 5,
+    "evidence_quality": 5,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 0,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 1
+  },
+  "evidence": [
+    {
+      "claim": "燃气轮机 backlog 达 100GW，Q1 数据中心电气化订单 $2.4B 超去年全年；CEO 称到 2026 年底机组预订将售罄至 2030",
+      "source": "power-eng.com / GE Vernova 8-K FY2026",
+      "strength": "primary"
+    },
+    {
+      "claim": "燃气轮机全球仅 GEV/Siemens Energy/Mitsubishi 三家；GEV 2026Q3 才达 20GW/年产能、2028 目标 24GW",
+      "source": "power-eng.com; utilitydive",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "某季云厂下修 capex 指引，整条电力链一起杀估值",
+    "股价已大涨、估值透支，好消息已price in",
+    "燃气发电被 SMR/可再生替代的长期风险"
+  ]
+}

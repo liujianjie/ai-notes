@@ -1,0 +1,43 @@
+{
+  "ticker": "600667",
+  "company": "太极实业",
+  "market": "A-share",
+  "chain": "hbm",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 3,
+    "evidence_quality": 3,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 3
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 0,
+    "liquidity": 1,
+    "hype_risk": 3,
+    "accounting_quality": 1,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "子公司海太半导体与 SK 海力士合资，承接海力士国内约 70% HBM 封测、全球 HBM 封测市占约 15%，长协锁定至 2030、HBM3E 稳定量产",
+      "source": "eastmoney 财富号",
+      "strength": "media"
+    },
+    {
+      "claim": "国资存储封测龙头，价值重估逻辑",
+      "source": "财富号",
+      "strength": "social"
+    }
+  ],
+  "what_could_weaken_view": [
+    "封测为受益/配套角色、非控制稀缺层",
+    "概念交易属性强、情绪波动大",
+    "SK 海力士封测外包政策变化"
+  ]
+}

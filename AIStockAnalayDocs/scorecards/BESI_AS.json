@@ -1,0 +1,43 @@
+{
+  "ticker": "BESI.AS",
+  "company": "BE Semiconductor (BESI)",
+  "market": "Europe",
+  "chain": "hbm",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 5,
+    "chokepoint_severity": 5,
+    "supplier_concentration": 5,
+    "expansion_difficulty": 4,
+    "evidence_quality": 4,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 1,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "HBM4 16-Hi 必须用混合键合，2026 全球混合键合设备 <100 台；AMAT/BESI/EVG 任一交付延迟即成下游瓶颈",
+      "source": "photoncap / patsnap",
+      "strength": "analysis"
+    },
+    {
+      "claim": "BESI 混合键合精度 <10nm 领先；混合键合营收 2023 €36M→2026 预计 €476M（约占 BESI 三分之一）",
+      "source": "FT via tspasemiconductor / trendforce",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "混合键合放量节奏若晚于 HBM4 时点，收入兑现推迟",
+    "TC-NCF 等替代键合路线延缓混合键合渗透",
+    "半导体设备周期性"
+  ]
+}

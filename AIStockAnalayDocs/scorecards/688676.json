@@ -1,0 +1,43 @@
+{
+  "ticker": "688676",
+  "company": "金盘科技",
+  "market": "A-share",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 4,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 4,
+    "evidence_quality": 3,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 3
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 2,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "变压器/开关柜出海，海外收入增长、毛利较高；自研 800V 架构专用 10kV/2.4MW 固态变压器(SST)样机",
+      "source": "jiemian / trade media",
+      "strength": "media"
+    },
+    {
+      "claim": "全球变压器交期普遍拉长（高压变压器达 5 年）",
+      "source": "sandstonegroup",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "SST 仍样机阶段、量产与认证不确定",
+    "变压器全球扩产兑现后紧张缓解",
+    "海外贸易/关税风险"
+  ]
+}

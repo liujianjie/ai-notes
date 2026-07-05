@@ -1,0 +1,43 @@
+{
+  "ticker": "002364",
+  "company": "中恒电气",
+  "market": "A-share",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 5,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 2,
+    "evidence_quality": 3,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 0,
+    "liquidity": 2,
+    "hype_risk": 2,
+    "accounting_quality": 1,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "数据中心电源(HVDC/巴拿马电源)业务 2024 收入 6.68 亿、同比 +111%；2025Q1 扣非净利 +103.89%",
+      "source": "fupanwang / 10jqka F10",
+      "strength": "media"
+    },
+    {
+      "claim": "48V→800V 高压直流迁移，巴拿马电源成超大智算中心标配，系统方案价值量翻倍",
+      "source": "stcn / 复盘网",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "电源电子可扩产、壁垒相对低",
+    "小盘概念属性、流动性与情绪波动大",
+    "800V 迁移节奏慢于预期"
+  ]
+}

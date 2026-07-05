@@ -1,0 +1,43 @@
+{
+  "ticker": "VRT",
+  "company": "Vertiv",
+  "market": "US",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 3,
+    "evidence_quality": 5,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 1,
+    "liquidity": 0,
+    "hype_risk": 3,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "2026Q1 营收 $2.65B 同比 +30%，订单 backlog 约 $9.5B",
+      "source": "Vertiv 8-K / VaaSBlock",
+      "strength": "primary"
+    },
+    {
+      "claim": "液冷+电源一体化，绑定 Nvidia MGX 体系",
+      "source": "trade media",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "液冷/电源竞争者多，非独家卡点",
+    "估值已高",
+    "数据中心项目取消导致订单落空"
+  ]
+}

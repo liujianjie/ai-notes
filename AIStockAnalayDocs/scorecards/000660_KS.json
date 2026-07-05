@@ -1,0 +1,43 @@
+{
+  "ticker": "000660.KS",
+  "company": "SK Hynix",
+  "market": "Korea",
+  "chain": "hbm",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 5,
+    "chokepoint_severity": 5,
+    "supplier_concentration": 4,
+    "expansion_difficulty": 4,
+    "evidence_quality": 5,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 1,
+    "geopolitics": 2,
+    "liquidity": 0,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 4,
+    "alternative_design_risk": 0
+  },
+  "evidence": [
+    {
+      "claim": "2026 全部 HBM 产能已售罄、与大客户敲定供给计划、预计紧张延续至 2027",
+      "source": "introl.com",
+      "strength": "media"
+    },
+    {
+      "claim": "HBM4 于 2026 年 2 月量产；HBM 龙头份额；但主动放缓 HBM4 转产普通 DRAM 抢利润",
+      "source": "cryptobriefing / introl",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "内存是强周期，扩产兑现+需求边际走弱时价格反转极快",
+    "三巨头被诉'人为短缺'",
+    "地缘/出口管制"
+  ]
+}

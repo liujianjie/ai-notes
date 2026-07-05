@@ -1,0 +1,43 @@
+{
+  "ticker": "300870",
+  "company": "欧陆通",
+  "market": "A-share",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 3,
+    "evidence_quality": 3,
+    "valuation_disconnect": 3,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 0,
+    "liquidity": 2,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "国内 AI 服务器电源市占约 30%，绑定浪潮/华为/微软/超微；高功率 AI 电源同比 +537%，锁定 30 亿上游功率半导体备货",
+      "source": "eastmoney 财富号",
+      "strength": "media"
+    },
+    {
+      "claim": "机构测算可支撑明年百亿级 AI 电源出货",
+      "source": "analyst",
+      "strength": "analysis"
+    }
+  ],
+  "what_could_weaken_view": [
+    "台达/光宝等海外龙头挤压",
+    "服务器电源竞争激烈、毛利承压",
+    "AI 服务器出货不及预期"
+  ]
+}

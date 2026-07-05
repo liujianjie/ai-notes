@@ -1,0 +1,43 @@
+{
+  "ticker": "002837",
+  "company": "英维克",
+  "market": "A-share",
+  "chain": "power",
+  "factors": {
+    "demand_inflection": 5,
+    "architecture_coupling": 4,
+    "chokepoint_severity": 3,
+    "supplier_concentration": 3,
+    "expansion_difficulty": 3,
+    "evidence_quality": 4,
+    "valuation_disconnect": 2,
+    "catalyst_timing": 4
+  },
+  "penalties": {
+    "dilution_financing": 0,
+    "governance": 0,
+    "geopolitics": 0,
+    "liquidity": 1,
+    "hype_risk": 2,
+    "accounting_quality": 0,
+    "cyclicality": 2,
+    "alternative_design_risk": 2
+  },
+  "evidence": [
+    {
+      "claim": "进入 Nvidia GB200/GB300 NVL72 供应商名录；2025Q3 拿下 1200 台 GB300 液冷机柜（中国区初期需求 50%）",
+      "source": "cnesa.org",
+      "strength": "media"
+    },
+    {
+      "claim": "腾讯 60% 液冷份额、字节独家；Nvidia 体系液冷渗透率 2025 20-30%→2026 80-90%",
+      "source": "cnesa.org / 21jingji",
+      "strength": "media"
+    }
+  ],
+  "what_could_weaken_view": [
+    "液冷国内竞争者多（申菱/高澜/川润）",
+    "市值破千亿、PE 高",
+    "散热方案迭代/被冷板以外路线替代"
+  ]
+}
