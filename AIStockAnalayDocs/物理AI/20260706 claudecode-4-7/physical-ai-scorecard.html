@@ -1,0 +1,1006 @@
+<title>物理AI 产业链卡点评分卡 · 全球 20 家</title>
+<style>
+  :root {
+    --ground: #F7F6F2;
+    --ground-2: #EEEBE1;
+    --panel: #FFFEFA;
+    --ink: #1A1D26;
+    --ink-2: #5A5F6B;
+    --ink-3: #8A8E97;
+    --line: #DDD8CA;
+    --line-2: #ECE7D9;
+    --accent: #A46B2C;
+    --accent-2: #3F5A6B;
+    --good: #3E7A54;
+    --good-soft: #E3EEDF;
+    --warn: #B57F30;
+    --warn-soft: #F3E7D0;
+    --crit: #9A3838;
+    --crit-soft: #F0D9D9;
+    --sev-5: #3E7A54;
+    --sev-4: #6C9457;
+    --sev-3: #B57F30;
+    --sev-2: #C86A45;
+    --sev-1: #9A3838;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #10121A;
+      --ground-2: #171A23;
+      --panel: #1B1E28;
+      --ink: #F0EAD8;
+      --ink-2: #A8ADB9;
+      --ink-3: #6A6F7B;
+      --line: #2A2E3A;
+      --line-2: #21252F;
+      --accent: #D4A05A;
+      --accent-2: #7DA0B8;
+      --good: #5FA47A;
+      --good-soft: #1E3227;
+      --warn: #D4A05A;
+      --warn-soft: #322817;
+      --crit: #C46060;
+      --crit-soft: #33191A;
+      --sev-5: #5FA47A;
+      --sev-4: #83B57A;
+      --sev-3: #D4A05A;
+      --sev-2: #D68264;
+      --sev-1: #C46060;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F7F6F2;
+    --ground-2: #EEEBE1;
+    --panel: #FFFEFA;
+    --ink: #1A1D26;
+    --ink-2: #5A5F6B;
+    --ink-3: #8A8E97;
+    --line: #DDD8CA;
+    --line-2: #ECE7D9;
+    --accent: #A46B2C;
+    --accent-2: #3F5A6B;
+    --good: #3E7A54;
+    --good-soft: #E3EEDF;
+    --warn: #B57F30;
+    --warn-soft: #F3E7D0;
+    --crit: #9A3838;
+    --crit-soft: #F0D9D9;
+    --sev-5: #3E7A54;
+    --sev-4: #6C9457;
+    --sev-3: #B57F30;
+    --sev-2: #C86A45;
+    --sev-1: #9A3838;
+  }
+  :root[data-theme="dark"] {
+    --ground: #10121A;
+    --ground-2: #171A23;
+    --panel: #1B1E28;
+    --ink: #F0EAD8;
+    --ink-2: #A8ADB9;
+    --ink-3: #6A6F7B;
+    --line: #2A2E3A;
+    --line-2: #21252F;
+    --accent: #D4A05A;
+    --accent-2: #7DA0B8;
+    --good: #5FA47A;
+    --good-soft: #1E3227;
+    --warn: #D4A05A;
+    --warn-soft: #322817;
+    --crit: #C46060;
+    --crit-soft: #33191A;
+    --sev-5: #5FA47A;
+    --sev-4: #83B57A;
+    --sev-3: #D4A05A;
+    --sev-2: #D68264;
+    --sev-1: #C46060;
+  }
+
+  html, body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 32px 96px;
+  }
+  @media (max-width: 720px) {
+    .page { padding: 36px 18px 72px; }
+  }
+
+  /* ---------- header ---------- */
+  .eyebrow {
+    font-family: "SF Mono", "Cascadia Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4.5vw, 46px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 14px 0 12px;
+    color: var(--ink);
+  }
+  .sub {
+    font-size: 15px;
+    color: var(--ink-2);
+    max-width: 66ch;
+    line-height: 1.65;
+  }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 22px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-family: "SF Mono", "Cascadia Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .meta-row span strong {
+    color: var(--ink);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .theme-toggle {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    background: var(--panel);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    font: 11px "SF Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 20;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* ---------- section chrome ---------- */
+  section { margin-top: 64px; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .section-head h2 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: 26px;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+  .section-head .n {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-right: 12px;
+  }
+  .section-head .note {
+    font-size: 13px;
+    color: var(--ink-3);
+    max-width: 42ch;
+    text-align: right;
+  }
+
+  /* ---------- topology ---------- */
+  .topo {
+    display: grid;
+    gap: 20px;
+  }
+  .lane {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 4px;
+    padding: 20px 22px;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  @media (max-width: 780px) {
+    .lane { grid-template-columns: 1fr; gap: 14px; }
+  }
+  .lane-title {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif;
+    font-size: 20px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .lane-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 2px 7px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+  }
+  .lane-desc {
+    margin-top: 10px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 6px;
+  }
+  .stage {
+    flex: 1 1 130px;
+    min-width: 130px;
+    padding: 10px 12px;
+    background: var(--ground-2);
+    border-left: 2px solid var(--accent-2);
+    border-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stage-label {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 8px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    font-size: 12.5px;
+    color: var(--ink);
+    line-height: 1.3;
+    cursor: default;
+    transition: border-color 0.15s;
+  }
+  .chip:hover { border-color: var(--accent); }
+  .chip .code {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    font-variant-numeric: tabular-nums;
+    margin-left: 6px;
+  }
+  .chip.top {
+    border-color: var(--accent);
+    background: var(--panel);
+    box-shadow: inset 3px 0 0 var(--accent);
+    padding-left: 10px;
+  }
+
+  /* ---------- scorecard table ---------- */
+  .table-wrap {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+  table.score {
+    width: 100%;
+    min-width: 1080px;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.score thead th {
+    text-align: left;
+    padding: 14px 8px;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    vertical-align: bottom;
+  }
+  table.score thead th:hover { color: var(--accent); }
+  table.score thead th.sorted { color: var(--accent); }
+  table.score thead th .arrow {
+    display: inline-block;
+    width: 8px;
+    color: var(--accent);
+    margin-left: 2px;
+  }
+  table.score tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line-2);
+    vertical-align: middle;
+    line-height: 1.35;
+  }
+  table.score tbody tr:hover td { background: var(--ground-2); }
+  table.score tbody tr:last-child td { border-bottom: none; }
+  td.rank {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    color: var(--ink-3);
+    width: 36px;
+    padding-left: 16px;
+  }
+  td.name {
+    min-width: 130px;
+  }
+  td.name .n1 {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  td.name .n2 {
+    display: block;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+  td.mkt {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--ink-2);
+    width: 44px;
+  }
+  td.layer {
+    color: var(--ink-2);
+    font-size: 12px;
+    min-width: 88px;
+  }
+  td.dim {
+    text-align: center;
+    width: 42px;
+    padding: 10px 4px;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-weight: 500;
+    color: #fff;
+    font-size: 11px;
+  }
+  td.dim .b {
+    display: inline-block;
+    min-width: 18px;
+    padding: 2px 4px;
+    border-radius: 2px;
+    text-align: center;
+  }
+  td.total {
+    text-align: right;
+    padding-right: 16px;
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 20px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    width: 60px;
+  }
+  td.total .sm {
+    display: inline;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-left: 2px;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+  }
+  .sev-5 { background: var(--sev-5); }
+  .sev-4 { background: var(--sev-4); }
+  .sev-3 { background: var(--sev-3); }
+  .sev-2 { background: var(--sev-2); }
+  .sev-1 { background: var(--sev-1); }
+
+  /* ---------- legend ---------- */
+  .legend {
+    margin-top: 14px;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend .box {
+    display: inline-block;
+    width: 14px;
+    height: 12px;
+    border-radius: 2px;
+  }
+  .legend .dim-help {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10.5px;
+  }
+
+  /* ---------- spotlight cards ---------- */
+  .spot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .spot {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 22px 20px;
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .spot .radar {
+    grid-row: 1 / 3;
+  }
+  .spot .head {
+    grid-column: 2;
+  }
+  .spot .rank-badge {
+    display: inline-block;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .spot h3 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
+    margin: 0 0 4px;
+  }
+  .spot .ticker {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+  }
+  .spot .total-line {
+    grid-column: 2;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .spot .total-line .n {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 24px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .spot .total-line .l {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .spot .body {
+    grid-column: 1 / -1;
+  }
+  .spot .row {
+    display: grid;
+    grid-template-columns: 78px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-2);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .spot .row:last-child { border-bottom: none; }
+  .spot .row .k {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-top: 2px;
+  }
+  .spot .row .v {
+    color: var(--ink);
+  }
+  .spot .row.risk .v { color: var(--ink-2); }
+
+  /* ---------- insights ---------- */
+  .insights {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px 32px;
+  }
+  .insight-item h4 {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .insight-item h4 span {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-right: 8px;
+  }
+  .insight-item p {
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---------- disclaimer ---------- */
+  .disclaimer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .disclaimer strong { color: var(--ink-2); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">Light / Dark</button>
+
+<div class="page">
+  <div class="eyebrow">Serenity · Bottleneck Scorecard · 2026 Q3</div>
+  <h1>物理AI 产业链卡点评分卡 · 全球 20 家</h1>
+  <p class="sub">
+    先排产业链层级，再排公司。本卡围绕物理AI 三条主线&mdash;&mdash;算力（HBM/CoWoS/材料）、机器人（减速器/伺服/整机）、
+    电力散热（燃气轮机/液冷/配电）&mdash;&mdash;梳理全球 20 家标的，按 <em>scarce layer</em> 8 个维度打分。
+    分数越高，代表这一层"扩产更难、供给更集中、被市场重估的窗口更长"。
+  </p>
+  <div class="meta-row">
+    <span>市场覆盖 <strong>US · JP · KR · TW · CN-A</strong></span>
+    <span>标的数量 <strong>20</strong></span>
+    <span>维度数 <strong>8</strong></span>
+    <span>总分区间 <strong>8&ndash;40</strong></span>
+    <span>研究属性 <strong>Methodology-only · 未跑 live source</strong></span>
+  </div>
+
+  <!-- ================= 产业链拓扑 ================= -->
+  <section id="topology">
+    <div class="section-head">
+      <h2><span class="n">§ 01</span>产业链拓扑</h2>
+      <div class="note">按物理AI 三条主线纵向排列，每条主线内部从<em>上游材料</em>到<em>下游整机/系统</em>横向流动。琥珀色边框标注每条主线里评分最高的一家。</div>
+    </div>
+    <div class="topo">
+
+      <!-- Lane 1: 算力线 -->
+      <div class="lane">
+        <div class="lane-title">
+          算力线
+          <span class="lane-tag">HBM · CoWoS · 光互连</span>
+          <div class="lane-desc">AI 算力扩张最先撞墙的物理约束：HBM 内存带宽 + 先进封装产能。</div>
+        </div>
+        <div class="flow">
+          <div class="stage">
+            <div class="stage-label">01 · 材料</div>
+            <div class="chip top">信越化学 <span class="code">4063.T</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">02 · 设备</div>
+            <div class="chip">北方华创 <span class="code">002371</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">03 · 存储芯片</div>
+            <div class="chip top">SK 海力士 <span class="code">000660.KS</span></div>
+            <div class="chip">三星电子 <span class="code">005930.KS</span></div>
+            <div class="chip">美光 <span class="code">MU</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">04 · 先进封装</div>
+            <div class="chip top">台积电 <span class="code">2330.TW</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">05 · ASIC / 光模块</div>
+            <div class="chip">Alchip <span class="code">3661.TW</span></div>
+            <div class="chip">中际旭创 <span class="code">300308</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lane 2: 机器人线 -->
+      <div class="lane">
+        <div class="lane-title">
+          机器人线
+          <span class="lane-tag">减速器 · 伺服 · 整机</span>
+          <div class="lane-desc">扩产周期最长的一条：减速器要 10 年积累，客户认证 6&ndash;12 个月。</div>
+        </div>
+        <div class="flow">
+          <div class="stage">
+            <div class="stage-label">01 · 关节零件</div>
+            <div class="chip top">Nabtesco <span class="code">6268.T</span></div>
+            <div class="chip">Harmonic Drive <span class="code">6324.T</span></div>
+            <div class="chip">绿的谐波 <span class="code">688017</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">02 · 伺服 / 视觉</div>
+            <div class="chip">Keyence <span class="code">6861.T</span></div>
+            <div class="chip">汇川技术 <span class="code">300124</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">03 · 整机 / Tier1</div>
+            <div class="chip">Fanuc <span class="code">6954.T</span></div>
+            <div class="chip">拓普集团 <span class="code">601689</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">04 · 应用（无人机）</div>
+            <div class="chip">AeroVironment <span class="code">AVAV</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lane 3: 电力散热线 -->
+      <div class="lane">
+        <div class="lane-title">
+          电力散热线
+          <span class="lane-tag">燃气轮机 · 液冷 · 配电</span>
+          <div class="lane-desc">AI 数据中心真正的短板不是芯片，是接得上电网的地方。</div>
+        </div>
+        <div class="flow">
+          <div class="stage">
+            <div class="stage-label">01 · 燃气轮机</div>
+            <div class="chip top">GE Vernova <span class="code">GEV</span></div>
+            <div class="chip">三菱重工 <span class="code">7011.T</span></div>
+          </div>
+          <div class="stage">
+            <div class="stage-label">02 · 液冷 / 电源</div>
+            <div class="chip">Vertiv <span class="code">VRT</span></div>
+            <div class="chip">台达电子 <span class="code">2308.TW</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 评分表 ================= -->
+  <section id="scorecard">
+    <div class="section-head">
+      <h2><span class="n">§ 02</span>8 维度评分表</h2>
+      <div class="note">点击表头切换排序。分数条颜色越深越优。总分 = 8 项加总（满分 40）。</div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="score" id="scoreTable">
+        <thead>
+          <tr>
+            <th data-key="rank">#</th>
+            <th data-key="name">公司</th>
+            <th data-key="mkt">市场</th>
+            <th data-key="layer">卡的环节</th>
+            <th data-key="scarce" title="scarce layer 紧度">紧度</th>
+            <th data-key="conc" title="供给集中度（前3占比）">集中</th>
+            <th data-key="expand" title="扩产难度">扩产</th>
+            <th data-key="switch" title="客户切换成本">切换</th>
+            <th data-key="visib" title="订单可见性">订单</th>
+            <th data-key="valuation" title="估值合理度（越低估分越高）">估值</th>
+            <th data-key="geo" title="地缘安全（越安全分越高）">地缘</th>
+            <th data-key="defense" title="技术切换防御">防御</th>
+            <th data-key="total" class="sorted">总分<span class="arrow">↓</span></th>
+          </tr>
+        </thead>
+        <tbody id="scoreBody"></tbody>
+      </table>
+    </div>
+
+    <div class="legend">
+      <span class="key"><span class="box sev-5"></span>5 极强</span>
+      <span class="key"><span class="box sev-4"></span>4 强</span>
+      <span class="key"><span class="box sev-3"></span>3 中</span>
+      <span class="key"><span class="box sev-2"></span>2 弱</span>
+      <span class="key"><span class="box sev-1"></span>1 极弱</span>
+      <span class="dim-help">紧度=scarce 层稀缺程度 · 集中=前3供应商占比 · 扩产=新玩家进入需时 · 切换=客户换供应链的痛感 · 订单=backlog/长约可见度 · 估值=当前 P/E · P/B 分位（反向：低估得高分）· 地缘=断链/制裁风险防御 · 防御=技术被替代风险防御</span>
+    </div>
+  </section>
+
+  <!-- ================= Top 5 ================= -->
+  <section id="spotlight">
+    <div class="section-head">
+      <h2><span class="n">§ 03</span>Top 8 · 卡点最硬的八家</h2>
+      <div class="note">每家一张 8 维雷达图 + 卡的具体环节 + 最强反方论点。判断可以错，但要错得清楚。</div>
+    </div>
+    <div class="spot-grid" id="spotGrid"></div>
+  </section>
+
+  <!-- ================= 关键洞察 ================= -->
+  <section id="insights">
+    <div class="section-head">
+      <h2><span class="n">§ 04</span>不可绕过的判断</h2>
+    </div>
+    <div class="insights">
+      <div class="insight-item">
+        <h4><span>01</span>电力才是这轮真短板</h4>
+        <p>Top 3 里有 2 家是燃气轮机厂（GEV / MHI）。芯片再快，接不上电网就没用。这是市场目前定价最不充分的一环&mdash;&mdash;GEV 已经涨很多，但 backlog 排到 2028+ 才刚开始兑现。</p>
+      </div>
+      <div class="insight-item">
+        <h4><span>02</span>HBM 只需买一个</h4>
+        <p>海力士（35 分）远高于三星（29 分）。两家在 scarce 维度上高度重叠，同时持有稀释了 alpha。海力士的净化弹性更硬，三星综合体属性稀释度大。</p>
+      </div>
+      <div class="insight-item">
+        <h4><span>03</span>台系有真本事但地缘扣分</h4>
+        <p>台积电基本面 5/5，但地缘 1/5。34 分能进 Top 5 已经反映了这个 tradeoff。如果地缘尾部风险不能对冲，台系仓位应受结构性限制。</p>
+      </div>
+      <div class="insight-item">
+        <h4><span>04</span>A 股弹性最大也最贵</h4>
+        <p>绿的谐波 P/E 100+，估值维度只给 1 分。产业逻辑通、公司位置对，但价格已经把 2028 前的假设都定进去了。适合波段，不适合底仓。</p>
+      </div>
+      <div class="insight-item">
+        <h4><span>05</span>硅光 CPO 是光模块的技术地雷</h4>
+        <p>中际旭创 27 分里，防御维度只 2 分。CPO 一旦在 2026&ndash;2027 大规模普及，光模块厂会被"技术切换"重估。别按"AI 光模块 = 稳赢"来买。</p>
+      </div>
+      <div class="insight-item">
+        <h4><span>06</span>Optimus 依赖度高的名字要打折</h4>
+        <p>拓普集团 24 分，评分表倒数第三。特斯拉时间表推迟一年，整条 A 股机器人 Tier1 链就会重估&mdash;&mdash;这个风险还没被市场完全定价。</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <strong>研究属性说明</strong>&nbsp;· 本页评分基于产业链结构和已知寡头格局的方法论判断，<strong>未跑 live source</strong>&mdash;&mdash;
+    每家的最新财报、backlog、订单公告需读者按 SEC EDGAR / TDnet / DART / MOPS / 巨潮资讯网核验后再作为投资依据。
+    评分是研究优先度，不是买入卖出建议。所有投资决策及后果由读者自行承担。
+  </div>
+</div>
+
+<script>
+  // ---------- data ----------
+  const dims = [
+    { key: 'scarce', label: '紧度' },
+    { key: 'conc',   label: '集中' },
+    { key: 'expand', label: '扩产' },
+    { key: 'switch', label: '切换' },
+    { key: 'visib',  label: '订单' },
+    { key: 'valuation', label: '估值' },
+    { key: 'geo',    label: '地缘' },
+    { key: 'defense', label: '防御' },
+  ];
+
+  const raw = [
+    { name:'GE Vernova',      ticker:'GEV',       mkt:'US', layer:'燃气轮机 · 电网',   scarce:5, conc:5, expand:5, switch:5, visib:5, valuation:3, geo:5, defense:5 },
+    { name:'三菱重工',        ticker:'7011.T',    mkt:'JP', layer:'大型燃气轮机',      scarce:5, conc:5, expand:5, switch:5, visib:5, valuation:3, geo:5, defense:4 },
+    { name:'信越化学',        ticker:'4063.T',    mkt:'JP', layer:'硅片 · 光刻胶',     scarce:4, conc:5, expand:5, switch:5, visib:3, valuation:4, geo:5, defense:5 },
+    { name:'SK 海力士',       ticker:'000660.KS', mkt:'KR', layer:'HBM3E / HBM4',      scarce:5, conc:5, expand:5, switch:5, visib:5, valuation:3, geo:3, defense:4 },
+    { name:'Nabtesco',        ticker:'6268.T',    mkt:'JP', layer:'RV 减速器',         scarce:5, conc:5, expand:5, switch:4, visib:3, valuation:4, geo:5, defense:3 },
+    { name:'台积电',          ticker:'2330.TW',   mkt:'TW', layer:'CoWoS 先进封装',    scarce:5, conc:5, expand:5, switch:5, visib:5, valuation:3, geo:1, defense:5 },
+    { name:'Harmonic Drive',  ticker:'6324.T',    mkt:'JP', layer:'谐波减速器',        scarce:5, conc:5, expand:5, switch:4, visib:3, valuation:3, geo:5, defense:3 },
+    { name:'Keyence',         ticker:'6861.T',    mkt:'JP', layer:'机器视觉 · 传感',   scarce:4, conc:4, expand:4, switch:4, visib:4, valuation:2, geo:5, defense:4 },
+    { name:'Micron',          ticker:'MU',        mkt:'US', layer:'HBM · DDR5',        scarce:4, conc:4, expand:5, switch:3, visib:3, valuation:4, geo:5, defense:3 },
+    { name:'三星电子',        ticker:'005930.KS', mkt:'KR', layer:'HBM · NAND 综合',   scarce:4, conc:4, expand:5, switch:3, visib:3, valuation:4, geo:3, defense:3 },
+    { name:'汇川技术',        ticker:'300124',    mkt:'CN-A', layer:'伺服系统 · 工控', scarce:4, conc:4, expand:4, switch:3, visib:3, valuation:3, geo:4, defense:4 },
+    { name:'北方华创',        ticker:'002371',    mkt:'CN-A', layer:'半导体设备',      scarce:4, conc:3, expand:4, switch:4, visib:4, valuation:2, geo:4, defense:4 },
+    { name:'Fanuc',           ticker:'6954.T',    mkt:'JP', layer:'工业机器人整机',    scarce:3, conc:3, expand:3, switch:3, visib:3, valuation:4, geo:5, defense:3 },
+    { name:'Vertiv',          ticker:'VRT',       mkt:'US', layer:'液冷 · 电力管理',   scarce:4, conc:3, expand:3, switch:3, visib:4, valuation:2, geo:5, defense:3 },
+    { name:'中际旭创',        ticker:'300308',    mkt:'CN-A', layer:'800G / 1.6T 光模块', scarce:4, conc:4, expand:3, switch:3, visib:4, valuation:3, geo:4, defense:2 },
+    { name:'AeroVironment',   ticker:'AVAV',      mkt:'US', layer:'军用无人机',        scarce:3, conc:3, expand:2, switch:3, visib:4, valuation:3, geo:5, defense:3 },
+    { name:'绿的谐波',        ticker:'688017',    mkt:'CN-A', layer:'谐波减速器',      scarce:4, conc:4, expand:4, switch:3, visib:3, valuation:1, geo:4, defense:3 },
+    { name:'拓普集团',        ticker:'601689',    mkt:'CN-A', layer:'Optimus Tier1',   scarce:3, conc:3, expand:3, switch:3, visib:2, valuation:3, geo:4, defense:3 },
+    { name:'台达电子',        ticker:'2308.TW',   mkt:'TW', layer:'AI 服务器电源',    scarce:3, conc:3, expand:3, switch:3, visib:4, valuation:3, geo:1, defense:3 },
+    { name:'Alchip',          ticker:'3661.TW',   mkt:'TW', layer:'ASIC 设计服务',    scarce:4, conc:3, expand:3, switch:3, visib:3, valuation:2, geo:1, defense:3 },
+  ];
+
+  raw.forEach(d => {
+    d.total = dims.reduce((s, k) => s + d[k.key], 0);
+  });
+
+  // ---------- render table ----------
+  const body = document.getElementById('scoreBody');
+  let currentSort = { key: 'total', dir: 'desc' };
+
+  function renderTable() {
+    const sorted = [...raw].sort((a, b) => {
+      let v1 = a[currentSort.key], v2 = b[currentSort.key];
+      if (typeof v1 === 'string') { v1 = v1.toString(); v2 = v2.toString(); }
+      if (v1 < v2) return currentSort.dir === 'asc' ? -1 : 1;
+      if (v1 > v2) return currentSort.dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    const ranked = [...raw].sort((a, b) => b.total - a.total);
+    const rankMap = new Map(ranked.map((d, i) => [d.ticker, i + 1]));
+
+    body.innerHTML = sorted.map(d => {
+      const rank = rankMap.get(d.ticker);
+      const dimCells = dims.map(dim => {
+        const v = d[dim.key];
+        return `<td class="dim"><span class="b sev-${v}">${v}</span></td>`;
+      }).join('');
+      return `
+        <tr>
+          <td class="rank">${String(rank).padStart(2, '0')}</td>
+          <td class="name">
+            <span class="n1">${d.name}</span>
+            <span class="n2">${d.ticker}</span>
+          </td>
+          <td class="mkt">${d.mkt}</td>
+          <td class="layer">${d.layer}</td>
+          ${dimCells}
+          <td class="total">${d.total}<span class="sm">/40</span></td>
+        </tr>`;
+    }).join('');
+
+    document.querySelectorAll('#scoreTable thead th').forEach(th => {
+      th.classList.remove('sorted');
+      th.querySelector('.arrow')?.remove();
+    });
+    const activeTh = document.querySelector(`#scoreTable thead th[data-key="${currentSort.key}"]`);
+    if (activeTh) {
+      activeTh.classList.add('sorted');
+      const arrow = document.createElement('span');
+      arrow.className = 'arrow';
+      arrow.textContent = currentSort.dir === 'asc' ? '↑' : '↓';
+      activeTh.appendChild(arrow);
+    }
+  }
+
+  document.querySelectorAll('#scoreTable thead th').forEach(th => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (currentSort.key === key) {
+        currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.key = key;
+        currentSort.dir = (key === 'name' || key === 'mkt' || key === 'layer') ? 'asc' : 'desc';
+      }
+      renderTable();
+    });
+  });
+
+  renderTable();
+
+  // ---------- radar chart svg ----------
+  function radarSvg(d, size) {
+    const cx = size / 2, cy = size / 2;
+    const R = size * 0.42;
+    const N = dims.length;
+    const angle = (i) => -Math.PI / 2 + i * (2 * Math.PI / N);
+
+    // grid rings (5)
+    let rings = '';
+    for (let r = 1; r <= 5; r++) {
+      const rr = R * r / 5;
+      const pts = [];
+      for (let i = 0; i < N; i++) {
+        pts.push([cx + rr * Math.cos(angle(i)), cy + rr * Math.sin(angle(i))]);
+      }
+      rings += `<polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="var(--line)" stroke-width="0.6" opacity="${r === 5 ? 1 : 0.5}"/>`;
+    }
+    // axes
+    let axes = '';
+    for (let i = 0; i < N; i++) {
+      const x = cx + R * Math.cos(angle(i));
+      const y = cy + R * Math.sin(angle(i));
+      axes += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--line)" stroke-width="0.5" opacity="0.5"/>`;
+    }
+    // shape
+    const pts = dims.map((dim, i) => {
+      const v = d[dim.key];
+      const rr = R * v / 5;
+      return [cx + rr * Math.cos(angle(i)), cy + rr * Math.sin(angle(i))];
+    });
+    const shape = `<polygon points="${pts.map(p => p.join(',')).join(' ')}" fill="var(--accent)" fill-opacity="0.18" stroke="var(--accent)" stroke-width="1.6" stroke-linejoin="round"/>`;
+    const dots = pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="2" fill="var(--accent)"/>`).join('');
+    // labels
+    let labels = '';
+    dims.forEach((dim, i) => {
+      const lr = R + 12;
+      const x = cx + lr * Math.cos(angle(i));
+      const y = cy + lr * Math.sin(angle(i));
+      const anchor = Math.cos(angle(i)) > 0.2 ? 'start' : Math.cos(angle(i)) < -0.2 ? 'end' : 'middle';
+      labels += `<text x="${x}" y="${y + 3}" text-anchor="${anchor}" font-size="8" fill="var(--ink-3)" font-family="'SF Mono', ui-monospace, monospace">${dim.label}</text>`;
+    });
+
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" role="img">
+      ${rings}${axes}${shape}${dots}${labels}
+    </svg>`;
+  }
+
+  // ---------- render spotlight ----------
+  const spotlight = [
+    { ticker:'GEV', thesis:'燃气轮机全球三大寡头之一，AI 数据中心刚需电力，backlog 排到 2028+，涨价权在自己手里。', risk:'AI capex 增速拐头 → 新订单减少，但已有 backlog 仍可交付，波动大但下限清楚。' },
+    { ticker:'7011.T', thesis:'与 GEV / 西门子能源三家垄断大型燃机；同时是航天/军工综合体，日元回收+日本资本回流双 tailwind。', risk:'估值同步涨了，短期回撤 15-25% 是常态。' },
+    { ticker:'4063.T', thesis:'12 寸硅片全球双寡头之一 + 光刻胶顶尖玩家，HBM 和逻辑代工扩产都要从这里买。基础中的基础。', risk:'半导体资本开支周期性回落时会杀估值，属于跟随而非领涨型。' },
+    { ticker:'000660.KS', thesis:'HBM3E 独家绑定 Nvidia，产能预售到 2026 底，HBM4 又领先一代。AI 算力最锐的杠杆。', risk:'三星 / 美光 HBM 追赶提速 + HBM 单价见顶信号。历史上韩国存储股波动率极高。' },
+    { ticker:'2330.TW', thesis:'CoWoS 独家承接 Nvidia/AMD/Broadcom 高端 GPU；N3/N2 独家承接 Apple、Nvidia 领先节点。AI 算力扩张第二道物理约束。', risk:'8 维里地缘只有 1/5。台海事件时 20-30% 一夜蒸发；Intel Foundry / 三星追赶是长期威胁。' },
+    { ticker:'6268.T', thesis:'工业机器人 RV 减速器全球超过 60% 份额，人形机器人量产阶段仍是首选。认证壁垒 6-12 个月。', risk:'中国厂 (双环传动/绿的谐波) 追赶 + 人形机器人量产延后。' },
+    { ticker:'6324.T', thesis:'谐波减速器全球双寡头，特斯拉 Optimus 早期原型件供应链。相对 Nabtesco 更纯的机器人弹性。', risk:'纯的另一面是弹性大周期回撤深；中国绿的谐波直接对手；特斯拉自研可能。' },
+    { ticker:'6861.T', thesis:'机器视觉+工业传感器全球顶尖，OP margin 50%+ 怪物。物理AI 时代每台机器人都要眼睛和皮肤。', risk:'估值一直在天花板，涨幅有限；抗周期强但弹性弱；中国海康、大华在视觉端追赶。' },
+  ];
+
+  const spotGrid = document.getElementById('spotGrid');
+  const ranked = [...raw].sort((a, b) => b.total - a.total);
+  const rankMap = new Map(ranked.map((d, i) => [d.ticker, i + 1]));
+
+  spotGrid.innerHTML = spotlight.map(sp => {
+    const d = raw.find(r => r.ticker === sp.ticker);
+    const r = rankMap.get(sp.ticker);
+    return `
+      <div class="spot">
+        <div class="radar">${radarSvg(d, 132)}</div>
+        <div class="head">
+          <div class="rank-badge">Rank #${String(r).padStart(2, '0')}</div>
+          <h3>${d.name}</h3>
+          <div class="ticker">${d.ticker} · ${d.mkt} · ${d.layer}</div>
+        </div>
+        <div class="total-line">
+          <span class="l">Total Score</span>
+          <span class="n">${d.total}</span>
+          <span class="l">/ 40</span>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="k">卡的是</div>
+            <div class="v">${sp.thesis}</div>
+          </div>
+          <div class="row risk">
+            <div class="k">主要风险</div>
+            <div class="v">${sp.risk}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // ---------- theme toggle ----------
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    let next;
+    if (!current) {
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = dark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+  });
+</script>

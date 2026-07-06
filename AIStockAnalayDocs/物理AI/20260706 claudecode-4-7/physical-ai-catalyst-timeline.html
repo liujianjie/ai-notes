@@ -1,0 +1,830 @@
+<title>物理AI 催化剂时间轴 · 2026 Q3 → 2028 Q2</title>
+<style>
+  :root {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --warn: #B57F30; --crit: #9A3838;
+    --earn: #3F5A6B;
+    --mile: #A46B2C;
+    --show: #6A4F8F;
+    --poli: #9A3838;
+    --curr-bg: #FDF3E6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+      --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+      --line: #2A2E3A; --line-2: #21252F;
+      --accent: #D4A05A; --accent-2: #7DA0B8;
+      --good: #5FA47A; --warn: #D4A05A; --crit: #C46060;
+      --earn: #7DA0B8;
+      --mile: #D4A05A;
+      --show: #A48CC9;
+      --poli: #C46060;
+      --curr-bg: #2B231A;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --warn: #B57F30; --crit: #9A3838;
+    --earn: #3F5A6B; --mile: #A46B2C; --show: #6A4F8F; --poli: #9A3838;
+    --curr-bg: #FDF3E6;
+  }
+  :root[data-theme="dark"] {
+    --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+    --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+    --line: #2A2E3A; --line-2: #21252F;
+    --accent: #D4A05A; --accent-2: #7DA0B8;
+    --good: #5FA47A; --warn: #D4A05A; --crit: #C46060;
+    --earn: #7DA0B8; --mile: #D4A05A; --show: #A48CC9; --poli: #C46060;
+    --curr-bg: #2B231A;
+  }
+
+  html, body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; padding: 0; }
+  .page { max-width: 1360px; margin: 0 auto; padding: 56px 32px 96px; }
+  @media (max-width: 720px) { .page { padding: 36px 16px 72px; } }
+
+  .mono { font-family: "SF Mono", "Cascadia Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .serif { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif; }
+
+  /* header */
+  .eyebrow {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
+  h1 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 42px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 14px 0 12px;
+  }
+  .sub { font-size: 15px; color: var(--ink-2); max-width: 68ch; line-height: 1.65; }
+
+  .meta-row {
+    display: flex; gap: 24px; flex-wrap: wrap;
+    margin-top: 22px; padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px; color: var(--ink-2);
+  }
+  .meta-row strong { color: var(--ink); font-weight: 500; margin-left: 4px; }
+
+  /* toggle */
+  .theme-toggle {
+    position: fixed; top: 18px; right: 18px;
+    background: var(--panel); color: var(--ink-2);
+    border: 1px solid var(--line); padding: 6px 12px;
+    font: 11px "SF Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; z-index: 20;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* controls */
+  .controls {
+    margin-top: 40px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .controls .label {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-right: 6px;
+  }
+  .filter-btn {
+    padding: 6px 12px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font: 11px "SF Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border-radius: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { color: var(--ink); border-color: var(--ink-3); }
+  .filter-btn.on {
+    color: #fff;
+    border-color: transparent;
+  }
+  .filter-btn .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block;
+  }
+  .filter-btn[data-type="earn"] .dot { background: var(--earn); }
+  .filter-btn[data-type="mile"] .dot { background: var(--mile); }
+  .filter-btn[data-type="show"] .dot { background: var(--show); }
+  .filter-btn[data-type="poli"] .dot { background: var(--poli); }
+  .filter-btn.on[data-type="earn"] { background: var(--earn); }
+  .filter-btn.on[data-type="mile"] { background: var(--mile); }
+  .filter-btn.on[data-type="show"] { background: var(--show); }
+  .filter-btn.on[data-type="poli"] { background: var(--poli); }
+  .filter-btn.on .dot { background: rgba(255,255,255,0.9); }
+
+  /* timeline */
+  .timeline-wrap {
+    margin-top: 32px;
+    overflow-x: auto;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .timeline {
+    display: grid;
+    grid-template-columns: 178px repeat(8, minmax(128px, 1fr));
+    min-width: 1200px;
+  }
+
+  /* header row */
+  .qhead {
+    background: var(--ground-2);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 10px 10px;
+    text-align: center;
+    border-right: 1px solid var(--line-2);
+  }
+  .qhead:last-child { border-right: none; }
+  .qhead.current {
+    background: var(--curr-bg);
+    border-bottom: 2px solid var(--accent);
+  }
+  .qhead .y {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .qhead .q {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 18px;
+    margin-top: 3px;
+    color: var(--ink);
+  }
+  .qhead .m {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--ink-3);
+    margin-top: 3px;
+  }
+  .qhead .now {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 1px 6px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 2px;
+  }
+  .rowhead-empty {
+    background: var(--ground-2);
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
+
+  /* row group divider */
+  .rowgroup {
+    grid-column: 1 / -1;
+    background: var(--ground-2);
+    padding: 6px 14px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    border-bottom: 1px solid var(--line-2);
+    border-top: 1px solid var(--line);
+  }
+  .rowgroup:first-of-type { border-top: none; }
+  .rowgroup .n-tag { color: var(--accent); margin-right: 8px; }
+
+  /* company row header */
+  .rowhead {
+    padding: 14px 14px;
+    background: var(--panel);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line-2);
+    position: sticky; left: 0;
+    z-index: 3;
+  }
+  .rowhead .name {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .rowhead .code {
+    display: block;
+    margin-top: 3px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+  }
+  .rowhead .rk {
+    display: inline-block;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    padding: 1px 5px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    margin-bottom: 4px;
+  }
+  .rowhead.industry .name, .rowhead.macro .name {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .rowhead.industry { background: var(--panel); }
+  .rowhead.macro { background: var(--panel); }
+
+  /* cell */
+  .cell {
+    padding: 8px 6px;
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 62px;
+  }
+  .cell.current { background: var(--curr-bg); }
+  .cell:last-child { border-right: none; }
+
+  /* chip */
+  .chip {
+    padding: 5px 7px 5px 9px;
+    background: var(--ground);
+    border-left: 3px solid var(--earn);
+    border-radius: 2px;
+    font-size: 11.5px;
+    line-height: 1.35;
+    cursor: default;
+    transition: transform 0.15s;
+  }
+  .chip:hover { transform: translateX(2px); }
+  .chip.earn { border-left-color: var(--earn); }
+  .chip.mile { border-left-color: var(--mile); }
+  .chip.show { border-left-color: var(--show); }
+  .chip.poli { border-left-color: var(--poli); }
+  .chip .title {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .chip .date {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+  }
+  .chip .note {
+    font-size: 10.5px;
+    color: var(--ink-2);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .chip.hidden { display: none; }
+
+  /* density bar */
+  .density-row {
+    background: var(--ground-2);
+    grid-column: 1 / 2;
+    padding: 12px 14px;
+    border-top: 1px solid var(--line);
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    align-items: end;
+  }
+  .density-cell {
+    background: var(--ground-2);
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line-2);
+    padding: 12px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    gap: 4px;
+    min-height: 62px;
+  }
+  .density-cell:last-child { border-right: none; }
+  .density-cell.current { background: var(--curr-bg); }
+  .density-cell .bar {
+    width: 100%;
+    background: var(--accent);
+    border-radius: 2px 2px 0 0;
+    min-height: 4px;
+    max-width: 40px;
+  }
+  .density-cell .num {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* legend */
+  .legend {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .legend .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .legend .stripe {
+    display: inline-block;
+    width: 4px;
+    height: 14px;
+    border-radius: 1px;
+  }
+
+  /* anchor summary */
+  .anchors {
+    margin-top: 56px;
+  }
+  .anchors h2 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    margin: 0 0 20px;
+  }
+  .anchors h2 .n {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-right: 12px;
+  }
+  .anchor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .anchor {
+    padding: 20px 22px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .anchor .when {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .anchor .title {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.35;
+    margin-bottom: 8px;
+  }
+  .anchor .desc {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.6;
+  }
+  .anchor .impact {
+    display: inline-block;
+    margin-top: 10px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 2px;
+    color: #fff;
+  }
+  .anchor .impact.high { background: var(--crit); }
+  .anchor .impact.med { background: var(--warn); }
+  .anchor .impact.low { background: var(--accent-2); }
+
+  /* disclaimer */
+  .disclaimer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .disclaimer strong { color: var(--ink-2); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button">Light / Dark</button>
+
+<div class="page">
+  <div class="eyebrow">Serenity · Catalyst Timeline · 2026 Q3 → 2028 Q2</div>
+  <h1>物理AI 催化剂时间轴 · 未来 24 个月</h1>
+  <p class="sub">
+    按季度堆叠三层：<em>Top 8 公司事件</em>（财报节奏 + Investor Day）· <em>行业级</em>（GTC / CES / SEMICON / TrendForce）· <em>宏观政策</em>。
+    底部柱图展示每季度事件密度&mdash;&mdash;密度越高，该季度重估窗口越集中。点击右上分类切换可视性。
+  </p>
+  <div class="meta-row">
+    <span>时间窗 <strong>8 个季度</strong></span>
+    <span>覆盖公司 <strong>Top 8</strong></span>
+    <span>事件类别 <strong>4 类</strong></span>
+    <span>当前季度 <strong>2026 Q3</strong></span>
+    <span>研究属性 <strong>Methodology · 已知节奏</strong></span>
+  </div>
+
+  <!-- ============ CONTROLS ============ -->
+  <div class="controls">
+    <span class="label">Filter</span>
+    <button class="filter-btn on" data-type="earn" type="button"><span class="dot"></span>财报 · Earnings</button>
+    <button class="filter-btn on" data-type="mile" type="button"><span class="dot"></span>里程碑 · Milestone</button>
+    <button class="filter-btn on" data-type="show" type="button"><span class="dot"></span>展会 · Industry</button>
+    <button class="filter-btn on" data-type="poli" type="button"><span class="dot"></span>政策 · Policy</button>
+  </div>
+
+  <!-- ============ TIMELINE ============ -->
+  <div class="timeline-wrap">
+    <div class="timeline" id="timeline"></div>
+  </div>
+
+  <div class="legend">
+    <span class="key"><span class="stripe" style="background:var(--earn)"></span>财报&nbsp;/&nbsp;季度决算</span>
+    <span class="key"><span class="stripe" style="background:var(--mile)"></span>产品/技术里程碑&nbsp;/&nbsp;Investor Day</span>
+    <span class="key"><span class="stripe" style="background:var(--show)"></span>行业展会&nbsp;/&nbsp;峰会</span>
+    <span class="key"><span class="stripe" style="background:var(--poli)"></span>政策&nbsp;/&nbsp;监管&nbsp;/&nbsp;地缘</span>
+  </div>
+
+  <!-- ============ ANCHOR EVENTS ============ -->
+  <div class="anchors">
+    <h2><span class="n">§ 02</span>8 个必须盯的重估锚点</h2>
+    <p style="font-size:13px;color:var(--ink-2);max-width:66ch;margin:-8px 0 20px">
+      在整个时间轴 40+ 事件里，下面 8 个是 <em>如果只盯一件事就盯这一件</em> 的关键锚点&mdash;&mdash;它们的走向能单独让判断翻转。
+    </p>
+    <div class="anchor-grid">
+
+      <div class="anchor">
+        <div class="when">2026 Q4 · 1月末</div>
+        <div class="title">GEV FY26 Full-Year Earnings</div>
+        <div class="desc">GEV 上市后第 3 份 full-year。观察 Power backlog 是否环比继续走高、管理层给的 2027 EBITDA margin guidance 是否上修。这份是决定"电力 AI 叙事在 2027 还能不能继续"的第一张牌。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q1 · 3月</div>
+        <div class="title">NVIDIA GTC 2027</div>
+        <div class="desc">黄仁勋主题演讲会给未来 3 代 GPU 路线图、HBM 需求指引、Physical AI 应用场景。海力士 / 台积电 / GEV 都会跟涨或跟跌。当前物理AI 叙事的最大集中催化。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q1-Q2</div>
+        <div class="title">三星 HBM3E 12-Hi Nvidia 认证结果</div>
+        <div class="desc">若通过 → 海力士短期份额与议价力承压 15-25%；若未通过或推迟 → 海力士继续吃独食。这是海力士叙事最关键的单一事件。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q2 · 5月</div>
+        <div class="title">SK Hynix CEO Investor Day</div>
+        <div class="desc">给未来 3 年 HBM4/HBM5 路线图 + Capex + margin guidance。海力士全年最重要的一次单向沟通。可对比三星 Memory Business Day 交叉验证。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q4 · 12月-2028 Q1</div>
+        <div class="title">日本 2028 年度国防预算案</div>
+        <div class="desc">MHI 防卫·宇宙分部中期营收假设的锚。日本国防目标 GDP 2% 的兑现节奏在此明确。若增速不及预期，MHI 综合体估值会受压。</div>
+        <span class="impact med">Med Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q4</div>
+        <div class="title">Optimus 量产节奏公开信号</div>
+        <div class="desc">特斯拉 Q4 股东信、AI Day、Musk 推文中关于 Optimus 出货量的口径。若 Optimus 减速器方案明确使用/不用 RV → 直接决定 Nabtesco 与绿的谐波的叙事强度。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2027 Q4</div>
+        <div class="title">HBM4 大批量出货启动</div>
+        <div class="desc">HBM3E → HBM4 迭代对海力士毛利率是双刃剑：领先一代能吃独食，但迭代节奏太快会压缩单代盈利期。这个节点会验证"HBM 结构性成长"叙事。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+      <div class="anchor">
+        <div class="when">2028 Q1 · 3月</div>
+        <div class="title">NVIDIA GTC 2028 + 首个 AI capex 拐点信号</div>
+        <div class="desc">距离今天 20 个月后。Hyperscaler 四家（Google/Meta/MSFT/AMZN）Q4 2027 财报同步在此窗口发布。若 4 家 capex YoY 同时跌破 15% → 整条物理AI 叙事进入压力测试期。</div>
+        <span class="impact high">High Impact</span>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="disclaimer">
+    <strong>研究属性说明</strong>&nbsp;· 财报节奏与 Investor Day 时点为公司历史惯例，可能因公司调整而变。
+    行业展会 (GTC / CES / SEMICON) 日期基于历年惯例排布，最终以官方公告为准。
+    政策事件为已公开政策路径推演，非确定安排。<strong>使用前请以各公司 IR 页 / 展会官网 / 政府公告最新版为准</strong>。
+    时间轴用于研究注意力分配，不是买入卖出建议。
+  </div>
+</div>
+
+<script>
+  // ---------- data ----------
+  const quarters = [
+    { key: 'Q1', label: 'Q3', year: '2026', months: '7 · 8 · 9月', current: true },
+    { key: 'Q2', label: 'Q4', year: '2026', months: '10 · 11 · 12月' },
+    { key: 'Q3', label: 'Q1', year: '2027', months: '1 · 2 · 3月' },
+    { key: 'Q4', label: 'Q2', year: '2027', months: '4 · 5 · 6月' },
+    { key: 'Q5', label: 'Q3', year: '2027', months: '7 · 8 · 9月' },
+    { key: 'Q6', label: 'Q4', year: '2027', months: '10 · 11 · 12月' },
+    { key: 'Q7', label: 'Q1', year: '2028', months: '1 · 2 · 3月' },
+    { key: 'Q8', label: 'Q2', year: '2028', months: '4 · 5 · 6月' },
+  ];
+
+  const rows = [
+    { id: 'GEV',      group: 'company', name: 'GE Vernova',    code: 'GEV · NYSE',        rank: '#01' },
+    { id: 'MHI',      group: 'company', name: '三菱重工',       code: '7011.T · TSE',      rank: '#02' },
+    { id: 'SHIN',     group: 'company', name: '信越化学',       code: '4063.T · TSE',      rank: '#03' },
+    { id: 'HYNIX',    group: 'company', name: 'SK 海力士',      code: '000660.KS · KOSPI', rank: '#04' },
+    { id: 'TSMC',     group: 'company', name: '台积电',         code: '2330.TW · TWSE',    rank: '#05' },
+    { id: 'NAB',      group: 'company', name: 'Nabtesco',      code: '6268.T · TSE',      rank: '#06' },
+    { id: 'HDS',      group: 'company', name: 'Harmonic Drive',code: '6324.T · TSE',      rank: '#07' },
+    { id: 'KYNC',     group: 'company', name: 'Keyence',       code: '6861.T · TSE',      rank: '#08' },
+    { id: 'IND',      group: 'industry', name: '行业展会 / 峰会', code: 'Cross-sector' },
+    { id: 'HBM_ROAD', group: 'industry', name: 'HBM · 台积 CoWoS', code: 'Chain milestone' },
+    { id: 'OPTIMUS',  group: 'industry', name: 'Tesla Optimus',  code: '机器人叙事锚' },
+    { id: 'MACRO',    group: 'macro', name: '宏观 / 政策',      code: 'Policy · Geo' },
+  ];
+
+  const events = [
+    // ========== GEV ==========
+    { row:'GEV', q:'Q1', type:'earn', title:'Q3 财报',        date:'10 月末',    note:'Power/Gas backlog 更新' },
+    { row:'GEV', q:'Q2', type:'earn', title:'Q4 / FY 财报',   date:'1-2 月',     note:'2027 EBITDA margin guidance' },
+    { row:'GEV', q:'Q2', type:'show', title:'Power-Gen Int\'l', date:'12 月上',  note:'燃机技术展会' },
+    { row:'GEV', q:'Q3', type:'earn', title:'Q1 财报',        date:'4 月末',    note:'当年首份 gas 订单节奏' },
+    { row:'GEV', q:'Q4', type:'earn', title:'Q2 财报',        date:'7 月末',    note:'半年 backlog 校验' },
+    { row:'GEV', q:'Q4', type:'mile', title:'Analyst / Investor Day', date:'年度',  note:'Wind 减亏路径 · SMR 进度' },
+    { row:'GEV', q:'Q5', type:'earn', title:'Q3 财报',        date:'10 月末',    note:'AI 电力订单持续性验证' },
+    { row:'GEV', q:'Q6', type:'earn', title:'Q4 / FY 财报',   date:'1-2 月',     note:'2028 guidance · 全年 backlog' },
+    { row:'GEV', q:'Q7', type:'earn', title:'Q1 财报',        date:'4 月末',    note:'2028 交付里程碑' },
+    { row:'GEV', q:'Q8', type:'earn', title:'Q2 财报',        date:'7 月末',    note:'半年检验' },
+
+    // ========== MHI (3月决算) ==========
+    { row:'MHI', q:'Q2', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'Energy 分部订单更新' },
+    { row:'MHI', q:'Q2', type:'poli', title:'日本国防预算案', date:'12-1 月',    note:'GDP 2% 达成节奏' },
+    { row:'MHI', q:'Q3', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'防卫分部订单验证' },
+    { row:'MHI', q:'Q4', type:'earn', title:'通期决算',       date:'5 月上',    note:'中期経営計画修订' },
+    { row:'MHI', q:'Q4', type:'mile', title:'中期経営計画',   date:'5 月',      note:'FY27-29 路线图' },
+    { row:'MHI', q:'Q5', type:'earn', title:'Q1 决算',        date:'8 月上',    note:'当年首份 gas 订单' },
+    { row:'MHI', q:'Q6', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'Energy 订单持续性' },
+    { row:'MHI', q:'Q6', type:'poli', title:'日本国防预算案', date:'12-1 月',    note:'次年防卫预算' },
+    { row:'MHI', q:'Q7', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'gas 分部 EBITDA 校验' },
+    { row:'MHI', q:'Q8', type:'earn', title:'通期决算',       date:'5 月上',    note:'FY27 全年' },
+
+    // ========== SHIN-ETSU (3月决算) ==========
+    { row:'SHIN', q:'Q2', type:'earn', title:'Q2 (半期) 决算', date:'10 月末',    note:'硅片 OP margin' },
+    { row:'SHIN', q:'Q3', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'Electronics (光刻胶)' },
+    { row:'SHIN', q:'Q4', type:'earn', title:'通期决算',       date:'4 月末',    note:'FY26 硅片扩产计划' },
+    { row:'SHIN', q:'Q4', type:'mile', title:'事业方针说明会', date:'5 月',      note:'中期硅片 capex 口径' },
+    { row:'SHIN', q:'Q5', type:'earn', title:'Q1 决算',        date:'7 月末',    note:'300mm 出货 QoQ' },
+    { row:'SHIN', q:'Q6', type:'earn', title:'Q2 (半期) 决算', date:'10 月末',    note:'半年 margin 校验' },
+    { row:'SHIN', q:'Q7', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'EUV 光刻胶份额' },
+    { row:'SHIN', q:'Q8', type:'earn', title:'通期决算',       date:'4 月末',    note:'FY27 全年' },
+
+    // ========== SK HYNIX ==========
+    { row:'HYNIX', q:'Q1', type:'earn', title:'Q3 财报',       date:'10 月末',    note:'HBM 占 DRAM 比例' },
+    { row:'HYNIX', q:'Q2', type:'earn', title:'Q4 / FY 财报',  date:'1 月末',    note:'全年 HBM revenue' },
+    { row:'HYNIX', q:'Q3', type:'earn', title:'Q1 财报',       date:'4 月末',    note:'DRAM ASP QoQ' },
+    { row:'HYNIX', q:'Q4', type:'mile', title:'CEO Investor Day', date:'5 月',    note:'HBM4/HBM5 路线图' },
+    { row:'HYNIX', q:'Q4', type:'earn', title:'Q2 财报',       date:'7 月末',    note:'半年 HBM 占比' },
+    { row:'HYNIX', q:'Q5', type:'earn', title:'Q3 财报',       date:'10 月末',    note:'HBM4 爬坡验证' },
+    { row:'HYNIX', q:'Q6', type:'earn', title:'Q4 / FY 财报',  date:'1 月末',    note:'HBM4 全年占比' },
+    { row:'HYNIX', q:'Q7', type:'earn', title:'Q1 财报',       date:'4 月末',    note:'2028 HBM 客户结构' },
+    { row:'HYNIX', q:'Q7', type:'mile', title:'HBM5 采样节点', date:'年内',      note:'与三星 / Micron 竞速' },
+    { row:'HYNIX', q:'Q8', type:'earn', title:'Q2 财报',       date:'7 月末',    note:'半年校验' },
+    { row:'HYNIX', q:'Q8', type:'mile', title:'Investor Day', date:'5 月',      note:'FY28-29 计划' },
+
+    // ========== NABTESCO (12月决算!) ==========
+    { row:'NAB', q:'Q1', type:'earn', title:'Q3 决算',        date:'11 月上',    note:'Robotics vs Machine Tool' },
+    { row:'NAB', q:'Q3', type:'earn', title:'通期决算',       date:'2 月中',    note:'FY26 全年 · 12月决算' },
+    { row:'NAB', q:'Q4', type:'earn', title:'Q1 决算',        date:'5 月上',    note:'当年首季机器人订单' },
+    { row:'NAB', q:'Q5', type:'earn', title:'Q2 (半期) 决算', date:'8 月上',    note:'半年 RV 出货' },
+    { row:'NAB', q:'Q6', type:'earn', title:'Q3 决算',        date:'11 月上',    note:'年末订单积压' },
+    { row:'NAB', q:'Q7', type:'earn', title:'通期决算',       date:'2 月中',    note:'FY27 全年' },
+    { row:'NAB', q:'Q8', type:'earn', title:'Q1 决算',        date:'5 月上',    note:'2028 首季订单' },
+
+    // ========== TSMC ==========
+    { row:'TSMC', q:'Q1', type:'earn', title:'Q3 法说会',     date:'10 月中',   note:'CoWoS 产能爬坡口径' },
+    { row:'TSMC', q:'Q2', type:'earn', title:'Q4 / FY 法说', date:'1 月中',    note:'2027 capex + 毛利率指引' },
+    { row:'TSMC', q:'Q2', type:'mile', title:'Monthly Rev',   date:'每月 10 号', note:'月频领先指标（滚动）' },
+    { row:'TSMC', q:'Q3', type:'earn', title:'Q1 法说会',     date:'4 月中',    note:'当年首份 HPC 平台指引' },
+    { row:'TSMC', q:'Q4', type:'earn', title:'Q2 法说会',     date:'7 月中',    note:'半年 N3/N2 收入占比' },
+    { row:'TSMC', q:'Q5', type:'earn', title:'Q3 法说会',     date:'10 月中',   note:'CoWoS 扩产阶段目标' },
+    { row:'TSMC', q:'Q6', type:'earn', title:'Q4 / FY 法说', date:'1 月中',    note:'2028 capex 与产能规划' },
+    { row:'TSMC', q:'Q7', type:'earn', title:'Q1 法说会',     date:'4 月中',    note:'N2 量产节点' },
+    { row:'TSMC', q:'Q8', type:'earn', title:'Q2 法说会',     date:'7 月中',    note:'2028 半年校验' },
+
+    // ========== HDS (3月决算, 同 Harmonic Drive) ==========
+    { row:'HDS', q:'Q2', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'Precision Reducer margin' },
+    { row:'HDS', q:'Q3', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'机器人业务占比' },
+    { row:'HDS', q:'Q4', type:'earn', title:'通期决算',       date:'5 月上',    note:'FY26 全年 · 中期计划' },
+    { row:'HDS', q:'Q4', type:'mile', title:'中期経営計画',   date:'5 月',      note:'FY27-29 机器人路线' },
+    { row:'HDS', q:'Q5', type:'earn', title:'Q1 决算',        date:'8 月上',    note:'当年首季机器人订单' },
+    { row:'HDS', q:'Q6', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'半年 margin 校验' },
+    { row:'HDS', q:'Q7', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'Optimus 相关线索' },
+    { row:'HDS', q:'Q8', type:'earn', title:'通期决算',       date:'5 月上',    note:'FY27 全年' },
+
+    // ========== KEYENCE (3月决算) ==========
+    { row:'KYNC', q:'Q2', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'中国区营收增速' },
+    { row:'KYNC', q:'Q3', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'OP margin 维持力度' },
+    { row:'KYNC', q:'Q4', type:'earn', title:'通期决算',       date:'5 月上',    note:'FY26 全年' },
+    { row:'KYNC', q:'Q5', type:'earn', title:'Q1 决算',        date:'8 月上',    note:'新一年 OP margin 起步' },
+    { row:'KYNC', q:'Q6', type:'earn', title:'Q2 (半期) 决算', date:'11 月上',    note:'半年校验' },
+    { row:'KYNC', q:'Q7', type:'earn', title:'Q3 决算',        date:'2 月上',    note:'半导体设备下游拉动' },
+    { row:'KYNC', q:'Q8', type:'earn', title:'通期决算',       date:'5 月上',    note:'FY27 全年' },
+
+    // ========== 行业展会 ==========
+    { row:'IND', q:'Q2', type:'show', title:'Power-Gen Int\'l', date:'12 月',    note:'燃机技术峰会' },
+    { row:'IND', q:'Q2', type:'show', title:'SEMICON Japan',   date:'12 月',     note:'日本半导体产业展会' },
+    { row:'IND', q:'Q3', type:'show', title:'CES 2027',        date:'1 月上',    note:'消费/机器人首秀' },
+    { row:'IND', q:'Q3', type:'show', title:'NVIDIA GTC 2027', date:'3 月',      note:'GPU 路线图 · Physical AI' },
+    { row:'IND', q:'Q4', type:'show', title:'SEMICON Korea',   date:'年度',      note:'HBM 生态' },
+    { row:'IND', q:'Q4', type:'show', title:'Computex',        date:'5-6 月',    note:'台系 AI 硬件生态' },
+    { row:'IND', q:'Q5', type:'show', title:'SEMICON Taiwan',  date:'9 月',      note:'CoWoS 生态' },
+    { row:'IND', q:'Q6', type:'show', title:'SEMICON Japan',   date:'12 月',     note:'半导体材料' },
+    { row:'IND', q:'Q7', type:'show', title:'CES 2028',        date:'1 月上',    note:'物理AI 消费级首秀' },
+    { row:'IND', q:'Q7', type:'show', title:'NVIDIA GTC 2028', date:'3 月',      note:'AI capex 关键指引' },
+
+    // ========== HBM · CoWoS 里程碑 ==========
+    { row:'HBM_ROAD', q:'Q2', type:'mile', title:'台积 CoWoS 扩产阶段目标', date:'年底',  note:'预计 8-10 万片/月' },
+    { row:'HBM_ROAD', q:'Q3', type:'mile', title:'三星 HBM3E 12-Hi 认证', date:'H1 结果',  note:'成否 → 海力士份额变化' },
+    { row:'HBM_ROAD', q:'Q4', type:'mile', title:'HBM4 首批客户送样', date:'年中',      note:'海力士领先或平局' },
+    { row:'HBM_ROAD', q:'Q5', type:'mile', title:'CoWoS 产能爬坡验证', date:'Q3 末',    note:'台积电法说会更新' },
+    { row:'HBM_ROAD', q:'Q6', type:'mile', title:'HBM4 大批量出货启动', date:'Q4',      note:'海力士 → Nvidia' },
+    { row:'HBM_ROAD', q:'Q7', type:'mile', title:'HBM4E 采样启动',   date:'Q1',       note:'第二代 HBM4 迭代' },
+
+    // ========== Tesla Optimus 叙事 ==========
+    { row:'OPTIMUS', q:'Q2', type:'mile', title:'特斯拉 Q3 股东信', date:'10-11 月',  note:'Optimus 内部部署进度' },
+    { row:'OPTIMUS', q:'Q3', type:'mile', title:'AI Day / Investor Meeting', date:'H1',  note:'2027 生产目标' },
+    { row:'OPTIMUS', q:'Q5', type:'mile', title:'Optimus 2 量产声明', date:'预期窗口',  note:'减速器方案披露' },
+    { row:'OPTIMUS', q:'Q6', type:'mile', title:'FY27 Optimus 出货', date:'年报',      note:'实际 vs 承诺对比' },
+    { row:'OPTIMUS', q:'Q7', type:'mile', title:'AI Day 2028',     date:'H1',       note:'FY28 出货目标' },
+
+    // ========== 宏观 / 政策 ==========
+    { row:'MACRO', q:'Q1', type:'poli', title:'中国"十五五"规划',   date:'滚动',    note:'物理AI 配套政策落地' },
+    { row:'MACRO', q:'Q2', type:'poli', title:'美国大选后 AI 政策', date:'11 月-1 月', note:'新政府对华 AI 限制口径' },
+    { row:'MACRO', q:'Q2', type:'poli', title:'日本国防预算案',    date:'12 月',    note:'GDP 2% 兑现节奏' },
+    { row:'MACRO', q:'Q3', type:'poli', title:'FOMC 关键会议',    date:'3 月',     note:'高估值资产折现率' },
+    { row:'MACRO', q:'Q3', type:'poli', title:'中美贸易关系变数',  date:'滚动',    note:'台系 / 韩系直接受影响' },
+    { row:'MACRO', q:'Q4', type:'poli', title:'台海军事演习窗口',  date:'3-4 月',   note:'台积电 / Alchip 尾部风险' },
+    { row:'MACRO', q:'Q5', type:'poli', title:'韩国国家 AI 战略更新', date:'H2',    note:'HBM 出口路径' },
+    { row:'MACRO', q:'Q6', type:'poli', title:'日本国防预算案',    date:'12 月',    note:'次年 GDP 2% 目标' },
+    { row:'MACRO', q:'Q7', type:'poli', title:'美国政府 FY29 预算', date:'2 月',     note:'AI R&D 优先度' },
+    { row:'MACRO', q:'Q8', type:'poli', title:'欧盟 AI Act 首份年报', date:'H1',    note:'物理AI 应用监管' },
+  ];
+
+  // ---------- render ----------
+  const timeline = document.getElementById('timeline');
+
+  function render(activeTypes) {
+    let html = '';
+
+    // header row
+    html += '<div class="rowhead-empty"></div>';
+    quarters.forEach(q => {
+      html += `<div class="qhead${q.current ? ' current' : ''}">
+        <div class="y">${q.year}</div>
+        <div class="q">${q.label}</div>
+        <div class="m">${q.months}</div>
+        ${q.current ? '<div class="now">Now</div>' : ''}
+      </div>`;
+    });
+
+    // group by row group
+    let lastGroup = null;
+    rows.forEach(r => {
+      if (r.group !== lastGroup) {
+        const groupLabel = r.group === 'company' ? '01 · TOP 8 公司事件'
+                          : r.group === 'industry' ? '02 · 行业级 · 产业链里程碑'
+                          : '03 · 宏观 / 政策';
+        html += `<div class="rowgroup"><span class="n-tag">§</span>${groupLabel}</div>`;
+        lastGroup = r.group;
+      }
+
+      // row head
+      html += `<div class="rowhead ${r.group}">
+        ${r.rank ? `<span class="rk">${r.rank}</span><br>` : ''}
+        <span class="name">${r.name}</span>
+        <span class="code">${r.code}</span>
+      </div>`;
+
+      // cells
+      quarters.forEach(q => {
+        const cellEvents = events.filter(e => e.row === r.id && e.q === q.key);
+        const chips = cellEvents.map(e => {
+          const hidden = activeTypes.includes(e.type) ? '' : ' hidden';
+          return `<div class="chip ${e.type}${hidden}">
+            <div class="title">${e.title}</div>
+            <div class="date">${e.date}</div>
+            <div class="note">${e.note}</div>
+          </div>`;
+        }).join('');
+        html += `<div class="cell${q.current ? ' current' : ''}">${chips}</div>`;
+      });
+    });
+
+    // density row
+    html += `<div class="density-row">Density</div>`;
+    const maxCount = Math.max(...quarters.map(q => events.filter(e => e.q === q.key && activeTypes.includes(e.type)).length));
+    quarters.forEach(q => {
+      const count = events.filter(e => e.q === q.key && activeTypes.includes(e.type)).length;
+      const h = maxCount > 0 ? (count / maxCount * 42 + 4) : 4;
+      html += `<div class="density-cell${q.current ? ' current' : ''}">
+        <div class="num">${count}</div>
+        <div class="bar" style="height:${h}px"></div>
+      </div>`;
+    });
+
+    timeline.innerHTML = html;
+  }
+
+  // filter interaction
+  const filterState = new Set(['earn', 'mile', 'show', 'poli']);
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const t = btn.dataset.type;
+      if (filterState.has(t)) {
+        filterState.delete(t);
+        btn.classList.remove('on');
+      } else {
+        filterState.add(t);
+        btn.classList.add('on');
+      }
+      render(Array.from(filterState));
+    });
+  });
+
+  render(Array.from(filterState));
+
+  // theme toggle
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    let next;
+    if (!current) {
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = dark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+  });
+</script>

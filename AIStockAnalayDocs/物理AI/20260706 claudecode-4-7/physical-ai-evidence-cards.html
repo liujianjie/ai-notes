@@ -1,0 +1,1817 @@
+<title>物理AI Top 8 · 证据卡集</title>
+<style>
+  :root {
+    --ground: #F7F6F2;
+    --ground-2: #EEEBE1;
+    --panel: #FFFEFA;
+    --ink: #1A1D26;
+    --ink-2: #5A5F6B;
+    --ink-3: #8A8E97;
+    --line: #DDD8CA;
+    --line-2: #ECE7D9;
+    --accent: #A46B2C;
+    --accent-2: #3F5A6B;
+    --good: #3E7A54;
+    --good-soft: #E3EEDF;
+    --warn: #B57F30;
+    --warn-soft: #F3E7D0;
+    --crit: #9A3838;
+    --crit-soft: #F0D9D9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #10121A;
+      --ground-2: #171A23;
+      --panel: #1B1E28;
+      --ink: #F0EAD8;
+      --ink-2: #A8ADB9;
+      --ink-3: #6A6F7B;
+      --line: #2A2E3A;
+      --line-2: #21252F;
+      --accent: #D4A05A;
+      --accent-2: #7DA0B8;
+      --good: #5FA47A;
+      --good-soft: #1E3227;
+      --warn: #D4A05A;
+      --warn-soft: #322817;
+      --crit: #C46060;
+      --crit-soft: #33191A;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --good-soft: #E3EEDF;
+    --warn: #B57F30; --warn-soft: #F3E7D0;
+    --crit: #9A3838; --crit-soft: #F0D9D9;
+  }
+  :root[data-theme="dark"] {
+    --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+    --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+    --line: #2A2E3A; --line-2: #21252F;
+    --accent: #D4A05A; --accent-2: #7DA0B8;
+    --good: #5FA47A; --good-soft: #1E3227;
+    --warn: #D4A05A; --warn-soft: #322817;
+    --crit: #C46060; --crit-soft: #33191A;
+  }
+
+  html, body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; padding: 0; }
+  .page { max-width: 980px; margin: 0 auto; padding: 56px 32px 96px; }
+  @media (max-width: 720px) { .page { padding: 36px 18px 72px; } }
+
+  /* fonts family shortcuts */
+  .mono { font-family: "SF Mono", "Cascadia Mono", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .serif { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif; }
+
+  /* ---------- header ---------- */
+  .eyebrow {
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before {
+    content: ''; display: inline-block;
+    width: 22px; height: 1px; background: var(--accent);
+  }
+  h1 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: clamp(30px, 4.2vw, 42px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 14px 0 12px;
+  }
+  .sub {
+    font-size: 15px;
+    color: var(--ink-2);
+    max-width: 66ch;
+    line-height: 1.65;
+  }
+
+  /* index nav */
+  .index {
+    margin-top: 26px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .index a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 8px 8px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 12.5px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .index a:hover { border-color: var(--accent); color: var(--accent); }
+  .index a .r {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--ground-2);
+    color: var(--accent);
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    border-radius: 2px;
+  }
+
+  /* ---------- toggle ---------- */
+  .theme-toggle {
+    position: fixed;
+    top: 18px; right: 18px;
+    background: var(--panel);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    font: 11px "SF Mono", ui-monospace, Menlo, monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    z-index: 20;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* ---------- card ---------- */
+  .card {
+    margin-top: 42px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 40px 44px 44px;
+    position: relative;
+  }
+  @media (max-width: 720px) { .card { padding: 28px 22px 32px; } }
+
+  .card-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 26px;
+  }
+  .card-header .rank {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .card-header h2 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.005em;
+    line-height: 1.15;
+    margin: 8px 0 6px;
+  }
+  .card-header .ticker-row {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+    letter-spacing: 0.03em;
+  }
+  .card-header .ticker-row .sep {
+    color: var(--ink-3);
+    margin: 0 8px;
+  }
+  .card-header .score {
+    text-align: right;
+    align-self: end;
+  }
+  .card-header .score .n {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 42px;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .card-header .score .l {
+    display: block;
+    margin-top: 6px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  /* section blocks inside card */
+  .block { margin-top: 26px; }
+  .block:first-of-type { margin-top: 0; }
+  .block-head {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--line-2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .block-head .n-tag {
+    color: var(--accent);
+  }
+
+  .thesis {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    letter-spacing: -0.003em;
+  }
+
+  /* KPI table */
+  table.kpi {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  table.kpi th, table.kpi td {
+    text-align: left;
+    padding: 10px 10px 10px 0;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line-2);
+  }
+  table.kpi thead th {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+    padding-bottom: 8px;
+  }
+  table.kpi tbody tr:last-child td { border-bottom: none; }
+  table.kpi td.k {
+    font-weight: 500;
+    color: var(--ink);
+    width: 22%;
+    padding-right: 12px;
+  }
+  table.kpi td.what { color: var(--ink-2); width: 30%; padding-right: 12px; font-size: 12.5px; }
+  table.kpi td.mag {
+    font-family: "SF Mono", ui-monospace, monospace;
+    color: var(--accent);
+    font-size: 12.5px;
+    width: 24%;
+    padding-right: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.kpi td.src {
+    color: var(--ink-3);
+    font-size: 11.5px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    width: 24%;
+  }
+  .kpi-caveat {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--ink-3);
+    padding: 6px 10px;
+    background: var(--warn-soft);
+    border-left: 2px solid var(--warn);
+    border-radius: 2px;
+  }
+
+  /* evidence list */
+  .evidence {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 720px) { .evidence { grid-template-columns: 1fr; } }
+  .evidence .e {
+    padding: 14px 16px;
+    background: var(--ground-2);
+    border-left: 2px solid var(--accent-2);
+    border-radius: 2px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .evidence .e strong {
+    display: block;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .evidence .e code {
+    display: inline-block;
+    margin-top: 6px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink-2);
+    background: var(--panel);
+    padding: 2px 6px;
+    border-radius: 2px;
+    border: 1px solid var(--line);
+  }
+
+  /* valuation */
+  .valuation {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px;
+    padding: 16px 20px;
+    background: var(--ground-2);
+    border-radius: 2px;
+    font-size: 13px;
+  }
+  @media (max-width: 720px) { .valuation { grid-template-columns: 1fr; } }
+  .valuation .col strong {
+    display: block;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  .valuation .col p { margin: 0; color: var(--ink); }
+  .valuation .col em {
+    display: inline-block;
+    font-style: normal;
+    font-family: "SF Mono", ui-monospace, monospace;
+    color: var(--accent);
+    font-size: 12.5px;
+  }
+
+  /* bear / triggers */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 720px) { .split { grid-template-columns: 1fr; } }
+  .split .col {
+    padding: 16px 18px;
+    border-radius: 2px;
+    background: var(--ground-2);
+    border-left: 2px solid var(--crit);
+  }
+  .split .col.trig {
+    border-left-color: var(--warn);
+  }
+  .split .col h4 {
+    margin: 0 0 10px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--crit);
+    font-weight: 500;
+  }
+  .split .col.trig h4 { color: var(--warn); }
+  .split ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .split ul li { margin-bottom: 6px; }
+  .split ul li:last-child { margin-bottom: 0; }
+
+  /* IR list */
+  .ir {
+    display: grid;
+    gap: 10px;
+  }
+  .ir .row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 16px;
+    padding: 10px 14px;
+    background: var(--ground-2);
+    border-radius: 2px;
+    align-items: baseline;
+    font-size: 13px;
+  }
+  @media (max-width: 720px) {
+    .ir .row { grid-template-columns: 1fr; gap: 4px; padding: 12px 14px; }
+  }
+  .ir .row .k {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .ir .row .v {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink);
+    word-break: break-all;
+  }
+  .ir .row .v a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .ir .row .v a:hover { border-bottom-style: solid; }
+  .ir .row .v .desc {
+    display: block;
+    font-family: -apple-system, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-top: 3px;
+    letter-spacing: 0;
+  }
+
+  /* watch events */
+  .watch { display: grid; gap: 8px; }
+  .watch .w {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 14px;
+    padding: 10px 14px;
+    background: var(--ground-2);
+    border-radius: 2px;
+    font-size: 13px;
+    align-items: baseline;
+  }
+  @media (max-width: 720px) { .watch .w { grid-template-columns: 1fr; gap: 4px; } }
+  .watch .w .when {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+  .watch .w .what { color: var(--ink); }
+  .watch .w .what small {
+    display: block;
+    color: var(--ink-3);
+    font-size: 11px;
+    margin-top: 3px;
+  }
+
+  /* disclaimer */
+  .disclaimer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .disclaimer strong { color: var(--ink-2); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; color: black; }
+    .theme-toggle, .index { display: none; }
+    .page { max-width: none; padding: 12mm; }
+    .card {
+      page-break-after: always;
+      break-after: page;
+      background: white;
+      border: none;
+      padding: 0;
+      margin-top: 0;
+    }
+    .card:last-of-type { page-break-after: auto; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button">Light / Dark</button>
+
+<div class="page">
+  <div class="eyebrow">Serenity · Evidence Cards · 2026 Q3</div>
+  <h1>物理AI Top 8 · 证据卡集</h1>
+  <p class="sub">
+    每家一张，回答 6 件事：<em>卡的是什么</em>、<em>该查什么财务口径</em>、<em>两条硬证据</em>、
+    <em>估值参照</em>、<em>反方论点与重估触发线</em>、<em>去哪查</em>。
+    数字均为 methodology-only 估算，未跑 live source；投入之前必须按每张卡最后一栏的 IR/披露 URL 亲自核对最新数字。
+  </p>
+
+  <nav class="index" aria-label="Card index">
+    <a href="#card-gev"><span class="r">#01</span>GE Vernova</a>
+    <a href="#card-mhi"><span class="r">#02</span>三菱重工</a>
+    <a href="#card-shin"><span class="r">#03</span>信越化学</a>
+    <a href="#card-hynix"><span class="r">#04</span>SK 海力士</a>
+    <a href="#card-tsmc"><span class="r">#05</span>台积电</a>
+    <a href="#card-nabtesco"><span class="r">#06</span>Nabtesco</a>
+    <a href="#card-hds"><span class="r">#07</span>Harmonic Drive</a>
+    <a href="#card-keyence"><span class="r">#08</span>Keyence</a>
+  </nav>
+
+  <!-- ========== #01 GE VERNOVA ========== -->
+  <article class="card" id="card-gev">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #01 · Power &amp; Grid</span>
+        <h2>GE Vernova</h2>
+        <div class="ticker-row">
+          GEV<span class="sep">·</span>NYSE<span class="sep">·</span>US<span class="sep">·</span>大型燃气轮机 · 电网设备
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">38</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        AI 数据中心真正的短板不是芯片，是接得上电网的地方。大型燃气轮机全球只有三家能做（GEV / Siemens Energy / MHI），
+        新建工厂从下单到交付要 3&ndash;5 年。GEV 是 GE 2024 年分拆出的纯电力公司，
+        Power 分部同时含燃气/蒸汽/核/水电四条产品线，Electrification 分部含 GIS、变压器、HVDC。
+        Backlog 排到 2028+，涨价权在自己手里。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">RPO（剩余履约义务）</td>
+            <td class="what">未完成合同价值总额，反映真实 backlog</td>
+            <td class="mag">$100B+ 量级</td>
+            <td class="src">10-Q Note "Revenue"</td>
+          </tr>
+          <tr>
+            <td class="k">Power EBITDA margin</td>
+            <td class="what">Power 分部经营利润率（不含 Wind）</td>
+            <td class="mag">~10-13%</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Gas 分部订单</td>
+            <td class="what">单季新签 gas turbine 订单额</td>
+            <td class="mag">同比 &gt;50% 增速</td>
+            <td class="src">Earnings Release</td>
+          </tr>
+          <tr>
+            <td class="k">Free Cash Flow</td>
+            <td class="what">全年 FCF、Working Capital 释放节奏</td>
+            <td class="mag">$1.5-3B 区间</td>
+            <td class="src">Cash Flow Statement</td>
+          </tr>
+          <tr>
+            <td class="k">Wind 减亏进度</td>
+            <td class="what">Onshore/Offshore Wind 由亏转平的时点</td>
+            <td class="mag">2026-2027 目标</td>
+            <td class="src">Investor Day</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。以最新 10-K/10-Q 为准。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          10-Q 中 Segment Reporting 会按 Power / Wind / Electrification 拆开披露 backlog 与 EBITDA。
+          Gas 单产品线的 order intake 在管理层 script 里会点名。
+          <code>SEC EDGAR · 10-Q · Segment</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          每季度 Earnings Call 管理层会给 Power capacity guidance（未来 3-5 年 gas 交付节奏）。
+          transcript 是判断"backlog 会不会兑现"最直接的窗口。
+          <code>Earnings Call transcript</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>2024-04 分拆后独立上市，历史区间短。当前 <em>EV/EBITDA ~30x+</em>，对电力设备而言处于历史上沿。
+          对标 Siemens Energy (SIEGY) 和 MHI (7011.T) 有意义。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>股价从 IPO 涨幅巨大，估值已包含 2027-2028 假设。
+          若 AI capex 增速回到 GDP+ 常态，多头需要多两年才能重回 15% CAGR 通道。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>Power backlog 含大量 legacy 蒸汽/水电，纯 gas backlog 单看不如 headline 强</li>
+            <li>AI capex 2027-2028 见顶后新签订单降速，已有 backlog 交付节奏受限</li>
+            <li>Wind 板块持续拖累现金流，减亏进度低于预期概率不小</li>
+            <li>估值已在极高分位，任何 miss 都是 15-25% 回撤起</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>Power 分部 book-to-bill 连续 2 季 &lt; 1.0</li>
+            <li>单季 Gas order intake YoY 转负</li>
+            <li>管理层下修 Power EBITDA margin guidance</li>
+            <li>Siemens Energy / MHI 在北美中东关键项目抢单成功</li>
+            <li>Wind 减亏时间表推后 &gt; 12 个月</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations</span>
+          <span class="v"><a href="https://www.gevernova.com/investors" target="_blank" rel="noopener">gevernova.com/investors</a>
+            <span class="desc">季报、Investor Day、Analyst Day 幻灯片</span></span>
+        </div>
+        <div class="row">
+          <span class="k">SEC EDGAR</span>
+          <span class="v"><a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001996810&type=10-K" target="_blank" rel="noopener">sec.gov/cgi-bin/browse-edgar (CIK 0001996810)</a>
+            <span class="desc">10-K / 10-Q / 8-K 一手 filings</span></span>
+        </div>
+        <div class="row">
+          <span class="k">Press / Orders</span>
+          <span class="v"><a href="https://www.gevernova.com/news" target="_blank" rel="noopener">gevernova.com/news</a>
+            <span class="desc">重大订单公告（数据中心项目常在此披露）</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏</span>
+          <span class="v">Q1 · 4月末 &nbsp;/&nbsp; Q2 · 7月末 &nbsp;/&nbsp; Q3 · 10月末 &nbsp;/&nbsp; Q4/FY · 1-2月</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一季度</span><span class="what">Earnings Release + Call<small>Power / Gas backlog 是关键；管理层是否上修 2026 margin guidance</small></span></div>
+        <div class="w"><span class="when">Q4 期间</span><span class="what">Power-Gen International 展会<small>公开的技术路线与订单信号</small></span></div>
+        <div class="w"><span class="when">年度</span><span class="what">Investor Day / Analyst Meeting<small>Wind 减亏路径、SMR 小型模块化核电进度</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #02 MHI ========== -->
+  <article class="card" id="card-mhi">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #02 · Energy &amp; Defence</span>
+        <h2>三菱重工 · Mitsubishi Heavy Industries</h2>
+        <div class="ticker-row">
+          7011.T<span class="sep">·</span>TSE Prime<span class="sep">·</span>JP<span class="sep">·</span>大型燃气轮机 · 防卫综合体
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">37</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        大型燃气轮机全球三家垄断之一。相对 GEV 有两个额外 tailwind：日元弱 → 汇率利好；
+        日本国防开支目标 GDP 2% → 防卫·宇宙 板块直接受益。
+        综合体属性稀释纯电力弹性，但也提供了周期缓冲——航空/造船/防卫/工厂设备各不完全同步。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">受注残高（backlog）</td>
+            <td class="what">全公司未交付订单总额</td>
+            <td class="mag">¥10T+ 量级</td>
+            <td class="src">決算短信 · 業績</td>
+          </tr>
+          <tr>
+            <td class="k">Energy 分部订单</td>
+            <td class="what">Energy 板块单季 order intake</td>
+            <td class="mag">同比 20%+ 增速</td>
+            <td class="src">Segment 説明資料</td>
+          </tr>
+          <tr>
+            <td class="k">防卫·宇宙 分部营收</td>
+            <td class="what">国防+航天板块营收占比</td>
+            <td class="mag">Group 10-15%</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Operating margin</td>
+            <td class="what">集团 OP margin 与主要分部拆分</td>
+            <td class="mag">~6-8%</td>
+            <td class="src">損益計算書</td>
+          </tr>
+          <tr>
+            <td class="k">配当&amp;自社株买（还元）</td>
+            <td class="what">分红率 + 回购计划</td>
+            <td class="mag">稳步提升</td>
+            <td class="src">還元方針</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。以最新四半期決算短信为准。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          決算短信「受注残高」项按分部披露 backlog 变化。Energy 板块内部会进一步拆 Gas / Steam / Nuclear，这是判断 gas 单独强度的关键。
+          <code>四半期決算短信</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          半期报告"セグメント別業績"含分部经营利润率与订单趋势。防卫分部单独披露 order intake 与残高。
+          <code>半期報告書 · Segment</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PBR ~1x</em> 是重工股常态。当前涨到 <em>PBR 2x+</em>、<em>PER 20x+</em>，处于历史高分位。
+          相对 GEV 更便宜但相对自身历史很贵。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>综合体折价（sum-of-parts 折扣）历史存在。当日本产业整体估值中枢回落时，会先杀这类涨幅大的综合体。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>综合体属性稀释 gas turbine 单独弹性</li>
+            <li>日元升值时汇率利好被吐回</li>
+            <li>日本股东回报文化改善但节奏慢于欧美同行</li>
+            <li>已上涨过多，短期回撤 15-25% 属常态</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>半期报 Energy 分部订单 book-to-bill &lt; 1.0</li>
+            <li>USDJPY 从 150 附近回到 130-135 区间</li>
+            <li>日本国防订单低于市场预期</li>
+            <li>Gas 分部 EBITDA margin 未如期扩张</li>
+            <li>还元方針明显低于预期</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://www.mhi.com/finance" target="_blank" rel="noopener">mhi.com/finance</a>
+            <span class="desc">四半期決算資料、IR プレゼン、統合報告書</span></span>
+        </div>
+        <div class="row">
+          <span class="k">TDnet 披露</span>
+          <span class="v"><a href="https://www2.tse.or.jp/tseHpFront/JJK010010Action.do" target="_blank" rel="noopener">tse.or.jp (搜索 7011)</a>
+            <span class="desc">东京证券交易所适时开示（含订单、还元、股东会）</span></span>
+        </div>
+        <div class="row">
+          <span class="k">EDINET</span>
+          <span class="v"><a href="https://disclosure2.edinet-fsa.go.jp/" target="_blank" rel="noopener">disclosure2.edinet-fsa.go.jp</a>
+            <span class="desc">金融厅 EDINET，有价证券报告书（年度）、四半期报告书</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏 (3月决算)</span>
+          <span class="v">Q1 · 8月上旬 &nbsp;/&nbsp; Q2半期 · 11月上旬 &nbsp;/&nbsp; Q3 · 2月上旬 &nbsp;/&nbsp; 通期 · 5月上旬</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">四半期決算短信 + Call<small>Energy 分部 order intake 与全年 guidance 上修/维持</small></span></div>
+        <div class="w"><span class="when">12月-1月</span><span class="what">日本次年度国防预算案<small>影响防卫·宇宙分部中期营收假设</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">Gas Turbine 关键订单公告<small>TDnet 适时开示，含数据中心/中东项目</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #03 SHIN-ETSU ========== -->
+  <article class="card" id="card-shin">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #03 · Materials</span>
+        <h2>信越化学 · Shin-Etsu Chemical</h2>
+        <div class="ticker-row">
+          4063.T<span class="sep">·</span>TSE Prime<span class="sep">·</span>JP<span class="sep">·</span>硅片 · EUV 光刻胶
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">36</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        12 寸硅片全球双寡头之一（另一家 SUMCO）+ EUV 光刻胶顶尖玩家。
+        HBM 和逻辑代工扩产都必须从这里买材料。
+        同时通过美国子公司 Shintech 掌控 PVC/氯乙烯业务，提供跨周期稳定现金流——这是信越估值一直高于同行的关键结构原因。
+        "基础中的基础"，扩产靠积累不靠钱。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">半導体シリコン 营收</td>
+            <td class="what">硅片板块单季/全年营收</td>
+            <td class="mag">¥900B+/年</td>
+            <td class="src">Segment 決算</td>
+          </tr>
+          <tr>
+            <td class="k">半導体シリコン OP margin</td>
+            <td class="what">硅片经营利润率（业内最高）</td>
+            <td class="mag">~30-38%</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Electronics 分部</td>
+            <td class="what">光刻胶（EUV/ArF）板块营收</td>
+            <td class="mag">¥400B/年 量级</td>
+            <td class="src">Segment 決算</td>
+          </tr>
+          <tr>
+            <td class="k">Vinyls (PVC) OP</td>
+            <td class="what">氯乙烯板块经营利润，Shintech 贡献</td>
+            <td class="mag">周期性大</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Capex 计划</td>
+            <td class="what">硅片扩产 capex 与折旧节奏</td>
+            <td class="mag">保守稳步</td>
+            <td class="src">IR 決算説明会</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。以最新有価証券報告書为准。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          決算短信 Segment Reporting：Silicon Wafer 板块产能利用率 + Q&amp;A 中的下季度 guidance。硅片行业周期领先 HBM 一个季度。
+          <code>四半期決算</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          有価証券報告書：EUV 光刻胶 vs KrF/ArF 收入结构 + 主要客户地区分布（韩国/台湾/中国大陆比例）。
+          <code>有価証券報告書 (年度)</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 中枢 20-25x</em>、<em>PBR 3-4x</em>。当前接近历史中位偏上。
+          相对 SUMCO 有溢价（业务多元化更强 + margin 更高）。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>半导体资本开支周期性回落时会杀估值。Silicon Wafer 是"跟随型"，弹性追不上 HBM 或 CoWoS 直接标的。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>Silicon Wafer 是 "跟随而非领涨"，追不上直接算力弹性</li>
+            <li>半导体资本开支周期回落时估值杀得厉害</li>
+            <li>中国大陆硅片产能扩张，长期威胁定价权</li>
+            <li>PVC 板块周期波动也大，占比不小</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>硅片板块 OP margin 掉到 &lt; 30%</li>
+            <li>300mm wafer 出货量 QoQ 转负</li>
+            <li>SUMCO 大幅降价抢单</li>
+            <li>Shintech (PVC) 需求超预期回落</li>
+            <li>EUV 光刻胶被 JSR / TOK 反超份额</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://www.shinetsu.co.jp/en/ir/" target="_blank" rel="noopener">shinetsu.co.jp/en/ir</a>
+            <span class="desc">半期/通期决算資料、統合報告書</span></span>
+        </div>
+        <div class="row">
+          <span class="k">IR 資料庫</span>
+          <span class="v"><a href="https://www.shinetsu.co.jp/en/ir/library/" target="_blank" rel="noopener">shinetsu.co.jp/en/ir/library/</a>
+            <span class="desc">历年年报、决算说明会资料</span></span>
+        </div>
+        <div class="row">
+          <span class="k">TDnet / EDINET</span>
+          <span class="v">TDnet 搜索 4063 &nbsp;/&nbsp; EDINET 搜索 "信越化学"
+            <span class="desc">适时开示 + 有価証券報告書</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏 (3月决算)</span>
+          <span class="v">Q1 · 7月末 &nbsp;/&nbsp; Q2半期 · 10月末-11月 &nbsp;/&nbsp; Q3 · 2月上旬 &nbsp;/&nbsp; 通期 · 4月末-5月</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">四半期決算短信 + Call<small>硅片 OP margin + Electronics 分部增速；管理层对下季 wafer 需求的口径</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">SUMCO 决算作为交叉验证<small>SUMCO 单季 gap 与信越比较，判断行业景气</small></span></div>
+        <div class="w"><span class="when">年度</span><span class="what">通期決算+ 事业方针说明会<small>中期硅片扩产计划的口径变化</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #04 SK HYNIX ========== -->
+  <article class="card" id="card-hynix">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #04 · HBM Champion</span>
+        <h2>SK 海力士 · SK Hynix</h2>
+        <div class="ticker-row">
+          000660.KS<span class="sep">·</span>KOSPI<span class="sep">·</span>KR<span class="sep">·</span>HBM3E / HBM4 · DRAM
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">35</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        HBM 领域全球领导者，HBM3E 独家绑定 Nvidia，产能预售到 2026 底。
+        HBM4 又领先一代（三星还在追赶通过 Nvidia 认证）。
+        对比"综合体"型的三星，海力士是"纯 HBM/DRAM"，波动大但 alpha 最直接。
+        AI 算力最锐的杠杆。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">HBM 占 DRAM 收入比</td>
+            <td class="what">HBM 单季收入 / DRAM 总收入</td>
+            <td class="mag">40%+ 目标</td>
+            <td class="src">Quarterly Earnings</td>
+          </tr>
+          <tr>
+            <td class="k">DRAM Blended ASP QoQ</td>
+            <td class="what">混合 DRAM 平均单价环比</td>
+            <td class="mag">关键领先指标</td>
+            <td class="src">Earnings Q&amp;A</td>
+          </tr>
+          <tr>
+            <td class="k">Bit Growth QoQ</td>
+            <td class="what">Bit shipment 环比</td>
+            <td class="mag">HBM 拉动结构性提升</td>
+            <td class="src">Earnings Release</td>
+          </tr>
+          <tr>
+            <td class="k">Capex 全年计划</td>
+            <td class="what">全年 capex 与 HBM 产能扩张匹配度</td>
+            <td class="mag">2025 略上修</td>
+            <td class="src">Investor Day / Call</td>
+          </tr>
+          <tr>
+            <td class="k">Net Debt / Net Cash</td>
+            <td class="what">净现金/净债务演化</td>
+            <td class="mag">已由负转正</td>
+            <td class="src">Balance Sheet</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。以最新 Quarterly Earnings Release 为准。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          Quarterly Earnings Release 中会明确披露 HBM revenue 占比、bit growth、ASP QoQ。Q&amp;A 中管理层通常会提到下季 HBM guidance。
+          <code>Quarterly Earnings PDF</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          年度 CEO Investor Day（通常 5 月）给中长期 HBM4/HBM5 路线图 + Nvidia 认证进度节点。
+          <code>Investor Day 幻灯片</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 5-15x</em>（周期股常态），当前处于上沿。<em>PBR 1-2.5x</em> 区间。
+          HBM 结构性提升让"周期股"叙事在 2024-2026 部分改写为"成长股"，但 investors 需警惕何时切回。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>三家 (Hynix / 三星 / Micron) HBM capex 竞赛，供给过剩风险不能排除。历史上韩国存储股 P/E 高分位后回撤都很快。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>HBM 大厂 capex 竞赛 → 2026-2027 供给过剩风险</li>
+            <li>HBM3E/HBM4 快速迭代压缩单代盈利期</li>
+            <li>韩国地缘（对华出口 + CHIPS 限制）</li>
+            <li>三星如通过 Nvidia 12-Hi 认证 → 抢份额</li>
+            <li>Nvidia 单一大客户依赖</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>三星 HBM3E 12-Hi 通过 Nvidia 认证公告</li>
+            <li>DRAM Blended ASP 连续 2 季 QoQ 转负</li>
+            <li>单季 HBM revenue 环比转负</li>
+            <li>Nvidia 下修 GPU shipment guidance</li>
+            <li>三星 / Micron capex YoY 超预期上修 &gt; 30%</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://www.skhynix.com/eng/ir/irMain.jsp" target="_blank" rel="noopener">skhynix.com/eng/ir/irMain.jsp</a>
+            <span class="desc">Quarterly Earnings Release + Investor Day 幻灯片</span></span>
+        </div>
+        <div class="row">
+          <span class="k">DART (金融监管院)</span>
+          <span class="v"><a href="https://dart.fss.or.kr/" target="_blank" rel="noopener">dart.fss.or.kr</a>
+            <span class="desc">搜索 "SK하이닉스" 或 000660，含季报/年报/临时公告</span></span>
+        </div>
+        <div class="row">
+          <span class="k">KRX 交易所披露</span>
+          <span class="v"><a href="https://kind.krx.co.kr/" target="_blank" rel="noopener">kind.krx.co.kr</a>
+            <span class="desc">KRX Kind 系统，适时披露与股东会材料</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏</span>
+          <span class="v">Q1 · 4月末 &nbsp;/&nbsp; Q2 · 7月末 &nbsp;/&nbsp; Q3 · 10月末 &nbsp;/&nbsp; Q4/FY · 1月末</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">Quarterly Earnings + Call<small>HBM 占比、ASP QoQ、下季 guidance；Nvidia 客户结构口径</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">三星 Nvidia HBM 认证公告<small>如果三星通过，海力士份额与议价力短期承压</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">TrendForce / DRAMeXchange 现货价<small>HBM 与 DDR5 价格变化领先季报</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #05 TSMC ========== -->
+  <article class="card" id="card-tsmc">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #05 · Advanced Packaging</span>
+        <h2>台积电 · TSMC</h2>
+        <div class="ticker-row">
+          2330.TW<span class="sep">·</span>TWSE<span class="sep">·</span>TW<span class="sep">·</span>CoWoS 先进封装 · N3/N2 代工
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">34</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        AI 算力扩张的第二道物理约束（第一道是电力和 HBM，第二道就是先进封装）。
+        CoWoS 几乎独家承接 Nvidia、AMD、Broadcom 高端 GPU；N3/N2 独家承接 Apple、Nvidia、AMD 领先节点。
+        所有 physical AI 芯片弹性都要经过它。<em>代价</em>：8 个维度里地缘只有 1/5，
+        全部估值都建立在 "两岸不出事" 的前提上。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">CoWoS 月产能</td>
+            <td class="what">CoWoS 单月产能与稼动率</td>
+            <td class="mag">爬向 10-15 万片/月</td>
+            <td class="src">法说会 Q&amp;A</td>
+          </tr>
+          <tr>
+            <td class="k">HPC 平台收入占比</td>
+            <td class="what">HPC (AI + 高端 CPU/GPU) 平台占总营收</td>
+            <td class="mag">50%+ 目标</td>
+            <td class="src">法说会 Segment</td>
+          </tr>
+          <tr>
+            <td class="k">N3 + N2 收入占比</td>
+            <td class="what">领先制程 N3 + N2 收入合计占比</td>
+            <td class="mag">持续上升</td>
+            <td class="src">法说会 Segment</td>
+          </tr>
+          <tr>
+            <td class="k">Gross Margin</td>
+            <td class="what">毛利率长期指引</td>
+            <td class="mag">53-55%+</td>
+            <td class="src">Guidance</td>
+          </tr>
+          <tr>
+            <td class="k">Monthly Revenue</td>
+            <td class="what">每月披露上月营收（罕见的月频数据）</td>
+            <td class="mag">YoY 增速关键</td>
+            <td class="src">MOPS 月营收公告</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。台积电月营收是全产业链的重要领先指标，每月 10 号左右披露上月。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          法说会 Q&amp;A 中 CoWoS 产能扩张进度是常规话题，管理层会给中期路线图（3-5 年后产能翻倍口径）。
+          <code>Quarterly Earnings Call</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          Monthly Revenue 每月 10 号左右披露上月营收 + YoY/MoM。这是全球半导体产业链最重要的月频领先指标之一。
+          <code>MOPS · 月營收公告</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 15-25x</em> 区间，当前处于中位偏上。<em>PBR ~5-6x</em>。
+          ADR 与本地股价可能有 discount/premium，可交叉验证情绪。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>非基本面因素（地缘）如尾部风险不能对冲，就该结构性折价。
+          市场往往在事件发生前定价不足，事发时 20-30% 一夜蒸发。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>台海地缘 · 大选/军事演习窗口尾部风险</li>
+            <li>Nvidia 单一大客户集中度过高</li>
+            <li>CoWoS 扩产节奏若低于 Nvidia GPU 出货 → 客户流失机会</li>
+            <li>Intel Foundry / 三星 Foundry 追赶（长期威胁）</li>
+            <li>美国境外产能占比过高（政策扶持转向 Intel）</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>CoWoS 月产能扩张进度不及市场共识</li>
+            <li>Monthly Revenue 连续 2 个月 YoY 转负</li>
+            <li>Apple / Nvidia 明确将部分订单转向 Samsung 或 Intel</li>
+            <li>台海军事演习频次或强度显著上升</li>
+            <li>Gross margin 长期指引下修</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://investor.tsmc.com/" target="_blank" rel="noopener">investor.tsmc.com</a>
+            <span class="desc">法说会简报、Investor Day 幻灯片、年报</span></span>
+        </div>
+        <div class="row">
+          <span class="k">MOPS 台交所</span>
+          <span class="v"><a href="https://mops.twse.com.tw/mops/web/index" target="_blank" rel="noopener">mops.twse.com.tw (搜索 2330)</a>
+            <span class="desc">公开资讯观测站 · 月营收 + 季报 + 重大讯息</span></span>
+        </div>
+        <div class="row">
+          <span class="k">Monthly Revenue</span>
+          <span class="v">每月约 10 号披露上月合并营收
+            <span class="desc">半导体产业链最重要的月频领先指标之一</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏</span>
+          <span class="v">Q1 · 4月中 &nbsp;/&nbsp; Q2 · 7月中 &nbsp;/&nbsp; Q3 · 10月中 &nbsp;/&nbsp; Q4/FY · 1-2月</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">每月 10 日</span><span class="what">Monthly Revenue<small>YoY 增速 + HPC/AI 相关表述</small></span></div>
+        <div class="w"><span class="when">下一次法说</span><span class="what">Quarterly Earnings + Call<small>CoWoS 产能扩张口径 + 长期毛利率指引</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">Nvidia / AMD 新品发布<small>新品对 CoWoS 需求的边际拉动</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #06 NABTESCO ========== -->
+  <article class="card" id="card-nabtesco">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #06 · Robotics Joint</span>
+        <h2>Nabtesco</h2>
+        <div class="ticker-row">
+          6268.T<span class="sep">·</span>TSE Prime<span class="sep">·</span>JP<span class="sep">·</span>RV 精密减速器
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">34</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        工业机器人 RV 减速器全球 60%+ 份额（Harmonic Drive 占谐波、Nabtesco 占 RV，各领风骚）。
+        人形机器人量产阶段 RV 仍是主流方案。认证壁垒 6-12 个月，客户切换成本极高。
+        另有列车/商用车制动器、飞机零部件等业务提供稳定基础。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">Component Solutions 营收</td>
+            <td class="what">精密减速机分部营收</td>
+            <td class="mag">¥80-120B/年</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Component Solutions OP margin</td>
+            <td class="what">精密减速机分部经营利润率</td>
+            <td class="mag">~10-20% (周期)</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Robotics vs Machine Tool 拆分</td>
+            <td class="what">机器人 vs 机床用途占比</td>
+            <td class="mag">Robotics 优先增长</td>
+            <td class="src">決算補足資料</td>
+          </tr>
+          <tr>
+            <td class="k">Transport Solutions 营收</td>
+            <td class="what">列车/商用车制动器板块</td>
+            <td class="mag">稳定基础</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Global market share (RV)</td>
+            <td class="what">RV 全球份额官方口径</td>
+            <td class="mag">60%+</td>
+            <td class="src">IR プレゼン</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。Nabtesco 会计年度为 12 月决算，与其他日企不同，请注意披露节奏。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          決算補足資料 Segment 拆分：Component Solutions 内 Robotics vs Machine Tool 出货占比（判断人形机器人业务弹性）。
+          <code>决算补足资料</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          有価証券報告書：全球主要客户结构（Fanuc / Yaskawa / ABB / KUKA 等占比，特斯拉/宇树相关披露）。
+          <code>有価証券報告書</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 20-35x</em>、<em>PBR 1.5-3x</em>。当前偏中位。
+          相对 Harmonic Drive (6324.T) 估值更便宜（Nabtesco 综合体属性稀释了机器人纯弹性）。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>机器人业务只占集团一部分。综合体属性让"人形机器人风口"在股价上的反映不如 Harmonic 直接。要爆发弹性其实更该看 Harmonic。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>中国厂商追赶（双环传动、绿的谐波）—— 主要威胁在谐波但 RV 也在缓慢渗透</li>
+            <li>工业机器人周期性 —— 全球工业机器人订单转弱直接冲击</li>
+            <li>人形机器人量产延后 → 长期叙事支撑变弱</li>
+            <li>特斯拉 Optimus 若使用非 RV 方案（如 planetary gear + BLDC）→ 叙事直接杀</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>Component Solutions OP margin 掉到 &lt; 12%</li>
+            <li>Robotics 客户订单 book-to-bill &lt; 1.0</li>
+            <li>特斯拉 Optimus 官宣非 RV 减速器方案</li>
+            <li>双环传动 RV 减速器海外订单突破</li>
+            <li>全球工业机器人出货 YoY 转负</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://www.nabtesco.com/en/ir/" target="_blank" rel="noopener">nabtesco.com/en/ir</a>
+            <span class="desc">决算資料、IR プレゼン、統合報告書</span></span>
+        </div>
+        <div class="row">
+          <span class="k">IR 資料庫</span>
+          <span class="v"><a href="https://www.nabtesco.com/ir/library/" target="_blank" rel="noopener">nabtesco.com/ir/library</a>
+            <span class="desc">历年年报、决算补足資料</span></span>
+        </div>
+        <div class="row">
+          <span class="k">TDnet</span>
+          <span class="v">TDnet 搜索 6268
+            <span class="desc">东京交易所适时开示</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏 (12月决算)</span>
+          <span class="v">Q1 · 5月上旬 &nbsp;/&nbsp; Q2 · 8月上旬 &nbsp;/&nbsp; Q3 · 11月上旬 &nbsp;/&nbsp; 通期 · 2月中旬</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">四半期決算 + 补足資料<small>Component Solutions 内 Robotics 占比与 OP margin；管理层对人形机器人业务口径</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">特斯拉 Optimus 关键披露<small>股东信、AI Day、Musk 推文中的减速器方案暗示</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">Harmonic Drive (6324.T) 决算<small>作为姊妹标的交叉验证机器人周期</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #07 HARMONIC DRIVE ========== -->
+  <article class="card" id="card-hds">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #07 · Robotics Joint</span>
+        <h2>Harmonic Drive Systems</h2>
+        <div class="ticker-row">
+          6324.T<span class="sep">·</span>TSE Prime<span class="sep">·</span>JP<span class="sep">·</span>谐波减速器
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">33</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        协作机器人和人形机器人主流方案里的谐波减速器，全球双寡头之一。
+        特斯拉 Optimus 早期原型件供应链。与 Nabtesco 是姊妹标的（Nabtesco 占 RV，HDS 占谐波），
+        但 HDS 更"纯"——机器人业务占比高于 Nabtesco，谐波弹性更直接。
+        代价是"纯"意味着周期波动更大。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">Precision Reducer 分部营收</td>
+            <td class="what">精密减速机分部单季/全年营收</td>
+            <td class="mag">¥60-90B/年</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">Precision Reducer OP margin</td>
+            <td class="what">分部经营利润率（周期性波动大）</td>
+            <td class="mag">~10-25% 区间</td>
+            <td class="src">Segment Reporting</td>
+          </tr>
+          <tr>
+            <td class="k">机器人业务占比</td>
+            <td class="what">机器人 vs 半导体设备 vs 其他用途</td>
+            <td class="mag">机器人 60%+</td>
+            <td class="src">決算補足資料</td>
+          </tr>
+          <tr>
+            <td class="k">Optimus 相关暗示</td>
+            <td class="what">大客户结构中是否披露 Tesla 相关</td>
+            <td class="mag">口径隐讳</td>
+            <td class="src">有価証券報告書</td>
+          </tr>
+          <tr>
+            <td class="k">中国订单占比</td>
+            <td class="what">中国大陆客户占比 → 绿的谐波替代威胁</td>
+            <td class="mag">下降中</td>
+            <td class="src">Segment 補足</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。HDS 比 Nabtesco 弹性更纯但风险更集中，两者可交叉验证。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          決算補足資料 Segment：Precision Reducer 分部内机器人 / 半导体设备 / 其他用途拆分，是判断机器人弹性纯度的关键。
+          <code>決算補足資料</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          有価証券報告書：全球客户结构（Fanuc / Yaskawa / ABB / KUKA / 宇树 / Tesla-related 暗示），
+          中国大陆销售趋势。
+          <code>有価証券報告書</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 30-50x</em> 区间（估值弹性远高于 Nabtesco），周期底部时 PBR 3-4x。
+          当前处于中位偏上。相对 Nabtesco 溢价明显。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>估值高的另一面是估值杀伤大。工业机器人周期一转弱，HDS 比 Nabtesco 先杀。
+          "纯"弹性双向都工作。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>中国绿的谐波追赶最快（HDS 直接对手，不是 Nabtesco）</li>
+            <li>特斯拉自研谐波方案 → 供应链绕开的可能性</li>
+            <li>估值溢价 + 弹性纯 = 周期回撤时下沿更深</li>
+            <li>协作机器人 vs 传统工业机器人切换节奏不确定</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>Precision Reducer OP margin 掉到 &lt; 10%</li>
+            <li>绿的谐波在海外（日本/欧洲）客户明确突破</li>
+            <li>特斯拉官宣自研或采用非谐波减速器</li>
+            <li>协作机器人出货量 YoY 转负（宇树、傲鲨、傅利叶等）</li>
+            <li>Nabtesco RV 抢占 HDS 的谐波客户份额</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (JP/EN)</span>
+          <span class="v"><a href="https://www.harmonicdrive.co.jp/ir/" target="_blank" rel="noopener">harmonicdrive.co.jp/ir</a>
+            <span class="desc">決算資料、IR プレゼン、中期経営計画</span></span>
+        </div>
+        <div class="row">
+          <span class="k">TDnet</span>
+          <span class="v">TDnet 搜索 6324
+            <span class="desc">东京交易所适时开示</span></span>
+        </div>
+        <div class="row">
+          <span class="k">EDINET</span>
+          <span class="v">EDINET 搜索 "ハーモニック"
+            <span class="desc">有価証券報告書（年度）</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏 (3月决算)</span>
+          <span class="v">Q1 · 8月上旬 &nbsp;/&nbsp; Q2半期 · 11月上旬 &nbsp;/&nbsp; Q3 · 2月上旬 &nbsp;/&nbsp; 通期 · 5月上旬</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">四半期決算 + 补足資料<small>Precision Reducer 分部内机器人业务占比 + margin</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">Tesla Optimus 关键披露<small>股东信、AI Day、Musk 关于减速器方案的口径</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">Nabtesco (6268.T) 决算<small>姊妹标的交叉验证机器人周期</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <!-- ========== #08 KEYENCE ========== -->
+  <article class="card" id="card-keyence">
+    <header class="card-header">
+      <div>
+        <span class="rank">Rank #08 · Vision &amp; Sensing</span>
+        <h2>Keyence</h2>
+        <div class="ticker-row">
+          6861.T<span class="sep">·</span>TSE Prime<span class="sep">·</span>JP<span class="sep">·</span>机器视觉 · 工业传感器
+        </div>
+      </div>
+      <div class="score">
+        <span class="n">31</span>
+        <span class="l">Total · Max 40</span>
+      </div>
+    </header>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">A</span>卡的是什么</div>
+      <p class="thesis">
+        机器视觉 + 工业传感器全球顶尖玩家，工业自动化的"眼睛"和"皮肤"。
+        OP margin 50%+ 是全球制造业的怪物级存在，人均创利业内神话。
+        物理AI 时代每台机器人身上都会有多个视觉/接近/力传感器 → 天然受益。
+        且不像纯减速器公司，Keyence 有工业自动化的稳定基础，抗周期能力比 Nabtesco/HDS 强。
+      </p>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">B</span>核心量化口径 · 该查什么</div>
+      <table class="kpi">
+        <thead><tr><th>指标</th><th>应查什么</th><th>参考量级</th><th>数据源</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="k">OP margin</td>
+            <td class="what">集团经营利润率（全球制造业最高之一）</td>
+            <td class="mag">50%+ 中枢</td>
+            <td class="src">P&amp;L</td>
+          </tr>
+          <tr>
+            <td class="k">中国营收占比</td>
+            <td class="what">中国大陆客户占集团营收比例</td>
+            <td class="mag">20%+ 区间</td>
+            <td class="src">决算補足資料</td>
+          </tr>
+          <tr>
+            <td class="k">Net Cash / 现金堆</td>
+            <td class="what">净现金总额（防守属性关键）</td>
+            <td class="mag">¥1.5T+ 现金</td>
+            <td class="src">Balance Sheet</td>
+          </tr>
+          <tr>
+            <td class="k">半导体 / 汽车 / 物流 占比</td>
+            <td class="what">下游行业结构</td>
+            <td class="mag">分散化</td>
+            <td class="src">决算 IR プレゼン</td>
+          </tr>
+          <tr>
+            <td class="k">员工人均创利</td>
+            <td class="what">人均营业利润（业内神话）</td>
+            <td class="mag">¥40M+/人</td>
+            <td class="src">有価証券報告書</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="kpi-caveat">参考量级为 methodology-only 估算，未跑 live source。Keyence 是"高质量+高估值"经典案例，防御属性强但弹性弱。</div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">C</span>两条硬证据</div>
+      <div class="evidence">
+        <div class="e">
+          <strong>Evidence 01</strong>
+          決算補足資料：地域拆分（日本 / 中国 / 美国 / 欧洲 / 其他亚洲）+ 下游行业拆分。中国营收增速是判断周期的关键。
+          <code>決算補足資料</code>
+        </div>
+        <div class="e">
+          <strong>Evidence 02</strong>
+          有価証券報告書：员工人数 + 人均创利 + 现金/短期投资明细，验证 "怪物级质量" 是否可持续。
+          <code>有価証券報告書</code>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">D</span>估值参照</div>
+      <div class="valuation">
+        <div class="col">
+          <strong>Multiples</strong>
+          <p>历史 <em>PER 30-50x</em>，一直是日本高估值代表。<em>PBR 5-7x</em>。
+          质量溢价长期存在。当前接近历史中位。</p>
+        </div>
+        <div class="col">
+          <strong>反方视角</strong>
+          <p>估值维度只有 2/5 分。质量再高，也需要成长兑现才能撑住 P/E。
+          周期回落时，"防御性" 的另一面是 "弹性不够"，涨也涨不动。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">E</span>反方论点 &amp; 重估触发</div>
+      <div class="split">
+        <div class="col">
+          <h4>反方最强论点</h4>
+          <ul>
+            <li>估值一直高在天花板，涨幅有限</li>
+            <li>物理AI 弹性远不如减速器直接</li>
+            <li>中国竞品追赶（海康、大华、维视等在机器视觉端）</li>
+            <li>如果工业自动化投资放缓，OP margin 从 50%+ 掉下来</li>
+          </ul>
+        </div>
+        <div class="col trig">
+          <h4>重估触发线</h4>
+          <ul>
+            <li>集团 OP margin 掉到 &lt; 48%</li>
+            <li>中国区营收 YoY 连续 2 季转负</li>
+            <li>员工人均创利显著下滑</li>
+            <li>半导体设备下游客户订单放缓</li>
+            <li>PBR 跌破 4x（历史下沿）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">F</span>去哪查 · IR &amp; 披露路径</div>
+      <div class="ir">
+        <div class="row">
+          <span class="k">Investor Relations (EN)</span>
+          <span class="v"><a href="https://www.keyence.com/global/company/ir/" target="_blank" rel="noopener">keyence.com/global/company/ir</a>
+            <span class="desc">决算资料、IR プレゼン、統合報告書</span></span>
+        </div>
+        <div class="row">
+          <span class="k">TDnet</span>
+          <span class="v">TDnet 搜索 6861
+            <span class="desc">东京交易所适时开示</span></span>
+        </div>
+        <div class="row">
+          <span class="k">EDINET</span>
+          <span class="v">EDINET 搜索 "キーエンス"
+            <span class="desc">有価証券報告書 · 四半期报告书</span></span>
+        </div>
+        <div class="row">
+          <span class="k">财报节奏 (3月决算)</span>
+          <span class="v">Q1 · 8月上旬 &nbsp;/&nbsp; Q2半期 · 11月上旬 &nbsp;/&nbsp; Q3 · 2月上旬 &nbsp;/&nbsp; 通期 · 5月上旬</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><span class="n-tag">G</span>未来 60 天关注</div>
+      <div class="watch">
+        <div class="w"><span class="when">下一次决算</span><span class="what">四半期決算 + 补足資料<small>中国区营收增速；OP margin 维持力度</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">中国工业机器人出货数据<small>行业协会 / IFR 数据领先 Keyence 半个季度</small></span></div>
+        <div class="w"><span class="when">滚动</span><span class="what">半导体设备下游客户订单<small>ASML / 应用材料 / 泛林订单情况</small></span></div>
+      </div>
+    </div>
+  </article>
+
+  <div class="disclaimer">
+    <strong>研究属性说明</strong>&nbsp;· 每张卡里的"参考量级"是 methodology-only 估算，<strong>未跑 live source</strong>。
+    该查什么口径 / 去哪查 / 财报节奏 / IR 网址 是基础事实；具体数字请务必按"IR &amp; 披露路径"栏亲自核对最新财报。
+    卡内容用于研究优先度排序与证据核验清单，不是买入卖出建议。所有投资决策及后果由读者自行承担。
+  </div>
+</div>
+
+<script>
+  const toggle = document.getElementById('themeToggle');
+  toggle.addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    let next;
+    if (!current) {
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = dark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+  });
+</script>

@@ -1,0 +1,792 @@
+<title>SK 海力士 · 深度研究备忘录</title>
+<style>
+  :root {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --good-soft: #E3EEDF;
+    --warn: #B57F30; --warn-soft: #F3E7D0;
+    --crit: #9A3838; --crit-soft: #F0D9D9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+      --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+      --line: #2A2E3A; --line-2: #21252F;
+      --accent: #D4A05A; --accent-2: #7DA0B8;
+      --good: #5FA47A; --good-soft: #1E3227;
+      --warn: #D4A05A; --warn-soft: #322817;
+      --crit: #C46060; --crit-soft: #33191A;
+    }
+  }
+  :root[data-theme="light"] { --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA; --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97; --line: #DDD8CA; --line-2: #ECE7D9; --accent: #A46B2C; --accent-2: #3F5A6B; --good: #3E7A54; --good-soft: #E3EEDF; --warn: #B57F30; --warn-soft: #F3E7D0; --crit: #9A3838; --crit-soft: #F0D9D9; }
+  :root[data-theme="dark"] { --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28; --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B; --line: #2A2E3A; --line-2: #21252F; --accent: #D4A05A; --accent-2: #7DA0B8; --good: #5FA47A; --good-soft: #1E3227; --warn: #D4A05A; --warn-soft: #322817; --crit: #C46060; --crit-soft: #33191A; }
+
+  html, body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", serif;
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; padding: 0; }
+  .page { max-width: 780px; margin: 0 auto; padding: 56px 32px 96px; }
+  @media (max-width: 720px) { .page { padding: 36px 18px 72px; } }
+
+  .mono { font-family: "SF Mono", "Cascadia Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .sans { font-family: -apple-system, "Segoe UI", ui-sans-serif, system-ui, sans-serif; }
+
+  /* theme toggle */
+  .theme-toggle {
+    position: fixed; top: 18px; right: 18px;
+    background: var(--panel); color: var(--ink-2);
+    border: 1px solid var(--line); padding: 6px 12px;
+    font: 11px "SF Mono", ui-monospace, monospace;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; z-index: 20;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* header */
+  .eyebrow {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
+  h1 {
+    font-weight: 500;
+    font-size: clamp(30px, 4.5vw, 42px);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-wrap: balance;
+    margin: 16px 0 8px;
+  }
+  .subtitle {
+    font-family: -apple-system, "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .meta-row {
+    display: flex; gap: 22px; flex-wrap: wrap;
+    margin-top: 20px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .meta-row strong { color: var(--ink); font-weight: 500; margin-left: 4px; }
+
+  /* one-minute callout */
+  .oneminute {
+    margin-top: 40px;
+    padding: 26px 30px;
+    background: var(--good-soft);
+    border-left: 3px solid var(--good);
+    border-radius: 2px;
+  }
+  .oneminute .lbl {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--good);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .oneminute p {
+    margin: 0 0 10px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .oneminute p:last-child { margin-bottom: 0; }
+  .oneminute em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+  /* section */
+  section { margin-top: 56px; }
+  h2 {
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.005em;
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  h2 .n {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    margin-right: 12px;
+  }
+  .lede {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: var(--ink-3);
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+
+  section p {
+    margin: 0 0 14px;
+    line-height: 1.75;
+  }
+  section p strong { color: var(--accent); font-weight: 500; }
+  section p em { font-style: normal; color: var(--accent-2); }
+
+  /* term explanation inline */
+  .term {
+    background: var(--warn-soft);
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-size: 13.5px;
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", sans-serif;
+  }
+
+  /* pull quote */
+  .pull {
+    margin: 26px 0;
+    padding: 20px 0 20px 24px;
+    border-left: 3px solid var(--accent);
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+
+  /* simple table */
+  table.simple {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13.5px;
+  }
+  table.simple th, table.simple td {
+    padding: 10px 12px 10px 0;
+    text-align: left;
+    border-bottom: 1px solid var(--line-2);
+    line-height: 1.55;
+  }
+  table.simple thead th {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 400;
+    padding-bottom: 8px;
+  }
+  table.simple tbody tr:last-child td { border-bottom: none; }
+  table.simple td.k { color: var(--accent); font-family: "SF Mono", ui-monospace, monospace; font-size: 12px; width: 25%; }
+  table.simple td.v { color: var(--ink); }
+
+  /* 3 scenarios */
+  .scenarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .scn {
+    padding: 18px 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    border-top: 3px solid var(--accent);
+  }
+  .scn.good { border-top-color: var(--good); }
+  .scn.mid { border-top-color: var(--warn); }
+  .scn.bad { border-top-color: var(--crit); }
+  .scn .name {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .scn.good .name { color: var(--good); }
+  .scn.mid .name { color: var(--warn); }
+  .scn.bad .name { color: var(--crit); }
+  .scn .prob {
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .scn .desc {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.6;
+    margin: 8px 0 12px;
+  }
+  .scn .reward {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    padding-top: 10px;
+    border-top: 1px solid var(--line-2);
+  }
+  .scn.good .reward { color: var(--good); }
+  .scn.mid .reward { color: var(--warn); }
+  .scn.bad .reward { color: var(--crit); }
+
+  /* watchlist */
+  .watch-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-2);
+    align-items: baseline;
+  }
+  .watch-item:last-child { border-bottom: none; }
+  .watch-item .when {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    padding-top: 3px;
+  }
+  .watch-item .what {
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .watch-item .what small {
+    display: block;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* Q&A */
+  .qa {
+    margin: 14px 0;
+    padding: 16px 20px;
+    background: var(--ground-2);
+    border-radius: 3px;
+  }
+  .qa .q {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--crit);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .qa .q-text {
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  .qa .a {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--good);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+  }
+  .qa .a-text {
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 13.5px;
+    color: var(--ink-2);
+    line-height: 1.65;
+  }
+
+  /* IR list */
+  .ir-list {
+    display: grid;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .ir-row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    padding: 8px 0;
+    font-size: 13px;
+    align-items: baseline;
+  }
+  .ir-row .k {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+  }
+  .ir-row .v {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--ink);
+    word-break: break-all;
+  }
+  .ir-row .v a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--accent);
+  }
+  .ir-row .v a:hover { border-bottom-style: solid; }
+
+  /* checklist */
+  .checklist {
+    margin: 16px 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: item;
+  }
+  .checklist li {
+    counter-increment: item;
+    padding: 12px 0 12px 42px;
+    position: relative;
+    border-bottom: 1px solid var(--line-2);
+    line-height: 1.6;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 14px;
+  }
+  .checklist li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.06em;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li small {
+    display: block;
+    color: var(--ink-3);
+    font-size: 12.5px;
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+
+  /* final */
+  .final {
+    margin-top: 60px;
+    padding: 28px 30px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 4px;
+  }
+  :root[data-theme="dark"] .final,
+  @media (prefers-color-scheme: dark) { .final { color: #101017; } }
+  .final .lbl {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 10px;
+  }
+  .final p {
+    font-size: 17px;
+    line-height: 1.65;
+    margin: 0;
+    letter-spacing: -0.005em;
+    font-weight: 500;
+  }
+
+  /* disclaimer */
+  .disclaimer {
+    margin-top: 48px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.65;
+  }
+  .disclaimer strong { color: var(--ink-2); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; color: black; }
+    .theme-toggle { display: none; }
+    .page { max-width: none; padding: 15mm; }
+    section { page-break-inside: avoid; }
+    h2 { page-break-after: avoid; }
+    .final { background: none; color: black; border: 1px solid #333; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button">Light / Dark</button>
+
+<div class="page">
+  <div class="eyebrow">Serenity · Company Memo · 2026-07-06</div>
+  <h1>SK 海力士 · 深度研究备忘录</h1>
+  <p class="subtitle">
+    全球第二大内存芯片公司，也是当下 AI 硬件里最锐的一把刀。
+    这份备忘录用中等专业度讲清楚三件事：<em>为什么它值钱</em>、<em>怎么可能不值钱</em>、<em>接下来 90 天该怎么盯</em>。
+  </p>
+  <div class="meta-row">
+    <span>代码 <strong>000660.KS</strong></span>
+    <span>市场 <strong>韩国 KOSPI</strong></span>
+    <span>评分 <strong>35 / 40</strong></span>
+    <span>排名 <strong>Top 8 · #04</strong></span>
+    <span>研究属性 <strong>方法论 · 未跑 live source</strong></span>
+  </div>
+
+  <!-- ============ 一分钟速读 ============ -->
+  <div class="oneminute">
+    <div class="lbl">一分钟速读</div>
+    <p>SK 海力士是韩国 SK 集团旗下的芯片公司，主要做两件事：卖手机电脑用的 <em>普通内存 (DRAM)</em>，
+    以及 AI 服务器专用的 <em>高速内存 (HBM)</em>。</p>
+    <p><em>HBM 是每台 Nvidia AI 芯片必须搭配的东西</em>——AI 需求越大，HBM 需求越大。
+    全世界只有 3 家能做 HBM（海力士、三星、美光），海力士做得最好，独占 Nvidia 大部分订单，产能已经预售到 2026 年底。</p>
+    <p><em>值得研究的理由</em>：AI 算力最直接的杠杆。<em>可能踩雷的理由</em>：
+    韩国存储股历史上波动极大，遇到 AI 需求回落 / 三星追上 / 朝鲜半岛出事，30-50% 回撤是常态。</p>
+  </div>
+
+  <!-- ============ 01 ============ -->
+  <section>
+    <h2><span class="n">01</span>它到底是干嘛的</h2>
+    <p class="lede">1 分钟看懂业务结构</p>
+
+    <p>SK 海力士的收入基本来自三块：</p>
+
+    <table class="simple">
+      <thead><tr><th>业务</th><th>是什么</th><th>占比（参考）</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k">DRAM · 普通内存</td>
+          <td class="v">你手机、电脑、服务器里的内存条。产业周期性明显：好年份价格翻倍，坏年份腰斩。</td>
+          <td class="k">约 70%</td>
+        </tr>
+        <tr>
+          <td class="k">NAND · 闪存</td>
+          <td class="v">SSD 硬盘、手机存储用的芯片。也是周期股，且行业过剩比 DRAM 更严重。</td>
+          <td class="k">约 20%</td>
+        </tr>
+        <tr>
+          <td class="k">HBM · 高速内存</td>
+          <td class="v">DRAM 的"高端版本"——专门给 Nvidia、AMD 的 AI 芯片配套。</td>
+          <td class="k">约 10-15% 且快速上升</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><span class="term">HBM (High Bandwidth Memory)</span> 是这份 memo 的核心。它是把好几层 DRAM 堆叠在一起，
+    加上极粗的数据通道，专门为 AI 芯片设计的高速内存。</p>
+
+    <p class="pull">
+      HBM 就像给 Nvidia 造豪车用的顶配轮胎——芯片再强，配不上高带宽内存也跑不动。
+    </p>
+
+    <p>2024-2026 期间，Google、Meta、Microsoft、Amazon 疯狂买 Nvidia 的 AI 芯片建数据中心，
+    每一台 GPU 都必须搭配 HBM。这波需求让海力士从"周期性存储厂"变成了"AI 卖铲人"。</p>
+    <p><strong>一句话总结</strong>：现在的海力士，看它不能像看传统 DRAM 厂那样看，
+    要把它当作"Nvidia 的关键供应商"来看。</p>
+  </section>
+
+  <!-- ============ 02 ============ -->
+  <section>
+    <h2><span class="n">02</span>凭什么值钱 · 三条护城河</h2>
+    <p class="lede">为什么客户离不开它</p>
+
+    <p><strong>护城河 1 · AI 芯片必须要它</strong><br>
+    Nvidia 的 H100 / H200 / B200 / GB200 系列芯片，每一款都必须配 HBM 才能工作。
+    不是"最好配"，是"必须配"——芯片自己没这个能力。
+    只要 AI capex（Google/Meta/MSFT/AMZN 花在数据中心的钱）还在增长，HBM 需求就在增长。</p>
+
+    <p><strong>护城河 2 · 全世界只有 3 家能做</strong><br>
+    海力士、三星、美光。想要新玩家进来？<em>建一座 HBM 工厂大约要花 1000 亿人民币，从建到量产要 3-5 年，
+    还要几年跟客户认证</em>——所以中国 CXMT 就算追赶最积极，短期 3-5 年也追不上。</p>
+
+    <p><strong>护城河 3 · 海力士做得最好</strong><br>
+    这条最重要。3 家里，海力士是第一个把 <span class="term">HBM3E 12-Hi</span>（第 4 代 HBM 的 12 层堆叠版）
+    送进 Nvidia 认证并大规模量产的。三星到 2026 上半年还没通过 Nvidia 的 HBM3E 12-Hi 认证，美光量产爬坡也比海力士晚。</p>
+
+    <p>结果就是：<em>Nvidia 采购 HBM 里，海力士占大约 60-70%（需核验最新口径），产能已经预售到 2026 年底。</em></p>
+
+    <p class="pull">
+      在最热的 AI 硬件生意里，海力士是"卖得最贵的一家"——因为客户没得选。
+    </p>
+
+    <p><strong>一句话总结</strong>：海力士的护城河不是"技术领先一代"，而是"技术领先一代 + 客户已经绑死 + 产能已经排满"。</p>
+  </section>
+
+  <!-- ============ 03 ============ -->
+  <section>
+    <h2><span class="n">03</span>它现在有多值钱 · 估值一览</h2>
+    <p class="lede">贵不贵？以什么价位算合理？</p>
+
+    <p>股票值不值钱，最简单的算法是 <span class="term">P/E (市盈率)</span>——公司市值除以一年的净利润。
+    比如市值 100 亿、一年赚 10 亿，那 P/E 就是 10 倍。你花 10 块钱买它，它一年赚 1 块给你。</p>
+
+    <table class="simple">
+      <thead><tr><th>指标</th><th>参考数据</th><th>怎么理解</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="k">P/E 历史区间</td>
+          <td class="v">5 - 15 倍</td>
+          <td class="v">存储股本来就是过山车股，好年份 15 倍、坏年份 5 倍</td>
+        </tr>
+        <tr>
+          <td class="k">当前 P/E</td>
+          <td class="v">大约 10-13 倍（需核验）</td>
+          <td class="v">处于历史中位偏上，涨过一波但没到疯狂</td>
+        </tr>
+        <tr>
+          <td class="k">P/B 市净率</td>
+          <td class="v">1.5 - 2.5 倍</td>
+          <td class="v">相对净资产的溢价（合理区间）</td>
+        </tr>
+        <tr>
+          <td class="k">分红率</td>
+          <td class="v">股息率 1-2%</td>
+          <td class="v">韩国存储厂分红一直不高，主要靠成长</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>关键判断分歧</strong>：市场现在正在辩论一件事——海力士还是"过山车股"，还是"电梯股"？</p>
+
+    <p><em>如果还是过山车股</em>：现在 P/E 12 倍偏贵，最终要杀到 5-6 倍（腰斩）。</p>
+    <p><em>如果变成电梯股</em>：现在 P/E 12 倍便宜，可以给到 20-25 倍（还能翻倍）。</p>
+
+    <p class="pull">
+      这个分歧本身就是海力士这只股票最大的定价错位来源——不同的答案对应不同的估值区间。
+    </p>
+
+    <p><strong>一句话总结</strong>：<em>贵不贵取决于你信 HBM 结构性成长有多长</em>。
+    信 1 年，现在偏贵；信 3 年，现在合理；信 5 年，现在便宜。</p>
+  </section>
+
+  <!-- ============ 04 ============ -->
+  <section>
+    <h2><span class="n">04</span>三种可能的未来</h2>
+    <p class="lede">乐观 / 中性 / 悲观 · 概率是我的主观判断，仅供参考</p>
+
+    <div class="scenarios">
+      <div class="scn good">
+        <div class="name">乐观 · 30%</div>
+        <div class="prob">上行 +50~100%</div>
+        <div class="desc">HBM4/HBM5 继续独占 Nvidia，AI capex 保持 30%+ 增速，海力士"电梯股"叙事被市场接受。</div>
+        <div class="reward">2-3 年内翻倍</div>
+      </div>
+      <div class="scn mid">
+        <div class="name">中性 · 45%</div>
+        <div class="prob">震荡 -10~+30%</div>
+        <div class="desc">三星 2027 通过 Nvidia HBM 认证，海力士份额从 60% 降到 40-50%，AI capex 增速回落到 15-25%。</div>
+        <div class="reward">2-3 年内小涨或原地不动</div>
+      </div>
+      <div class="scn bad">
+        <div class="name">悲观 · 25%</div>
+        <div class="prob">下行 -30~-50%</div>
+        <div class="desc">AI capex 明显拐头（像 2000 年互联网泡沫）+ 三家 HBM 血拼 + 供给过剩 → 存储行业周期见顶。</div>
+        <div class="reward">1 年内跌到 P/E 5 倍</div>
+      </div>
+    </div>
+
+    <p><strong>一句话总结</strong>：这是一只"上行 2 倍、下行 40%"的股票，仓位大小要跟你对乐观概率的信心匹配。
+    如果你信心不到 50%，仓位就别超过总仓的 5%。</p>
+  </section>
+
+  <!-- ============ 05 ============ -->
+  <section>
+    <h2><span class="n">05</span>接下来要盯的 6 件事</h2>
+    <p class="lede">按重要性 + 时间点排列</p>
+
+    <div class="watch-item">
+      <span class="when">每季度</span>
+      <span class="what">Quarterly Earnings（4 / 7 / 10 / 1 月末）
+        <small>读两个数字：HBM 占 DRAM 收入比例、DRAM 平均单价环比 (ASP QoQ)。这两个连续 2 季下降 = 危险信号。</small>
+      </span>
+    </div>
+
+    <div class="watch-item">
+      <span class="when">每年 5 月</span>
+      <span class="what">CEO Investor Day
+        <small>公司一年一次向股东正式汇报未来 3 年打算怎么做。会给 HBM4/HBM5 路线图 + 全年 capex 计划。看不到这一次 = 抓不住主线。</small>
+      </span>
+    </div>
+
+    <div class="watch-item">
+      <span class="when">2027 上半年</span>
+      <span class="what">三星 HBM3E 12-Hi 通过 Nvidia 认证结果
+        <small>若三星通过 → 海力士短期份额下降 15-25%，股价可能一夜蒸发 15-25%。若三星失败或推迟 → 海力士继续吃独食。</small>
+      </span>
+    </div>
+
+    <div class="watch-item">
+      <span class="when">2027 Q4-2028</span>
+      <span class="what">HBM4 大批量出货启动
+        <small>海力士能否维持"领先一代"是"电梯股"叙事的关键节点。领先则继续溢价，被追平则回归周期股定价。</small>
+      </span>
+    </div>
+
+    <div class="watch-item">
+      <span class="when">每季度</span>
+      <span class="what">Nvidia 财报
+        <small>Nvidia GPU 卖爆 = HBM 需求爆炸。Nvidia 一旦下修 guidance，海力士立刻承压。这是"上游看下游"的必修课。</small>
+      </span>
+    </div>
+
+    <div class="watch-item">
+      <span class="when">每季度</span>
+      <span class="what">Google / Meta / MSFT / AMZN 的 AI capex 指引
+        <small>四家季度 capex YoY 增速。如果 4 家同时跌破 15% → 整个 AI 硬件叙事进入压力测试期。</small>
+      </span>
+    </div>
+  </section>
+
+  <!-- ============ 06 ============ -->
+  <section>
+    <h2><span class="n">06</span>我怎么可能亏钱 · 反方问答</h2>
+    <p class="lede">买之前把自己扮成空头攻击一遍</p>
+
+    <div class="qa">
+      <div class="q">问 · Q1</div>
+      <div class="q-text">如果 AI 泡沫破了怎么办？</div>
+      <div class="a">答 · A1</div>
+      <div class="a-text">至少跌 30-50%。海力士是最纯的 HBM 玩家，弹性最大也意味着回撤最大。参考 2000 年互联网泡沫、2022 年半导体下行周期的历史剧本。</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">问 · Q2</div>
+      <div class="q-text">如果三星追上怎么办？</div>
+      <div class="a">答 · A2</div>
+      <div class="a-text">短期股价跌 15-25%。但海力士至少还有 1-2 代技术领先窗口，长期不一定输。看 HBM4 / HBM5 迭代节奏是否维持。</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">问 · Q3</div>
+      <div class="q-text">如果中美贸易战升级怎么办？</div>
+      <div class="a">答 · A3</div>
+      <div class="a-text">韩国是美国盟友，短期反而受益（美国限制中国存储 → 海力士抢中国厂原本要吃的份额）。但如果朝鲜半岛真出事，短期 30%+ 暴跌不可避免。</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">问 · Q4</div>
+      <div class="q-text">韩国财阀治理有问题吗？</div>
+      <div class="a">答 · A4</div>
+      <div class="a-text">SK 集团历史上治理不算好（关联交易、家族继承争议），但海力士这几年公开信息透明度不错，分红/回购给股东比例在提升。相对三星（李家族）已经算好的。</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">问 · Q5</div>
+      <div class="q-text">HBM 会不会被别的技术取代？</div>
+      <div class="a">答 · A5</div>
+      <div class="a-text">短期不会。HBM 后续可能被 <span class="term">HBM4/5</span> 继续迭代，或者被 <span class="term">CoWoP / SoIC</span> 等新型封装辅助。
+      技术切换风险在 5+ 年后，不是当下要担心的事。</div>
+    </div>
+
+    <div class="qa">
+      <div class="q">问 · Q6</div>
+      <div class="q-text">我买不了韩国股票怎么办？</div>
+      <div class="a">答 · A6</div>
+      <div class="a-text">大陆用户直接买韩股极难。三条替代路线：
+      ① 开海外券商（盈透 / 富途 / 老虎）直接买 000660.KS；
+      ② 用 <em>EWY</em>（iShares MSCI Korea ETF）代理，缺点是稀释单一名字的弹性；
+      ③ 跳过海力士，改买美国 Micron（美股 MU），美国政策扶持但弹性不如海力士。</div>
+    </div>
+  </section>
+
+  <!-- ============ 07 ============ -->
+  <section>
+    <h2><span class="n">07</span>去哪查最新情况</h2>
+    <p class="lede">别信任何自媒体总结 · 只信一手数据</p>
+
+    <div class="ir-list">
+      <div class="ir-row">
+        <span class="k">公司官方 IR</span>
+        <span class="v"><a href="https://www.skhynix.com/eng/ir/irMain.jsp" target="_blank" rel="noopener">skhynix.com/eng/ir/irMain.jsp</a><br>
+          <span style="font-family:-apple-system,sans-serif;color:var(--ink-2);font-size:11px">Quarterly Earnings + Investor Day 幻灯片，英文可读</span></span>
+      </div>
+      <div class="ir-row">
+        <span class="k">韩国 DART</span>
+        <span class="v"><a href="https://dart.fss.or.kr/" target="_blank" rel="noopener">dart.fss.or.kr</a><br>
+          <span style="font-family:-apple-system,sans-serif;color:var(--ink-2);font-size:11px">韩国监管院官方披露 · 搜索 "SK하이닉스" 或 000660</span></span>
+      </div>
+      <div class="ir-row">
+        <span class="k">KRX Kind</span>
+        <span class="v"><a href="https://kind.krx.co.kr/" target="_blank" rel="noopener">kind.krx.co.kr</a><br>
+          <span style="font-family:-apple-system,sans-serif;color:var(--ink-2);font-size:11px">KRX 交易所适时披露 + 股东会材料</span></span>
+      </div>
+      <div class="ir-row">
+        <span class="k">HBM 现货价</span>
+        <span class="v">TrendForce · DRAMeXchange<br>
+          <span style="font-family:-apple-system,sans-serif;color:var(--ink-2);font-size:11px">月频价格数据，是判断行业景气的关键领先指标</span></span>
+      </div>
+      <div class="ir-row">
+        <span class="k">交叉验证</span>
+        <span class="v">SUMCO / 信越化学决算（硅片需求）· 台积电月营收（CoWoS 稼动率）· Nvidia 财报（下游）<br>
+          <span style="font-family:-apple-system,sans-serif;color:var(--ink-2);font-size:11px">从上下游反推海力士出货预期</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 ============ -->
+  <section>
+    <h2><span class="n">08</span>接下来 90 天要做的 5 件事</h2>
+    <p class="lede">这份 memo 不是结论，是研究起点</p>
+
+    <ol class="checklist">
+      <li>
+        找到最新一期 Quarterly Earnings，读 HBM 占 DRAM 收入比例的实际数字
+        <small>看当前是 30%？40%？还是已经 45%+？增速有没有放缓？</small>
+      </li>
+      <li>
+        找到最近一次 Investor Day 幻灯片（通常 5 月）
+        <small>把 HBM4 / HBM5 路线图 + capex 计划抄进你自己的笔记，作为跟踪基准</small>
+      </li>
+      <li>
+        每月查一次 TrendForce HBM 现货价
+        <small>连续 2 个月 QoQ 转负 = 供给过剩信号，考虑降仓</small>
+      </li>
+      <li>
+        每季度盯 Nvidia + Google + Meta + MSFT + AMZN 的 AI capex 指引
+        <small>4 家里 3 家 YoY 跌破 15% = 系统性警告</small>
+      </li>
+      <li>
+        关注三星 HBM3E 12-Hi Nvidia 认证的任何官方消息
+        <small>这是海力士短期最大的单一变量，别错过</small>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ FINAL ============ -->
+  <div class="final">
+    <div class="lbl">最后一句</div>
+    <p>SK 海力士是当下 AI 硬件里最锐的一把刀。它可能给你 2 倍收益，也可能让你亏 40%。
+    它值不值得买不是这份 memo 能回答的——但它绝对值得你花时间搞懂再决定。</p>
+  </div>
+
+  <div class="disclaimer">
+    <strong>研究属性说明</strong>&nbsp;· 本备忘录基于产业链结构与已公开信息的方法论判断，<strong>未跑 live source</strong>。
+    所有具体数字（HBM 占比、P/E、市值、份额百分比）均为参考量级估算，请以最新 Quarterly Earnings / DART 披露为准。
+    三种情境的概率是主观判断，非量化模型输出。备忘录用于研究优先度排序与证据核验清单，
+    不是买入卖出建议。所有投资决策由读者自行承担。
+  </div>
+</div>
+
+<script>
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    let next;
+    if (!current) {
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = dark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+  });
+</script>

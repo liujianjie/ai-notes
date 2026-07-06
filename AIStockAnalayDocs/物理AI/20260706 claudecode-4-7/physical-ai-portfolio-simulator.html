@@ -1,0 +1,1040 @@
+<title>物理AI 组合仓位 + 压力测试模拟器 · 20万</title>
+<style>
+  :root {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --good-soft: #E3EEDF;
+    --warn: #B57F30; --warn-soft: #F3E7D0;
+    --crit: #9A3838; --crit-soft: #F0D9D9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+      --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+      --line: #2A2E3A; --line-2: #21252F;
+      --accent: #D4A05A; --accent-2: #7DA0B8;
+      --good: #5FA47A; --good-soft: #1E3227;
+      --warn: #D4A05A; --warn-soft: #322817;
+      --crit: #C46060; --crit-soft: #33191A;
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F7F6F2; --ground-2: #EEEBE1; --panel: #FFFEFA;
+    --ink: #1A1D26; --ink-2: #5A5F6B; --ink-3: #8A8E97;
+    --line: #DDD8CA; --line-2: #ECE7D9;
+    --accent: #A46B2C; --accent-2: #3F5A6B;
+    --good: #3E7A54; --good-soft: #E3EEDF;
+    --warn: #B57F30; --warn-soft: #F3E7D0;
+    --crit: #9A3838; --crit-soft: #F0D9D9;
+  }
+  :root[data-theme="dark"] {
+    --ground: #10121A; --ground-2: #171A23; --panel: #1B1E28;
+    --ink: #F0EAD8; --ink-2: #A8ADB9; --ink-3: #6A6F7B;
+    --line: #2A2E3A; --line-2: #21252F;
+    --accent: #D4A05A; --accent-2: #7DA0B8;
+    --good: #5FA47A; --good-soft: #1E3227;
+    --warn: #D4A05A; --warn-soft: #322817;
+    --crit: #C46060; --crit-soft: #33191A;
+  }
+
+  html, body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; padding: 0; }
+  .page { max-width: 1240px; margin: 0 auto; padding: 56px 32px 96px; }
+  @media (max-width: 720px) { .page { padding: 36px 16px 72px; } }
+
+  /* header */
+  .eyebrow {
+    font-family: "SF Mono", "Cascadia Mono", ui-monospace, Menlo, monospace;
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-3);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before { content: ''; display: inline-block; width: 22px; height: 1px; background: var(--accent); }
+  h1 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500; font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.01em; line-height: 1.15;
+    text-wrap: balance; margin: 14px 0 12px;
+  }
+  .sub { font-size: 15px; color: var(--ink-2); max-width: 68ch; line-height: 1.65; }
+
+  /* toggle */
+  .theme-toggle {
+    position: fixed; top: 18px; right: 18px;
+    background: var(--panel); color: var(--ink-2);
+    border: 1px solid var(--line); padding: 6px 12px;
+    font: 11px "SF Mono", ui-monospace, monospace;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; border-radius: 2px; z-index: 20;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--accent); }
+
+  /* callout */
+  .callout {
+    margin-top: 32px;
+    padding: 20px 24px;
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn);
+    border-radius: 2px;
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .callout strong {
+    display: block;
+    margin-bottom: 8px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--warn);
+  }
+  .callout .row {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 12px;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .callout .row .lbl { color: var(--warn); font-weight: 500; margin-right: 4px; }
+
+  /* section head */
+  section { margin-top: 44px; }
+  .sec-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 20px; gap: 20px; flex-wrap: wrap;
+  }
+  .sec-head h2 {
+    font-family: "Iowan Old Style", Palatino, Georgia, "Songti SC", serif;
+    font-weight: 500; font-size: 22px;
+    letter-spacing: -0.005em; margin: 0;
+  }
+  .sec-head .n {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 12px; color: var(--accent);
+    letter-spacing: 0.15em; margin-right: 12px;
+  }
+  .sec-head .note {
+    font-size: 12.5px; color: var(--ink-3);
+    max-width: 44ch; text-align: right;
+  }
+
+  /* setup panel */
+  .setup {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    padding: 22px 24px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .setup-item {
+    display: flex; flex-direction: column;
+    gap: 6px;
+  }
+  .setup-item label {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-3);
+  }
+  .setup-item input[type=number] {
+    background: var(--ground);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 10px 12px;
+    border-radius: 2px;
+    font: 16px "SF Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .setup-item input[type=number]:focus {
+    outline: none; border-color: var(--accent);
+  }
+  .setup-item .range-wrap {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .setup-item input[type=range] { flex: 1; }
+  .setup-item .val {
+    font: 14px "SF Mono", ui-monospace, monospace;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    min-width: 40px;
+    text-align: right;
+  }
+  .setup-item .helper {
+    font-size: 11px; color: var(--ink-3);
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+
+  /* preset buttons */
+  .presets {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-top: 14px;
+  }
+  .preset-btn {
+    padding: 8px 14px;
+    background: var(--panel);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    font: 11.5px "SF Mono", ui-monospace, monospace;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+  .preset-btn:hover { color: var(--ink); border-color: var(--accent); }
+  .preset-btn.active {
+    color: #fff; background: var(--accent); border-color: var(--accent);
+  }
+  .preset-btn .desc {
+    display: block;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-top: 3px;
+    max-width: 200px;
+  }
+  .preset-btn.active .desc { color: rgba(255,255,255,0.85); }
+
+  /* main grid: holdings + stress */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  @media (max-width: 900px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  /* holdings */
+  .holdings {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 24px;
+  }
+  .holding {
+    display: grid;
+    grid-template-columns: 200px 1fr 100px 100px;
+    gap: 14px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .holding:last-child { border-bottom: none; }
+  @media (max-width: 720px) {
+    .holding {
+      grid-template-columns: 1fr 100px 100px;
+      grid-template-areas: "name alloc dd" "slider slider slider";
+    }
+    .holding .col-name { grid-area: name; }
+    .holding .col-slider { grid-area: slider; }
+    .holding .col-alloc { grid-area: alloc; }
+    .holding .col-dd { grid-area: dd; }
+  }
+  .holding.cash { background: var(--ground-2); margin: 0 -24px; padding: 12px 24px; border-radius: 0; border-bottom: none; margin-top: 6px; }
+
+  .h-name { display: flex; flex-direction: column; gap: 3px; }
+  .h-name .n1 {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .h-name .n2 {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.05em;
+  }
+  .h-name .mkt-chip {
+    display: inline-block;
+    padding: 1px 5px;
+    background: var(--ground-2);
+    color: var(--accent-2);
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    margin-right: 5px;
+  }
+
+  .h-slider {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .h-slider input { width: 100%; }
+  .h-slider .access {
+    font-size: 10.5px;
+    color: var(--ink-3);
+    line-height: 1.4;
+  }
+  .h-slider .access .aa {
+    color: var(--good);
+  }
+  .h-slider .access .an {
+    color: var(--crit);
+  }
+  .h-slider .alt {
+    font-size: 10.5px;
+    color: var(--ink-2);
+    font-family: "SF Mono", ui-monospace, monospace;
+  }
+  .h-slider .alt .lbl {
+    color: var(--accent);
+    margin-right: 4px;
+  }
+
+  .h-alloc, .h-dd {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .h-alloc .pct {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+  }
+  .h-alloc .amt {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 15px;
+    color: var(--ink);
+    margin-top: 2px;
+  }
+  .h-dd .val {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--crit);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .h-dd .pct {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  /* totals bar */
+  .totals {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    font-size: 12px;
+  }
+  .totals .t {
+    padding: 8px 0;
+  }
+  .totals .t .lbl {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .totals .t .val {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 22px;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    margin-top: 4px;
+  }
+  .totals .t.warn .val { color: var(--warn); }
+
+  /* stress panel */
+  .stress {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 20px;
+    align-self: start;
+  }
+  @media (max-width: 900px) { .stress { position: static; } }
+
+  .stress h3 {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 17px;
+    margin: 0;
+    font-weight: 500;
+  }
+  .stress .desc {
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .scenario-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .scn-btn {
+    padding: 10px 8px;
+    background: var(--ground);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    font: 11.5px "SF Mono", ui-monospace, monospace;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.15s;
+    text-align: left;
+    line-height: 1.35;
+  }
+  .scn-btn:hover { border-color: var(--accent); }
+  .scn-btn.active {
+    background: var(--crit);
+    color: #fff;
+    border-color: var(--crit);
+  }
+  .scn-btn .p {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    color: var(--ink-3);
+    letter-spacing: 0;
+    font-family: -apple-system, "Segoe UI", sans-serif;
+  }
+  .scn-btn.active .p { color: rgba(255,255,255,0.85); }
+
+  /* verdict box */
+  .verdict {
+    padding: 20px 22px;
+    background: var(--crit-soft);
+    border-left: 3px solid var(--crit);
+    border-radius: 2px;
+  }
+  .verdict .lbl {
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--crit);
+    margin-bottom: 8px;
+  }
+  .verdict .big {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 32px;
+    color: var(--crit);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .verdict .sub {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .verdict .theme-line {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-2);
+    display: flex; justify-content: space-between;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .verdict .theme-line strong { color: var(--ink); font-weight: 500; }
+
+  /* insights */
+  .insights {
+    margin-top: 20px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 20px 24px;
+  }
+  .insights h3 {
+    font-family: "Iowan Old Style", Palatino, Georgia, serif;
+    font-size: 17px;
+    margin: 0 0 12px;
+    font-weight: 500;
+  }
+  .insights-list {
+    display: grid;
+    gap: 10px;
+  }
+  .insight {
+    padding: 12px 14px;
+    background: var(--ground-2);
+    border-left: 3px solid var(--accent-2);
+    border-radius: 2px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .insight.warn { border-left-color: var(--warn); }
+  .insight.crit { border-left-color: var(--crit); }
+  .insight.good { border-left-color: var(--good); }
+  .insight strong {
+    display: block;
+    font-family: "SF Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 5px;
+    font-weight: 500;
+  }
+  .insight.warn strong { color: var(--warn); }
+  .insight.crit strong { color: var(--crit); }
+  .insight.good strong { color: var(--good); }
+
+  /* disclaimer */
+  .disclaimer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    line-height: 1.7;
+  }
+  .disclaimer strong { color: var(--ink-2); }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<button class="theme-toggle" id="themeToggle" type="button">Light / Dark</button>
+
+<div class="page">
+  <div class="eyebrow">Serenity · Portfolio Sim · 20万人民币</div>
+  <h1>物理AI 组合仓位 + 压力测试模拟器</h1>
+  <p class="sub">
+    拖动主题占比 / 各家权重滑块，实时看每家分配金额；点击右侧四种压力测试情境，
+    看该场景下每家估算回撤 + 组合总亏损。目标：把"选股"转成"能真下手的仓位表"。
+  </p>
+
+  <!-- Callout: 现实约束 -->
+  <div class="callout">
+    <strong>20 万人民币的现实约束 · 必读</strong>
+    大陆普通投资者不能直接买日本股（Harmonic / Nabtesco / Keyence / 信越 / MHI）和韩国股（SK 海力士）。
+    Top 8 里能直接买的只有：<em>GEV（美股）· TSMC ADR (TSM，美股)</em>；A 股映射见每家 slider 下方的 alt。
+    另有两条路线可选：<em>开海外券商 (盈透/富途/老虎)</em> 直购日韩台股，或 <em>用 EWJ / EWY ETF</em> 代理日韩暴露。
+    <div class="row">
+      <span><span class="lbl">美股账户:</span>盈透 / 富途 / 老虎 / IB</span>
+      <span><span class="lbl">日股代理:</span>EWJ (iShares MSCI Japan)</span>
+      <span><span class="lbl">韩股代理:</span>EWY (iShares MSCI Korea)</span>
+      <span><span class="lbl">纯 A 股:</span>用下方 alt 列的映射标的</span>
+    </div>
+  </div>
+
+  <!-- Setup -->
+  <section>
+    <div class="sec-head">
+      <h2><span class="n">§ 01</span>基础设置</h2>
+      <div class="note">改总仓、改主题占比、或选 Preset 一键应用建议权重。</div>
+    </div>
+
+    <div class="setup">
+      <div class="setup-item">
+        <label>总仓 (¥ 人民币)</label>
+        <input type="number" id="capital" value="200000" step="10000" min="10000">
+        <span class="helper">建议 20 万以下不要跨市场，用纯 A 股 Preset</span>
+      </div>
+      <div class="setup-item">
+        <label>物理AI 主题占比</label>
+        <div class="range-wrap">
+          <input type="range" id="themePct" min="10" max="50" value="30" step="1">
+          <span class="val" id="themePctVal">30%</span>
+        </div>
+        <span class="helper">主题 3-5 年，别 all-in（建议 20-35%）</span>
+      </div>
+      <div class="setup-item">
+        <label>快速 Preset</label>
+        <div class="presets">
+          <button class="preset-btn active" data-preset="balanced" type="button">
+            平衡型
+            <span class="desc">跨市场 + 30% 仓（需海外账户）</span>
+          </button>
+          <button class="preset-btn" data-preset="aggressive" type="button">
+            激进型
+            <span class="desc">全跨市场 + 35% 仓</span>
+          </button>
+          <button class="preset-btn" data-preset="ashareOnly" type="button">
+            纯 A 股
+            <span class="desc">不开海外券商 + 20% 仓</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Holdings + Stress -->
+  <section>
+    <div class="sec-head">
+      <h2><span class="n">§ 02</span>持仓 &amp; 压力测试</h2>
+      <div class="note">左：每家一根滑块调整相对权重（自动归一化）· 右：切换 4 种情境看组合回撤。</div>
+    </div>
+
+    <div class="main-grid">
+      <div class="holdings" id="holdings"></div>
+
+      <div class="stress">
+        <h3>压力测试情境</h3>
+        <p class="desc">按下按钮，左侧每家的"最大回撤"栏就会切换到该情境下的估算数字。</p>
+        <div class="scenario-btns">
+          <button class="scn-btn active" data-scn="capex" type="button">
+            AI capex 拐头
+            <span class="p">hyperscaler 增速跌破 15%</span>
+          </button>
+          <button class="scn-btn" data-scn="geo" type="button">
+            台海地缘事件
+            <span class="p">供应链紊乱 · 20-30% 一夜蒸发</span>
+          </button>
+          <button class="scn-btn" data-scn="optimus" type="button">
+            Optimus 延期 1 年
+            <span class="p">机器人链单独崩</span>
+          </button>
+          <button class="scn-btn" data-scn="recession" type="button">
+            温和衰退
+            <span class="p">系统性下杀</span>
+          </button>
+        </div>
+
+        <div class="verdict" id="verdict">
+          <div class="lbl">当前情境下的组合估算</div>
+          <div class="big" id="verdictBig">-¥0</div>
+          <div class="sub" id="verdictSub"></div>
+          <div class="theme-line">
+            <span>主题仓总额</span><strong id="themeTotal">¥0</strong>
+          </div>
+          <div class="theme-line">
+            <span>现金部分</span><strong id="cashTotal">¥0</strong>
+          </div>
+          <div class="theme-line">
+            <span>组合回撤 % (相对总仓)</span><strong id="portfolioDdPct">0%</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Insights -->
+  <section>
+    <div class="sec-head">
+      <h2><span class="n">§ 03</span>基于当前配置的洞察</h2>
+    </div>
+    <div class="insights">
+      <div class="insights-list" id="insights"></div>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <strong>研究属性说明</strong>&nbsp;· 情境回撤参数是 methodology-only 估算，基于产业结构判断，非历史统计。
+    A 股映射标的与外盘原标的<strong>不完全等价</strong>，只是同产业链方向的替代（beta 会有差异）。
+    ETF 代理（EWJ / EWY）稀释了单一名字弹性但保留了国别 beta。
+    模拟器用于研究"仓位分配 + 极端情境自我攻击"，不是买入卖出建议。所有投资决策由读者自行承担。
+  </div>
+</div>
+
+<script>
+  // ========== data ==========
+  const holdings = [
+    { id:'GEV', name:'GE Vernova', ticker:'GEV', mkt:'US',
+      access:'<span class="aa">美股 · 盈透/富途/老虎可直购</span>',
+      alt:'A 股无直接对标 · 东方电气 (600875) · 上海电气 (601727)',
+      layer:'燃气轮机 · 电网', score:38,
+      stress:{ capex:-35, geo:-8, optimus:-5, recession:-25 } },
+    { id:'MHI', name:'三菱重工', ticker:'7011.T', mkt:'JP',
+      access:'<span class="an">日股需海外券商</span> · 可用 EWJ ETF 代理',
+      alt:'A 股: 中船防务 (600685) · 中国海防 (600764)（间接）',
+      layer:'燃机 · 防卫综合体', score:37,
+      stress:{ capex:-25, geo:-12, optimus:-5, recession:-22 } },
+    { id:'SHIN', name:'信越化学', ticker:'4063.T', mkt:'JP',
+      access:'<span class="an">日股需海外券商</span> · 可用 EWJ ETF 代理',
+      alt:'A 股: TCL 中环 (002129) · 沪硅产业 (688126)（硅片）',
+      layer:'硅片 · 光刻胶', score:36,
+      stress:{ capex:-30, geo:-10, optimus:-3, recession:-25 } },
+    { id:'HYNIX', name:'SK 海力士', ticker:'000660.KS', mkt:'KR',
+      access:'<span class="an">韩股难开户</span> · 用 EWY ETF 代理',
+      alt:'A 股无对标 · 存储侧受益 兆易创新 (603986)（间接）',
+      layer:'HBM3E / HBM4', score:35,
+      stress:{ capex:-45, geo:-25, optimus:-5, recession:-30 } },
+    { id:'TSMC', name:'台积电 ADR', ticker:'TSM', mkt:'US',
+      access:'<span class="aa">美股 ADR · 盈透/富途可购</span>（比台股本地更便利）',
+      alt:'A 股: 中芯国际 (688981) · 港股 0981.HK（间接）',
+      layer:'CoWoS 先进封装', score:34,
+      stress:{ capex:-35, geo:-50, optimus:-5, recession:-28 } },
+    { id:'NAB', name:'Nabtesco', ticker:'6268.T', mkt:'JP',
+      access:'<span class="an">日股需海外券商</span>',
+      alt:'A 股: 双环传动 (002472)（直接对标）· 绿的谐波 (688017)',
+      layer:'RV 减速器', score:34,
+      stress:{ capex:-20, geo:-10, optimus:-25, recession:-22 } },
+    { id:'HDS', name:'Harmonic Drive', ticker:'6324.T', mkt:'JP',
+      access:'<span class="an">日股需海外券商</span>',
+      alt:'A 股: 绿的谐波 (688017)（直接对标）',
+      layer:'谐波减速器', score:33,
+      stress:{ capex:-22, geo:-10, optimus:-30, recession:-28 } },
+    { id:'KYNC', name:'Keyence', ticker:'6861.T', mkt:'JP',
+      access:'<span class="an">日股需海外券商</span> · 可用 EWJ ETF 代理',
+      alt:'A 股: 奥普特 (688686) · 海康威视 (002415)（部分）',
+      layer:'机器视觉 · 传感', score:31,
+      stress:{ capex:-18, geo:-8, optimus:-12, recession:-20 } },
+  ];
+
+  // ========== presets ==========
+  const presets = {
+    balanced:    { theme:30, w:{GEV:19, MHI:11, SHIN:11, HYNIX:15, TSMC:14, NAB:11, HDS:9, KYNC:10} },
+    aggressive:  { theme:35, w:{GEV:18, MHI:12, SHIN:11, HYNIX:17, TSMC:15, NAB:10, HDS:9, KYNC:8} },
+    ashareOnly:  { theme:20, w:{GEV:5, MHI:5, SHIN:12, HYNIX:0, TSMC:12, NAB:22, HDS:22, KYNC:22} },
+  };
+
+  // ========== state ==========
+  const state = {
+    capital: 200000,
+    themePct: 30,
+    weights: { ...presets.balanced.w },
+    scenario: 'capex',
+    preset: 'balanced',
+  };
+
+  // ========== render holdings ==========
+  const holdingsEl = document.getElementById('holdings');
+
+  function fmt(n) {
+    if (n === 0) return '¥0';
+    const sign = n < 0 ? '-' : '';
+    const v = Math.abs(n);
+    if (v >= 10000) return sign + '¥' + (v/10000).toFixed(2) + '万';
+    if (v >= 1000) return sign + '¥' + (v/1000).toFixed(1) + 'K';
+    return sign + '¥' + Math.round(v);
+  }
+
+  function renderHoldings() {
+    let html = '';
+    holdings.forEach(h => {
+      html += `
+        <div class="holding" data-id="${h.id}">
+          <div class="col-name h-name">
+            <span class="n1"><span class="mkt-chip">${h.mkt}</span>${h.name}</span>
+            <span class="n2">${h.ticker} · ${h.layer}</span>
+          </div>
+          <div class="col-slider h-slider">
+            <input type="range" min="0" max="30" step="1" value="${state.weights[h.id]}" data-id="${h.id}">
+            <div class="access">${h.access}</div>
+            <div class="alt"><span class="lbl">alt:</span>${h.alt}</div>
+          </div>
+          <div class="col-alloc h-alloc">
+            <div class="pct" id="pct-${h.id}">--</div>
+            <div class="amt" id="amt-${h.id}">--</div>
+          </div>
+          <div class="col-dd h-dd">
+            <div class="val" id="dd-${h.id}">--</div>
+            <div class="pct" id="ddp-${h.id}">--</div>
+          </div>
+        </div>`;
+    });
+    // cash row
+    html += `
+      <div class="holding cash">
+        <div class="col-name h-name">
+          <span class="n1"><span class="mkt-chip">CNY</span>现金 / 机动仓</span>
+          <span class="n2">CNY · 保留弹药 / 等回调</span>
+        </div>
+        <div class="col-slider h-slider">
+          <div class="access">主题占比之外的部分自动进现金</div>
+        </div>
+        <div class="col-alloc h-alloc">
+          <div class="pct" id="pct-CASH">--</div>
+          <div class="amt" id="amt-CASH">--</div>
+        </div>
+        <div class="col-dd h-dd">
+          <div class="val" id="dd-CASH">--</div>
+          <div class="pct" id="ddp-CASH">--</div>
+        </div>
+      </div>`;
+
+    // totals
+    html += `
+      <div class="totals">
+        <div class="t"><div class="lbl">相对权重总和</div><div class="val" id="weightSum">--</div></div>
+        <div class="t"><div class="lbl">主题仓合计</div><div class="val" id="themeSum">--</div></div>
+        <div class="t warn"><div class="lbl">当前情境估算回撤</div><div class="val" id="ddSum">--</div></div>
+      </div>`;
+
+    holdingsEl.innerHTML = html;
+
+    // wire sliders
+    holdingsEl.querySelectorAll('input[type=range]').forEach(input => {
+      input.addEventListener('input', e => {
+        state.weights[e.target.dataset.id] = parseInt(e.target.value);
+        state.preset = null;
+        document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+        recompute();
+      });
+    });
+  }
+
+  // ========== compute ==========
+  function recompute() {
+    const themeCapital = state.capital * (state.themePct / 100);
+    const cashCapital = state.capital - themeCapital;
+    const weightSum = Object.values(state.weights).reduce((s,v) => s + v, 0);
+
+    let totalDD = 0;
+
+    holdings.forEach(h => {
+      const w = state.weights[h.id];
+      const relW = weightSum > 0 ? w / weightSum : 0;
+      const alloc = themeCapital * relW;
+      const pct = state.capital > 0 ? alloc / state.capital * 100 : 0;
+      const ddPct = h.stress[state.scenario];
+      const dd = alloc * ddPct / 100;
+      totalDD += dd;
+
+      document.getElementById('pct-'+h.id).textContent = pct.toFixed(1) + '%';
+      document.getElementById('amt-'+h.id).textContent = fmt(alloc);
+      document.getElementById('dd-'+h.id).textContent = fmt(dd);
+      document.getElementById('ddp-'+h.id).textContent = ddPct + '%';
+    });
+
+    // cash
+    const cashDDPct = state.scenario === 'recession' ? -2 : 0;
+    const cashDD = cashCapital * cashDDPct / 100;
+    totalDD += cashDD;
+    document.getElementById('pct-CASH').textContent = (cashCapital / state.capital * 100).toFixed(1) + '%';
+    document.getElementById('amt-CASH').textContent = fmt(cashCapital);
+    document.getElementById('dd-CASH').textContent = fmt(cashDD);
+    document.getElementById('ddp-CASH').textContent = cashDDPct + '%';
+
+    // totals
+    document.getElementById('weightSum').textContent = weightSum;
+    document.getElementById('themeSum').textContent = fmt(themeCapital);
+    document.getElementById('ddSum').textContent = fmt(totalDD);
+
+    // verdict
+    document.getElementById('verdictBig').textContent = fmt(totalDD);
+    document.getElementById('themeTotal').textContent = fmt(themeCapital);
+    document.getElementById('cashTotal').textContent = fmt(cashCapital);
+    document.getElementById('portfolioDdPct').textContent = (totalDD/state.capital*100).toFixed(1) + '%';
+
+    const scnLabels = {
+      capex: 'AI capex 增速跌破 15%，hyperscaler 财报下修 → HBM / CoWoS / 电力全链承压',
+      geo: '台海地缘极端事件 → 台系直接归零风险，日韩因供应链紊乱受影响',
+      optimus: '特斯拉 Optimus 明确延期 1 年 → 减速器链单独崩，芯片/电力基本无损',
+      recession: '全球温和衰退 → 所有名字系统性下杀，跌幅集中在 20-30%',
+    };
+    document.getElementById('verdictSub').textContent = scnLabels[state.scenario];
+
+    updateInsights(themeCapital, cashCapital, totalDD, weightSum);
+  }
+
+  // ========== insights ==========
+  const insightsEl = document.getElementById('insights');
+  function updateInsights(themeCapital, cashCapital, totalDD, weightSum) {
+    const insights = [];
+
+    // market breakdown
+    const mktSum = { US:0, JP:0, KR:0, CN:0 };
+    holdings.forEach(h => {
+      const relW = weightSum > 0 ? state.weights[h.id] / weightSum : 0;
+      mktSum[h.mkt === 'US' ? 'US' : h.mkt === 'JP' ? 'JP' : h.mkt === 'KR' ? 'KR' : 'US'] += themeCapital * relW;
+    });
+
+    // insight 1: single-name concentration
+    const heavy = holdings
+      .map(h => ({id:h.id, name:h.name, pct: weightSum>0 ? state.weights[h.id]/weightSum*state.themePct : 0}))
+      .filter(x => x.pct >= 8);
+    if (heavy.length > 0) {
+      const top = heavy.sort((a,b)=>b.pct-a.pct).slice(0,3);
+      insights.push({
+        level: heavy.some(x=>x.pct>10) ? 'warn' : 'good',
+        head: '单一集中度',
+        body: `单家超过 8% 总仓的：${top.map(x=>x.name+' ('+x.pct.toFixed(1)+'%)').join(', ')}。` +
+              `${heavy.some(x=>x.pct>10) ? '建议单一标的不超过 10% 总仓，物理AI 主题的黑天鹅概率不低。' : '集中度可控。'}`
+      });
+    }
+
+    // insight 2: 情境风险检查
+    const ddPortPct = Math.abs(totalDD / state.capital * 100);
+    if (ddPortPct > 15) {
+      insights.push({
+        level: 'crit',
+        head: '组合回撤警告',
+        body: `当前情境下组合回撤 ${ddPortPct.toFixed(1)}% 已超过 15%。` +
+              `如果这个情境发生概率你判断 > 20%，考虑降低主题占比或调整最脆弱的标的（当前情境下亏最多的是排在最前的那几家）。`
+      });
+    } else if (ddPortPct > 8) {
+      insights.push({
+        level: 'warn',
+        head: '组合回撤中等',
+        body: `当前情境下组合回撤 ${ddPortPct.toFixed(1)}%（8-15% 区间）。可接受但要清楚这个下限。`
+      });
+    } else {
+      insights.push({
+        level: 'good',
+        head: '组合回撤温和',
+        body: `当前情境下组合回撤 ${ddPortPct.toFixed(1)}%（< 8%），此情境下组合有较好防御。`
+      });
+    }
+
+    // insight 3: HBM 相关名字集中度（capex 情境）
+    const hbmExposure = ['HYNIX', 'TSMC', 'SHIN'].reduce((s,id) => {
+      return s + (weightSum > 0 ? state.weights[id]/weightSum*state.themePct : 0);
+    }, 0);
+    if (hbmExposure > 15) {
+      insights.push({
+        level: state.scenario === 'capex' ? 'crit' : 'warn',
+        head: 'HBM 算力链集中度',
+        body: `HBM+CoWoS+硅片 三家合计占总仓 ${hbmExposure.toFixed(1)}%。这三家在 AI capex 拐头情境下同时承压，请确认这是刻意的信念还是无意识的集中。`
+      });
+    }
+
+    // insight 4: 机器人链集中度（optimus 情境）
+    const robotExposure = ['NAB', 'HDS', 'KYNC'].reduce((s,id) => {
+      return s + (weightSum > 0 ? state.weights[id]/weightSum*state.themePct : 0);
+    }, 0);
+    if (robotExposure > 12) {
+      insights.push({
+        level: state.scenario === 'optimus' ? 'crit' : 'warn',
+        head: '机器人链集中度',
+        body: `Nabtesco+HDS+Keyence 合计占总仓 ${robotExposure.toFixed(1)}%。Optimus 延期情境下这三家同时承压，机器人叙事本身是最远期、争议最大的一层。`
+      });
+    }
+
+    // insight 5: TSMC 地缘检查
+    const tsmcPct = weightSum > 0 ? state.weights.TSMC/weightSum*state.themePct : 0;
+    if (tsmcPct > 6) {
+      insights.push({
+        level: state.scenario === 'geo' ? 'crit' : 'warn',
+        head: '台系尾部风险',
+        body: `台积电 ADR 占总仓 ${tsmcPct.toFixed(1)}%。地缘事件情境下 TSM 可能一夜蒸发 50%+，请确认该风险是可承受的。`
+      });
+    }
+
+    // insight 6: 现金充足度
+    const cashPct = cashCapital / state.capital * 100;
+    if (cashPct < 40) {
+      insights.push({
+        level: 'warn',
+        head: '现金弹药',
+        body: `现金/机动仓仅 ${cashPct.toFixed(1)}%。物理AI 是 3-5 年慢牛主题，波动窗口多，建议留 60%+ 现金分批入场。`
+      });
+    } else {
+      insights.push({
+        level: 'good',
+        head: '现金弹药充足',
+        body: `现金/机动仓 ${cashPct.toFixed(1)}%，等回调进场的弹药充足。`
+      });
+    }
+
+    // insight 7: 20万规模建议
+    if (state.capital <= 200000 && state.themePct > 25) {
+      const nonUSPct = holdings.filter(h => h.mkt !== 'US').reduce((s,h) => {
+        return s + (weightSum > 0 ? state.weights[h.id]/weightSum*state.themePct : 0);
+      }, 0);
+      if (nonUSPct > 15) {
+        insights.push({
+          level: 'warn',
+          head: '20万规模的现实提醒',
+          body: `非美股（JP/KR）暴露占总仓 ${nonUSPct.toFixed(1)}%。在 20 万预算下，跨市场汇率+费用+一手门槛会显著吃掉收益。要么减到 &lt; 15%，要么切换到"纯 A 股" Preset 用映射标的。`
+        });
+      }
+    }
+
+    insightsEl.innerHTML = insights.map(i => `
+      <div class="insight ${i.level}">
+        <strong>${i.head}</strong>
+        ${i.body}
+      </div>`).join('');
+  }
+
+  // ========== interactions ==========
+  document.getElementById('capital').addEventListener('input', e => {
+    state.capital = parseInt(e.target.value) || 0;
+    recompute();
+  });
+  document.getElementById('themePct').addEventListener('input', e => {
+    state.themePct = parseInt(e.target.value);
+    document.getElementById('themePctVal').textContent = state.themePct + '%';
+    recompute();
+  });
+
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = presets[btn.dataset.preset];
+      state.themePct = p.theme;
+      state.weights = { ...p.w };
+      state.preset = btn.dataset.preset;
+      document.getElementById('themePct').value = p.theme;
+      document.getElementById('themePctVal').textContent = p.theme + '%';
+      document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // update slider positions
+      renderHoldings();
+      recompute();
+    });
+  });
+
+  document.querySelectorAll('.scn-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.scenario = btn.dataset.scn;
+      document.querySelectorAll('.scn-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      recompute();
+    });
+  });
+
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const root = document.documentElement;
+    const current = root.getAttribute('data-theme');
+    let next;
+    if (!current) {
+      const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      next = dark ? 'light' : 'dark';
+    } else {
+      next = current === 'dark' ? 'light' : 'dark';
+    }
+    root.setAttribute('data-theme', next);
+  });
+
+  // init
+  renderHoldings();
+  recompute();
+</script>
