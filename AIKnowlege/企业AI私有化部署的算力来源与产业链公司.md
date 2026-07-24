@@ -64,18 +64,52 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 
 ## 六、产业链受益公司(国内外)
 
+### 先按采购路线认公司
+
+这类需求不能只看“谁生产服务器”，要看客户最后签的是哪一种合同。企业、政府、银行的预算大致沿三条路线流动：
+
+| 客户怎么买 | 中国直接受益龙头 | 海外直接受益龙头 | 谁最容易拿到整笔预算 |
+|---|---|---|---|
+| **买本地整套系统**：服务器/机柜+存储+网络+私有云平台+模型工具 | **华为**(未上市)、**紫光股份/新华三**(000938.SZ)、**浪潮信息**(000977.SZ)、**联想集团**(0992.HK)、**中科曙光**(603019.SH) | **Dell**(DELL.US)、**HPE**(HPE.US)、**Super Micro**(SMCI.US)、**NVIDIA（DGX）**(NVDA.US) | 最贴题的是能做软硬一体总包的新华三、华为、Dell、HPE；纯服务器厂拿到的收入多，但通常毛利较薄。新华三已有金融私有云和银行本地 AI 交付案例；浪潮云的海若一体机可把算力、平台、模型和应用一起交付。见[新华三金融方案](https://www.h3c.com/cn/d_202604/2832732_233453_0.htm)、[浪潮云海若一体机](https://cloud.inspur.com/about-inspurcloud/about-us/news/Brand-News/4295.html)、[Dell AI Factory](https://investors.delltechnologies.com/news-releases/news-release-details/dell-technologies-delivers-production-ready-agentic-ai-deskside)、[HPE Private Cloud AI](https://www.hpe.com/us/en/private-cloud-ai.html) |
+| **把公有云能力搬进客户机房**：云厂商提供机柜/软件并持续运维 | **华为云 Stack**(华为未上市)、**阿里云 Apsara Stack**(9988.HK/BABA.US)、**腾讯专有云**(0700.HK)、**天翼云息壤一体机**(601728.SH/0728.HK) | **AWS Outposts**(AMZN.US)、**Azure Local**(MSFT.US)、**Google Distributed Cloud**(GOOGL.US)、**Oracle Compute Cloud@Customer**(ORCL.US) | 这是“数据不出域，但客户又不想自己养整套云平台”的核心路线，厂商同时赚硬件、软件订阅和运维服务。见[华为云 Stack](https://www.huaweicloud.com/intl/zh-cn/product/huaweicloudstack.html)、[阿里云 Apsara Stack](https://www.alibabacloud.com/blog/annual-review-of-apsara-stack-2025_602867)、[腾讯金融专有云](https://cloud.tencent.com/solution/finance)、[天翼云智算一体机](https://www.ctyun.cn/products/lcs)、[AWS Outposts](https://aws.amazon.com/outposts/)、[Azure Local 离线部署](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/private/azure-local/disconnected-operations-overview)、[Google Distributed Cloud](https://cloud.google.com/distributed-cloud-air-gapped)、[Oracle Compute Cloud@Customer](https://www.oracle.com/asean/a/ocom/docs/cloud/deploying-nvidia-nvaie-on-oc3.pdf) |
+| **租专属 GPU 云/金融专区**：设备仍在云厂商或运营商机房 | **阿里云、腾讯云、百度智能云、中国电信、中国移动、中国联通** | **AWS、Azure、Google Cloud、Oracle OCI、CoreWeave**(CRWV.US) | 试点期、负载波动大或允许数据进入合规专区时最合适。收入最先落在云厂商，随后传导到 GPU、服务器、IDC、电力和冷却；但它并不等于严格意义的“本地部署”。 |
+
+### 龙头名单：场景纯度与产业链控制力要分开
+
+**若问题是“谁最直接吃到政企和银行本地部署订单”**，优先研究：
+
+1. **中国：紫光股份/新华三、浪潮信息、华为、联想集团、中科曙光**。其中新华三最像“私有云总包商”，浪潮更像“AI 服务器和一体机放量平台”，华为同时控制昇腾、网络、存储和云 Stack，但华为本身未上市。
+2. **海外：Dell、HPE、Lenovo、Super Micro、Cisco**。Dell/HPE/Lenovo 的企业渠道和服务能力更贴近普通企业；SMCI 更偏高密度 AI 服务器、整机柜和大型集群；Cisco 的优势是网络、安全和可验证架构，而不是 GPU 本身。见[Lenovo Hybrid AI](https://news.lenovo.com/pressroom/press-releases/lenovo-redefines-enterprise-ai-economics-with-agentic-ai-and-inferencing-innovations/)、[Supermicro AI 基础设施](https://www.supermicro.com/en/solutions/ai-deep-learning)、[Cisco Secure AI Factory](https://www.cisco.com/c/en/us/solutions/collateral/artificial-intelligence/secure-ai-factory-nvidia-faq.html)。
+3. **专有云/云进机房：华为云、阿里云、腾讯云、天翼云；AWS、Microsoft、Google、Oracle**。这组公司容易被漏掉，但长期合同中往往还带软件许可、云管平台和运维收入，商业质量可能好于一次性卖服务器。
+
+**若问题是“谁在更难绕开的卡点上、利润池可能更厚”**，优先研究：
+
+- **算力与软件生态**：Nvidia；国产替代看华为昇腾(未上市)、海光信息(688041.SH)、寒武纪(688256.SH)。
+- **HBM**：SK 海力士(000660.KS)、美光(MU.US)、三星电子(005930.KS)。企业不会单独采购 HBM，但买 GPU 时已经间接支付。
+- **网络、供电与液冷**：Arista(ANET.US)、Cisco(CSCO.US)、Vertiv(VRT.US)、Eaton(ETN.US)、Schneider Electric(SU.PA)；中国看紫光股份/新华三、英维克(002837.SZ)、申菱环境(301018.SZ)、科华数据(002335.SZ)。
+- **高性能存储**：Dell、NetApp(NTAP.US)、Pure Storage(PSTG.US)；中国看中科曙光、浪潮信息及华为(未上市)。多机推理或知识库规模变大后，存储吞吐和数据治理才会明显进入预算。
+
+**需要降级的“相关公司”**：
+
+- **工业富联**更接近大型云厂商和品牌厂背后的 ODM/制造环节，不是政企私有 AI 的前台总包商。
+- **神州数码、拓维信息、软通动力**主要赚华为生态的渠道、适配和集成费，主题很贴，但议价权通常低于芯片、平台和整机原厂。
+- **中际旭创、新易盛等光模块龙头**主要受益于万卡级云数据中心；普通企业的一两台服务器不会产生同等强度的光互连需求。
+- **CoreWeave、Nebius 等 neocloud**是租 GPU 路线，不是本地一体机路线，且要额外承担高杠杆、客户集中和 GPU 折旧风险。
+
+一句话排序：**场景最贴题看新华三、浪潮、Dell、HPE；云进机房看华为云 Stack、Apsara Stack、AWS Outposts、Azure Local；利润池看 Nvidia、国产 AI 芯片、HBM 和高密度机柜的供电液冷。**“订单最直接”和“股票最赚钱”不是同一件事，后者还取决于毛利、估值、现金流和供给稀缺性。
+
 | 环节 | 全球龙头 | 中国龙头 |
 |---|---|---|
 | AI 芯片 | 英伟达(独占大头)、AMD、博通(定制 ASIC);代工全在台积电;HBM:SK 海力士/三星/美光 | 华为昇腾(未上市)、寒武纪、海光信息、摩尔线程、沐曦;代工中芯国际;HBM 追赶:长鑫存储(未上市) |
 | 服务器/机柜集成 | SMCI、戴尔、HPE;GB200 机柜主要由台系代工:鸿海、广达、纬创 | 浪潮信息(份额第一)、工业富联(英伟达机柜代工)、华为、新华三(紫光股份)、联想、超聚变(未上市) |
-| 一体机 | 戴尔/HPE"AI Factory"、英伟达 DGX,海外不算大赛道 | 中国特色赛道:昇腾生态的神州数码、拓维信息、软通动力,加浪潮、新华三 |
+| 一体机/私有 AI 工厂 | Dell/HPE AI Factory、NVIDIA DGX、Cisco Secure AI Factory | 华为、浪潮、新华三;昇腾生态渠道包括神州数码、拓维信息、软通动力 |
 | 云算力出租 | AWS、Azure、谷歌云、Oracle;新势力 CoreWeave、Nebius、矿商转型(IREN 等) | 阿里、腾讯、百度、字节(未上市);三大运营商;IDC:万国数据、世纪互联、润泽科技 |
 | 机柜配套 | 液冷 Vertiv、交换机 Arista、光模块 Coherent | 光模块:中际旭创、新易盛(即全球龙头);液冷英维克、PCB 沪电/胜宏、存储模组江波龙/佰维 |
 
 ### SMCI(超微电脑)与中国对标
 
-- **它是谁**:把英伟达 GPU 变成能插电开机的服务器和整机柜的美国公司,创始人梁见后。三个标签:新平台首发快(每代 GPU 它几乎总是第一批出整机,吃首发窗口期的钱)、模块化(同一套零件拼几百种配置,小单定制也接)、液冷——直接液冷 AI 机柜占全球约七八成份额,月产能 5000+ 机柜,Blackwell 功耗大到风冷勉强,正撞进它的强项。2026 财年收入指引约 360 亿美元,同比 +64%。
-- **在两个市场的位置**:企业自建(私有化)是基本盘,全球买 8 卡机基本在 SMCI/戴尔/HPE 三家里挑。云算力要分层看:超大规模云(AWS/Azure/谷歌)绕过品牌厂直接找台系 ODM 白牌代工,没它的份;它的主战场是 neocloud 和二线云——CoreWeave、Lambda 都是大客户,xAI 十万卡集群它和戴尔对半分,这层恰恰是当前扩张最猛的买家。
+- **它是谁**:把 GPU、CPU、网络、存储和冷却组装成可交付服务器或整机柜的美国公司,创始人梁见后。三个标签是新平台跟进快、模块化配置多、把直接液冷做到从冷板/CDU到整机柜的一体化交付。它的优势是缩短高密度 AI 基础设施上线时间，不是掌握 GPU 本身。见[Supermicro DCBBS](https://www.supermicro.com/en/solutions/dcbbs)。
+- **在两个市场的位置**:SMCI 当然算 AI 服务器/机柜龙头，但不是“政企私有化部署”纯标的。普通企业自建会采购它的 8 卡服务器和整机柜；当前更大的增量市场则是 neocloud、二线云和大型 AI 集群。超大规模云又会绕过品牌厂，直接找台系 ODM 白牌代工。因此不能把 SMCI 的全部增长都归因于企业本地部署。
 - **软肋**:整机毛利被压到 9–11%,收入翻倍利润不同步;2024 年经历做空+审计风波,2025 年才恢复合规,治理有前科。
 - **中国对标**:位置对标是浪潮信息(份额第一、贴芯片厂、低毛利走量,英伟达昇腾两头做);工业富联严格说对应的是鸿海那层 ODM 代工,但因 A 股上市常被当影子标的;液冷这个最强标签在中国是散的(整机厂自带方案+英维克)。没有一家同时复制"液冷+首发+neocloud 客户"这个组合。
 
