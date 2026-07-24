@@ -1,6 +1,6 @@
-# 企业 AI 私有化部署:开源模型差距、算力来源与产业链公司
+# 企业 AI 私有化部署:开源模型、算力来源、产业链公司与 ETF 工具
 
-> 2026-07 与 Claude 的讨论整理,承接《AI烧钱竞赛、AI是否真有用与普通人如何上车》。数据以 2026 年 7 月为准(模型已更新到 DeepSeek V4 一代),价格看量级不抠零头。
+> 2026-07 与 Claude 的讨论整理,承接《AI烧钱竞赛、AI是否真有用与普通人如何上车》。本文已合并原《企业AI私有化部署主题的ETF筛选》和《算力产业链ETF工具地图》,统一覆盖部署成本、采购路径、产业链公司与 ETF。数据以 2026 年 7 月为准(模型已更新到 DeepSeek V4 一代),价格看量级不抠零头。
 
 ## 一、中国开源模型和 OpenAI/Claude 差距大吗
 
@@ -20,25 +20,27 @@
 | 中杯 MoE(DeepSeek V4-Flash 284B、Qwen3.5-397B) | 原生 FP4/FP8 160–400GB,社区量化 80GB 起 | 2 张 H200 或 4–8 张 H20;量化档 4–8 张 5090 攒机也行 | 十几万到百万内 |
 | 旗舰 MoE(DeepSeek V4 Pro 1.6T、GLM-5 约750B、Kimi K3 2.8T) | V4 Pro 原生 FP4 约 860GB | 8 卡 H200/B300 一台起步,跑满 1M 上下文要两台;或昇腾 950 超节点 | 两三百万元级 |
 
-V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化硬压;KV cache 极小(Flash 跑满 1M 上下文才 ~10GB),显存基本只看权重体积。所以模型总参翻了倍,部署门槛反而没涨,Flash 284B 比上一代 671B 还好塞。
+V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化硬压;KV cache 极小(Flash 跑满 1M 上下文才 ~10GB),显存容量主要看权重体积。所以模型总参翻了倍,模型可能反而比上一代 671B 更容易装进显存。**但装得下不等于服务性能达标**:首 token 延迟、输出速度、并发吞吐和长上下文 SLA 仍取决于量化精度、批处理、互连、推理框架和实际请求分布,采购前必须压测。
 
 单机或两机推理不需要建"机房",一个标准机柜位放得下。国内政企市场还有更省事的形态:**大模型一体机**(华为、浪潮等把昇腾卡+DeepSeek/Qwen 预装好整机卖),开箱即用,2025 年在政企卖爆。
 
 ## 三、自建还是租云?一个关键矛盾
 
-"自建太浪费所以租云"对一半。注意隐含矛盾:**企业私有化的动机就是数据不能出门**。如果数据可以上云,最便宜的方案根本不是租 GPU,而是直接调 API。真实世界分三档:
+"自建太浪费所以租云"对一半。注意隐含矛盾:**企业私有化的动机通常是控制数据边界**。如果数据可以进入外部模型服务,最便宜的方案往往是直接调 API。真实世界至少分五档:
 
 1. **数据无所谓** → 直接用 API,没有部署这回事,最便宜。
-2. **数据敏感但接受专属资源** → 租云厂商**专有云/专区**(物理隔离的独占 GPU 资源),"租"和"私有"的折中,最大的中间市场。
-3. **数据绝对不出门**(银行核心、政务、军工) → 买服务器/一体机放自己机柜或托管 IDC,"浪费"是合规成本。
+2. **数据敏感但接受云厂商信任边界** → 在 VPC/独占实例中自行部署。VPC 是逻辑隔离,不等于物理隔离。
+3. **要求独占硬件或云端指定区域** → 租云厂商机房内的裸金属或物理隔离专区。硬件可独占,但数据物理位置仍在云厂商机房。
+4. **要求数据留在客户或监管指定机房,但接受厂商运维** → 把云栈、一体机或专属机柜部署到指定机房。它可以支持数据驻留要求,仍需核对远程运维、备份、日志和密钥边界。
+5. **要求数据留在指定机房且企业完全控制运维** → 自购设备并自建、自运维。成本和组织门槛最高。“设备自有但托管第三方 IDC”是否合规,取决于数据分级、合同、物理隔离和具体监管要求,不能一概视为本地部署。
 
 纯经济账:租一张 H200 约 3 美元/小时,8 卡机包月 1.7 万美元起、年租约 20 万美元,买一台约 30 万美元加运维。**利用率超一半、用三年以上,买划算;间歇用,租完胜。**
 
 ## 四、500 人企业成本测算
 
-场景假设:内部知识库+文档处理+部分人编码助手,高峰并发 30–50 路,跑 DeepSeek V4-Flash(FP8 约 290GB / FP4 约 160GB),一台 8 卡 H20 绰绰有余,预算紧 4 卡半配也能跑。
+场景假设:内部知识库+文档处理+部分人编码助手,目标高峰并发 30–50 路,跑 DeepSeek V4-Flash(FP8 约 290GB / FP4 约 160GB)。8 卡 H20 在显存容量上可以装下;能否满足并发、延迟和输出速度必须按平均输入/输出长度、量化精度和目标 SLA 压测。4 卡方案只能在更低精度、更短上下文或更低并发下作为试验配置,不能只凭显存容量判断可用。
 
-| | 自建(买服务器) | 租云 GPU(独占实例) | 调开源模型 API(对照组) |
+| | 自有设备(默认托管 IDC) | 租云 GPU(独占实例) | 调开源模型 API(对照组) |
 |---|---|---|---|
 | 前期投入 | 8×H20 约 ¥120 万 + 部署 ¥10 万 | 0 | 0 |
 | 每年固定支出 | 托管+电费 ~¥10 万,运维 0.5 人力 ~¥15 万 | 包月 ¥5–8 万/月 → ¥60–95 万/年 | 按量付费 |
@@ -48,19 +50,21 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 
 **结论三条**:
 
-1. 数据允许出门,前两条路都不该走——API 便宜一个量级。私有化本质是花 30–80 万/年买"数据不出门",不是省钱手段。
-2. 确定私有化,买还是租看回本周期:自建比租每年省 40–50 万但先垫 130 万,约 2.5–3 年打平。稳定用 3 年以上买,试点期租。常见路径:租 3–6 个月试点 → 采购一体机落地。GPU 租价一直在跌、硬件 3 年过时,时间对"租"有利,决策线要比纯算术保守。
+1. 数据允许进入外部服务时,API 通常比自有设备或独占租赁便宜数倍。私有化的主要价值是数据控制、合规和可定制性,不是天然省钱。
+2. 确定私有化后,买还是租要分清两种口径。按 4 年 TCO,自有设备约 ¥55–60 万/年、租云约 ¥60–95 万/年;按现金流,买设备先付约 ¥130 万,此后每年托管、电费和 0.5 人运维约 ¥25 万,相对租云每年少支出约 ¥35–70 万,简单回收期约 2–4 年,中位情形约 2.5–3 年。稳定使用 3 年以上才更可能适合买,试点期宜租。GPU 租价持续下降、硬件会过时,实际决策线应比静态算术更保守。
 3. 真正贵的不是服务器,是**长期养这套东西的人**。开源模型每季度换代,运维实际往往滑向 1–2 个人力。一体机和专有云托管在国内卖得好,企业买的不是硬件是"不用自己养人"。
 
 ## 五、租云算力,数据算不算出门?
 
-**物理上出门了,但性质和调 API 完全不同**,信任边界分三档:
+只要设备不在企业或监管指定域内,数据在物理位置上就已经“出门”;但不同部署形态的控制权并不相同。信任边界可分五档:
 
 1. **调 API**:数据进入模型厂商的服务层处理,合规部门最过不去的一档。
-2. **租云 GPU 自己部署**:权重、推理服务、数据全在独占实例/VPC 里,云厂商只提供裸算力。数据物理在云厂商机房,信任边界变成"自己+云厂商物理管控"。等保和多数行业监管接受,签数据处理协议+全程加密。
-3. **本地/专属机房**:唯一满足"数据不出域"硬性监管的一档。折中形态:云厂商把机柜搬进企业楼里运营(专有云)。
+2. **VPC/云实例自行部署**:企业控制权重和推理服务,但计算、存储及底层管理仍在云厂商信任边界内;VPC 主要提供逻辑隔离。
+3. **云厂商机房内的裸金属/物理隔离专区**:可以叠加独占硬件、指定地域、专线和客户持有密钥,但数据物理上仍在云厂商机房。
+4. **客户或监管指定机房内的厂商云栈/一体机**:设备和数据可留在指定域内,但厂商的远程运维、遥测、备份、日志和密钥权限仍可能扩大信任边界。
+5. **企业完全自运维的本地部署**:企业对设备、数据、密钥和运维权限控制最强,仍需治理供应链维护、外部支持和备份介质。
 
-一句话:监管要求"数据可控"→ 租云行得通;写明"不出域"→ 只能自建或一体机。
+一句话:不要用“专有云”三个字直接推出合规结论;应按数据分级、物理位置、隔离方式、密钥归属、运维权限、合同和适用监管逐项判断。
 
 ## 六、产业链受益公司(国内外)
 
@@ -71,7 +75,7 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 | 客户怎么买 | 中国直接受益龙头 | 海外直接受益龙头 | 谁最容易拿到整笔预算 |
 |---|---|---|---|
 | **买本地整套系统**：服务器/机柜+存储+网络+私有云平台+模型工具 | **华为**(未上市)、**紫光股份/新华三**(000938.SZ)、**浪潮信息**(000977.SZ)、**联想集团**(0992.HK)、**中科曙光**(603019.SH) | **Dell**(DELL.US)、**HPE**(HPE.US)、**Super Micro**(SMCI.US)、**NVIDIA（DGX）**(NVDA.US) | 最贴题的是能做软硬一体总包的新华三、华为、Dell、HPE；纯服务器厂拿到的收入多，但通常毛利较薄。新华三已有金融私有云和银行本地 AI 交付案例；浪潮云的海若一体机可把算力、平台、模型和应用一起交付。见[新华三金融方案](https://www.h3c.com/cn/d_202604/2832732_233453_0.htm)、[浪潮云海若一体机](https://cloud.inspur.com/about-inspurcloud/about-us/news/Brand-News/4295.html)、[Dell AI Factory](https://investors.delltechnologies.com/news-releases/news-release-details/dell-technologies-delivers-production-ready-agentic-ai-deskside)、[HPE Private Cloud AI](https://www.hpe.com/us/en/private-cloud-ai.html) |
-| **把公有云能力搬进客户机房**：云厂商提供机柜/软件并持续运维 | **华为云 Stack**(华为未上市)、**阿里云 Apsara Stack**(9988.HK/BABA.US)、**腾讯专有云**(0700.HK)、**天翼云息壤一体机**(601728.SH/0728.HK) | **AWS Outposts**(AMZN.US)、**Azure Local**(MSFT.US)、**Google Distributed Cloud**(GOOGL.US)、**Oracle Compute Cloud@Customer**(ORCL.US) | 这是“数据不出域，但客户又不想自己养整套云平台”的核心路线，厂商同时赚硬件、软件订阅和运维服务。见[华为云 Stack](https://www.huaweicloud.com/intl/zh-cn/product/huaweicloudstack.html)、[阿里云 Apsara Stack](https://www.alibabacloud.com/blog/annual-review-of-apsara-stack-2025_602867)、[腾讯金融专有云](https://cloud.tencent.com/solution/finance)、[天翼云智算一体机](https://www.ctyun.cn/products/lcs)、[AWS Outposts](https://aws.amazon.com/outposts/)、[Azure Local 离线部署](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/private/azure-local/disconnected-operations-overview)、[Google Distributed Cloud](https://cloud.google.com/distributed-cloud-air-gapped)、[Oracle Compute Cloud@Customer](https://www.oracle.com/asean/a/ocom/docs/cloud/deploying-nvidia-nvaie-on-oc3.pdf) |
+| **把公有云能力搬进客户机房**：云厂商提供机柜/软件并持续运维 | **华为云 Stack**(华为未上市)、**阿里云 Apsara Stack**(9988.HK/BABA.US)、**腾讯专有云**(0700.HK)、**天翼云息壤一体机**(601728.SH/0728.HK) | **AWS Outposts**(AMZN.US)、**Azure Local**(MSFT.US)、**Google Distributed Cloud**(GOOGL.US)、**Oracle Compute Cloud@Customer**(ORCL.US) | 这是“客户要求数据驻留指定机房,但不想自己养整套云平台”的核心路线,可用于实现数据不出域;是否真正满足要求,仍要核对远程运维、遥测、备份、日志和密钥边界。厂商同时赚硬件、软件订阅和运维服务。见[华为云 Stack](https://www.huaweicloud.com/intl/zh-cn/product/huaweicloudstack.html)、[阿里云 Apsara Stack](https://www.alibabacloud.com/blog/annual-review-of-apsara-stack-2025_602867)、[腾讯金融专有云](https://cloud.tencent.com/solution/finance)、[天翼云智算一体机](https://www.ctyun.cn/products/lcs)、[AWS Outposts](https://aws.amazon.com/outposts/)、[Azure Local 离线部署](https://learn.microsoft.com/en-us/azure/azure-sovereign-clouds/private/azure-local/disconnected-operations-overview)、[Google Distributed Cloud](https://cloud.google.com/distributed-cloud-air-gapped)、[Oracle Compute Cloud@Customer](https://www.oracle.com/asean/a/ocom/docs/cloud/deploying-nvidia-nvaie-on-oc3.pdf) |
 | **租专属 GPU 云/金融专区**：设备仍在云厂商或运营商机房 | **阿里云、腾讯云、百度智能云、中国电信、中国移动、中国联通** | **AWS、Azure、Google Cloud、Oracle OCI、CoreWeave**(CRWV.US) | 试点期、负载波动大或允许数据进入合规专区时最合适。收入最先落在云厂商，随后传导到 GPU、服务器、IDC、电力和冷却；但它并不等于严格意义的“本地部署”。 |
 
 ### 龙头名单：场景纯度与产业链控制力要分开
@@ -131,8 +135,6 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 - **"500 人企业买一体机"场景的受益顺序**:芯片厂(昇腾/寒武纪)拿大头 → 整机厂(浪潮/华为)拿中间 → 渠道集成商(神数/拓维)拿服务费。
 - **泼冷水**:这些 A 股标的人尽皆知,估值普遍把两三年预期打满。"产业确定受益"和"现在买入能赚钱"之间隔着估值,链条图帮你判断谁真受益,买卖时点是另一门功课。不构成投资建议。
 
-想用场内工具配置这条链,单独整理在《[算力产业链ETF工具地图](./算力产业链ETF工具地图.md)》:一句话结论,芯片和光模块有对口 ETF,机柜/整机段是制度性空白(申报过 9 只算力基建 ETF 无一获批),只能拿云计算 ETF 当替身。
-
 ## 七、超级个人/小工作室怎么选(附带结论)
 
 九成以上不会本地部署,算力来源是云和 API,且主要是 API。三笔账:
@@ -143,11 +145,11 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 
 例外:客户强制数据不出门、批量任务大到 API 账单超硬件摊销、要微调小模型、纯爱好(512GB Mac Studio 跑 V4-Flash 量化版很轻松,V4 Pro 极限量化 430GB 也勉强塞得下,但那是玩具和备胎,不是生产主力)。
 
-终局图景:大企业按敏感度在"API—专有云—一体机/自建"三档分层;个人和工作室默认 API;算力走向公用事业化——像电一样,插插座的人不关心电厂在哪,发电厂(云厂商)和电网设备商(芯片、光模块、存储)是投资主线。
+终局图景:大企业按数据边界在“API/云实例—云厂商机房独占专区—客户机房云栈/一体机—完全自运维本地部署”之间分层;个人和工作室默认 API;算力走向公用事业化——像电一样,多数使用者不关心电厂在哪,发电厂(云厂商)和电网设备商(芯片、光模块、存储)是投资主线。
 
 ## 八、对应哪些 ETF 和上市公司:按主题相关度重新筛选
 
-> 筛选日期:2026-07-24。ETF 持仓会调仓,下列判断以基金/指数官网当日或最近一期披露为准。这里按“研究优先级”排序,不是买入建议。
+> 筛选日期:2026-07-24。ETF 持仓会调仓,下列判断以基金/指数官网当日或最近一期披露为准。这里按资金流分支整理,不是综合买入排名或仓位建议。
 
 ### 先说结论
 
@@ -156,23 +158,41 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
    - **自建/一体机**:AI 芯片 → 服务器/存储/网络 → 私有云平台 → 液冷和电源。最贴题的是国产芯片 ETF 与 A 股云计算 ETF 的组合。
    - **专属云/租 GPU**:AWS、Azure、OCI、CoreWeave、阿里云等 → 数据中心和电力冷却。最贴题的是云计算、AI 电力基础设施和数据中心 ETF。
 3. **光模块不是这个小主题的核心仓位**。中际旭创、新易盛的主要增量来自超大规模云厂商和万卡集群;多数企业本地部署只是单机或数台服务器,不会同比例拉动 800G/1.6T 光模块。因此通信 ETF 只能算“主题扩展”,不能当首选。
-4. **即使中证算力基础设施主题指数(931688)有 ETF,也不是完全纯粹**。截至 2026-06-30,其前十大已经明显偏向光模块、芯片和大型 AI 集群供应链,而不是企业私有云交付本身。该指数目前仍是理解产业链的好地图,不是可直接买到的纯主题工具。见[中证算力指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/931688factsheet.pdf)。
+4. **中证算力基础设施主题指数(931688)目前没有可交易 ETF,而且指数本身也不完全纯粹**。2023 年曾有 9 只相关产品上报,其中 8 只跟踪 931688、1 只跟踪国证算力基础设施指数,但没有产品获批上市。行业分类又把服务器、机柜代工、液冷、PCB 和 IDC 分散到不同板块,因此市场只能用云计算、芯片或通信 ETF 代替。截至 2026-06-30,931688 的前十大已明显偏向光模块、芯片和大型 AI 集群供应链,而不是企业私有云交付本身。它适合当产业链地图,不等于可直接买到的纯主题工具。见[中证算力指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/931688factsheet.pdf)及[算力 ETF 申报情况](https://www.21jingji.com/article/20230525/94df9a65959c3dfccabd537957d1fc81.html)。
 
-### ETF 优先研究名单
+### 先看 ETF 能覆盖什么、覆盖不了什么
+
+| 产业链环节 | ETF 可得性 | 可用工具或替代品 | 关键偏差 |
+|---|---|---|---|
+| 国产 AI 芯片 | 有 | 科创人工智能 ETF、科创芯片 ETF | 能抓寒武纪、海光等上游卡点,但不含整机和私有云交付 |
+| 服务器/一体机 | 只有替代品 | 中证云计算与大数据指数产品 | 含浪潮、曙光、紫光等,同时混入大量软件、IDC 和光模块公司 |
+| 机柜代工、液冷、PCB、渠道集成 | 基本没有 | 只能研究个股或宽基里的低权重敞口 | 工业富联、英维克、沪电/胜宏、神州数码等无法被主题 ETF 高纯度覆盖 |
+| 光模块/高速互连 | 有 | 通信 ETF、创业板人工智能 ETF | 工具较纯,但需求主要来自万卡级云数据中心,不是普通企业的一两台本地服务器 |
+| IDC/机房资产 | 部分有 | 数据中心 ETF、公募 REITs | 更接近租金、上架率和利率逻辑,不是芯片或服务器利润 |
+| 云厂商 | A 股覆盖不足 | 港股/海外云计算 ETF | 集团业务会混入电商、广告、游戏和 SaaS,云算力纯度有限 |
+
+### ETF 分支研究名单
 
 这些 ETF **不是应该同时全买**,而是对应不同的需求分支。同一指数的产品只选一只,优先比较规模、日均成交额、买卖价差和综合费率。
 
-| 优先级 | ETF | 对应的钱流 | 为什么入选 | 主要偏差/风险 |
+| 分支定位 | ETF | 对应的钱流 | 为什么入选 | 主要偏差/风险 |
 |---|---|---|---|---|
-| A | **云计算ETF易方达(516510)**;同指数替代有 516630、159890 | 中国自建+IDC+云 | 跟踪中证云计算与大数据指数,成分中有紫光股份、中科曙光、浪潮信息、中国长城、润泽科技,是 A 股里对“服务器+私有云+IDC”覆盖最完整的替身 | 仍混有金山办公、科大讯飞以及光模块公司,并非纯硬件;同指数产品不要重复持有。指数成分见[中证指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/930851factsheet.pdf),基金信息见[易方达一季报](https://cdn.efunds.com.cn/owch/data/bulletin/20260422/%E6%98%93%E6%96%B9%E8%BE%BE%E4%B8%AD%E8%AF%81%E4%BA%91%E8%AE%A1%E7%AE%97%E4%B8%8E%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%BB%E9%A2%98%E4%BA%A4%E6%98%93%E5%9E%8B%E5%BC%80%E6%94%BE%E5%BC%8F%E6%8C%87%E6%95%B0%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%912026%E5%B9%B4%E7%AC%AC1%E5%AD%A3%E5%BA%A6%E6%8A%A5%E5%91%8A.pdf?from=person) |
-| A- | **科创人工智能ETF银华(588930)** 或同指数的 **589560** 等 | 国产 AI 芯片 | 跟踪上证科创板人工智能指数。2026-06-30 前四大为寒武纪、海光信息、澜起科技、芯原股份,合计约 47.5%,最接近“国产芯片+内存互连”卡点 | 没有浪潮、紫光等整机厂;指数仅 30 只且集中度高,当时滚动 PE 约 136.5 倍,估值与波动风险都高。见[科创 AI 指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/950180factsheet.pdf) |
-| A- | **AIPO — Defiance AI & Power Infrastructure ETF** | 全球 AI 机房电力、冷却、芯片 | 持仓把 GE Vernova、Eaton、Vertiv、Quanta Services 与 Nvidia、Broadcom、AMD 放在一起,是美股里最接近“AI 服务器能不能通电和散热”的 ETF | 更偏吉瓦级数据中心,并不专门押企业本地小集群;2025-07 才成立,费率 0.69%,历史短、波动高。见[AIPO 官网](https://www.defianceetfs.com/aipo/) |
-| B+ | **SMH — VanEck Semiconductor ETF** | 全球芯片、HBM 上游 | 2026-07-22 Nvidia、台积电、Broadcom、AMD、美光合计约 47.4%,抓住 GPU、代工、定制 ASIC 与 HBM 这些真正拿走大部分利润的环节 | 不含服务器、私有云和数据中心运营商;主要受整个全球 AI 资本开支驱动,不是私有化部署的独立变量。见[SMH 持仓](https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/) |
-| B | **SKYY — First Trust Cloud Computing ETF** | 海外租云/专属云 | 前十大含 Amazon、Arista、CoreWeave、Alphabet、Oracle、Microsoft、DigitalOcean,能覆盖 hyperscaler 与 neocloud 的 GPU 租赁路径 | 软件占比约 41.8%,SaaS 会稀释算力租赁敞口;费率 0.60%。见[SKYY 官网](https://www.ftportfolios.com/retail/etf/etfsummary.aspx?ticker=skyy) |
-| B | **2826.HK — Global X 中国云端运算ETF** | 中国云租赁 | 2026-07-23 阿里、腾讯、百度合计约 27.4%,另有海光信息、万国数据和润泽科技,是少数同时覆盖中国云厂商、国产芯片和 IDC 的 ETF | 也重仓美团、网易和软件股;规模较小,持续收费 0.68%,且基金文件允许最多 50%金融衍生工具敞口,须额外关注价差和对手方风险。见[2826 持仓及风险披露](https://www.globalxetfs.com.hk/cn/funds/china-cloud-computing-etf/) |
-| B- | **DTCR — Global X Data Center & Digital Infrastructure ETF** | 托管 IDC/机房房东 | Equinix、Digital Realty、NEXTDC 等直接受益于企业把服务器托管在第三方机房,同时配置美光、SK 海力士、Marvell、AMD | 约一半为地产,且 American Tower、Crown Castle 等通信塔资产与 AI 私有化关系弱;更像“机房+数字地产”,不是服务器采购。见[DTCR 官网](https://www.globalxetfs.com/funds/dtcr) |
+| 中国整机/私有云替代 | **云计算ETF易方达(516510)**;同指数替代有 516630、159890 | 中国自建+IDC+云 | 跟踪中证云计算与大数据指数,成分中有紫光股份、中科曙光、浪潮信息、中国长城、润泽科技,是 A 股里对“服务器+私有云+IDC”覆盖最完整的替身 | 仍混有金山办公、科大讯飞以及光模块公司,并非纯硬件;同指数产品不要重复持有。指数成分见[中证指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/930851factsheet.pdf),基金信息见[易方达一季报](https://cdn.efunds.com.cn/owch/data/bulletin/20260422/%E6%98%93%E6%96%B9%E8%BE%BE%E4%B8%AD%E8%AF%81%E4%BA%91%E8%AE%A1%E7%AE%97%E4%B8%8E%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B8%BB%E9%A2%98%E4%BA%A4%E6%98%93%E5%9E%8B%E5%BC%80%E6%94%BE%E5%BC%8F%E6%8C%87%E6%95%B0%E8%AF%81%E5%88%B8%E6%8A%95%E8%B5%84%E5%9F%BA%E9%87%912026%E5%B9%B4%E7%AC%AC1%E5%AD%A3%E5%BA%A6%E6%8A%A5%E5%91%8A.pdf?from=person) |
+| 国产芯片 | **科创人工智能ETF银华(588930)** 或同指数的 **589560** 等 | 国产 AI 芯片 | 跟踪上证科创板人工智能指数。2026-06-30 前四大为寒武纪、海光信息、澜起科技、芯原股份,合计约 47.5%,最接近“国产芯片+内存互连”卡点 | 没有浪潮、紫光等整机厂;指数仅 30 只且集中度高,当时滚动 PE 约 136.5 倍,估值与波动风险都高。见[科创 AI 指数单张](https://oss-ch.csindex.com.cn/static/html/csindex/public/uploads/indices/detail/files/zh_CN/950180factsheet.pdf) |
+| 电力/冷却 | **AIPO — Defiance AI & Power Infrastructure ETF** | 全球 AI 机房电力、冷却、芯片 | 持仓把 GE Vernova、Eaton、Vertiv、Quanta Services 与 Nvidia、Broadcom、AMD 放在一起,是美股里最接近“AI 服务器能不能通电和散热”的 ETF | 更偏吉瓦级数据中心,并不专门押企业本地小集群;2025-07 才成立,费率 0.69%,历史短、波动高。见[AIPO 官网](https://www.defianceetfs.com/aipo/) |
+| 全球芯片/HBM | **SMH — VanEck Semiconductor ETF** | 全球芯片、HBM 上游 | 2026-07-22 Nvidia、台积电、Broadcom、AMD、美光合计约 47.4%,抓住 GPU、代工、定制 ASIC 与 HBM 这些真正拿走大部分利润的环节 | 不含服务器、私有云和数据中心运营商;主要受整个全球 AI 资本开支驱动,不是私有化部署的独立变量。见[SMH 持仓](https://www.vaneck.com/us/en/investments/semiconductor-etf-smh/) |
+| 海外租云 | **SKYY — First Trust Cloud Computing ETF** | 海外租云/专属云 | 前十大含 Amazon、Arista、CoreWeave、Alphabet、Oracle、Microsoft、DigitalOcean,能覆盖 hyperscaler 与 neocloud 的 GPU 租赁路径 | 软件占比约 41.8%,SaaS 会稀释算力租赁敞口;费率 0.60%。见[SKYY 官网](https://www.ftportfolios.com/retail/etf/etfsummary.aspx?ticker=skyy) |
+| 中国租云 | **2826.HK — Global X 中国云端运算ETF** | 中国云租赁 | 2026-07-23 阿里、腾讯、百度合计约 27.4%,另有海光信息、万国数据和润泽科技,是少数同时覆盖中国云厂商、国产芯片和 IDC 的 ETF | 也重仓美团、网易和软件股;规模较小,持续收费 0.68%,且基金文件允许最多 50%金融衍生工具敞口,须额外关注价差和对手方风险。见[2826 持仓及风险披露](https://www.globalxetfs.com.hk/cn/funds/china-cloud-computing-etf/) |
+| 托管机房 | **DTCR — Global X Data Center & Digital Infrastructure ETF** | 托管 IDC/机房房东 | Equinix、Digital Realty、NEXTDC 等直接受益于企业把服务器托管在第三方机房,同时配置美光、SK 海力士、Marvell、AMD | 约一半为地产,且 American Tower、Crown Castle 等通信塔资产与 AI 私有化关系弱;更像“机房+数字地产”,不是服务器采购。见[DTCR 官网](https://www.globalxetfs.com/funds/dtcr) |
 
 补充一个 HBM 选择:如果更看重显存而非 GPU,**AIQ** 在 2026-07-23 对 SK 海力士、美光、三星三家合计约 18.2%,同时持有 AMD、台积电、Broadcom 和 Nvidia;但它还有 Apple 等泛科技仓位,主题纯度低于单独研究 HBM 龙头。见[AIQ 持仓](https://www.globalxetfs.com/funds/aiq)。
+
+两只“设计上很贴题、交易上需谨慎”的观察品种:
+
+- **RACK — VanEck Data Center Supply Chain ETF**:覆盖数据中心供应链、半导体、网络、供电和冷却,方向比普通云计算 ETF 更贴近 AI 基础设施;但 2026 年 6 月才发行,早期规模和成交深度有限,流动性是首要筛选条件。见[RACK 发行公告](https://www.businesswire.com/news/home/20260602638779/en/VanEck-Launches-Data-Center-Supply-Chain-ETF-RACK-to-Capture-AI-Infrastructure-Buildout)。
+- **WAGI — WisdomTree Artificial Intelligence Infrastructure UCITS ETF**:设计上覆盖数据中心、设备、半导体、服务器供应链、网络和云厂商,但主要在欧洲交易所上市,内地投资者的账户可得性和交易成本可能比主题纯度更重要。见[WAGI 上市公告](https://etfexpress.com/2026/06/10/wisdomtree-launches-ai-infrastructure-etf/)。
+
+A 股还有两只直接持有机房资产的公募 REITs:南方润泽科技数据中心 REIT(180901)和南方万国数据中心 REIT(508060)。它们与“服务器托管到 IDC”的物理环节最贴近,但收益来自租金、出租率、扩募和利率变化,不能与成长型科技 ETF 混为一谈。见[数据中心 REITs 上市情况](https://www.stcn.com/article/detail/3044289.html)。
 
 ### 明确降级或排除的 ETF
 
@@ -181,6 +201,7 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 - **恒生科技、KWEB、普通中国互联网 ETF**:能拿到阿里、腾讯、百度,但电商、游戏、广告权重更大;若目标只是云算力,2826.HK 更直接。
 - **普通电力、公用事业、智能电网 ETF**:AI 只是需求来源之一,公司收入对 AI 数据中心的敏感度通常不足;只有 AIPO 这类把电力设备、冷却和 AI 硬件放在同一筛选框架里的产品才勉强贴题。
 - **数据中心 REITs**:适合押注租金、出租率和资产扩募,不等于押注 AI 芯片或服务器利润;利率变化也可能盖过 AI 需求。
+- **名字带“算力”的产品**:先看跟踪指数和前十大持仓,不要按宣传名判断。云计算、AI、通信和算力基础设施几个标签经常指向高度重叠或完全不同的底层资产。
 
 ### 如果不用 ETF,哪些公司最符合主题
 
@@ -216,7 +237,8 @@ V4 这代有两个部署红利:权重原生 FP4/FP8 出厂,不再靠社区量化
 
 ### 最终选择框架
 
-- **只想用 A 股 ETF 表达主题**:优先研究“516510 + 588930/589560 中选一只”的两层组合。前者补服务器、IDC 和私有云,后者补国产芯片;不要再用多只同类 AI/通信 ETF 重复堆中际旭创、新易盛、寒武纪。
+- **只想用 A 股 ETF 表达主题**:“516510 + 588930/589560 中选一只”可作为两层敞口示例,不是默认组合或仓位建议。更重场景贴合时先研究 516510、用芯片 ETF 补上游;更重利润池时反过来研究。不要额外叠加多只同类 AI/通信 ETF,以免重复堆中际旭创、新易盛、寒武纪。
 - **接受港美股 ETF**:自建上游看 SMH,电力冷却看 AIPO,租云看 SKYY 或 2826.HK,托管机房看 DTCR。每一只只代表一个分支,不是越多越完整。
 - **愿意研究个股且要最贴政企私有化**:中国先看紫光股份、浪潮信息、中科曙光;海外先看 Dell、Lenovo、HPE。若更重视利润池而非场景纯度,再看 Nvidia、海光、寒武纪、HBM 和液冷。
 - **验证主题是否兑现**:不要看“AI”新闻数量,要看 AI 服务器/私有云订单、合同负债与现金流、政企客户验收、GPU 供货、液冷收入、云厂商 IaaS 增速和资本开支回报。如果收入涨而毛利、现金流不涨,受益的是上游芯片而不是整机厂。
+- **执行前最后检查**:ETF 持仓会调仓,新品的规模和价差也会快速变化;下单前重新核对基金官网的跟踪指数、最新持仓、规模、日均成交额、买卖价差和综合费率。
