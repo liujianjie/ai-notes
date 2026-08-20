@@ -62,9 +62,25 @@ Thumbs.db
 .claude/settings.local.json
 .specify/cache/
 
+# ---- Local model caches ----
+.hf-cache/
+
 # ---- Local scratch / prompts (pre-existing notes, not part of product) ----
 提示词/
 炒股/
+
+# ---- Video media (large binaries, keep out of git history) ----
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.webm
+*.flv
+*.wmv
+*.m4v
+*.mpg
+*.mpeg
+*.ts
 
 # ---- Build artifacts ----
 *.log
